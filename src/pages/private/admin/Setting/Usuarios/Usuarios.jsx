@@ -296,7 +296,7 @@ const Usuarios = () => {
                       disabled: true,
                     },
                     {
-                      value: "master",
+                      value: "gerente",
                       label: "Gerente",
                       disabled: InfoUsuario.rol === Roles.ADMIN ? false : true,
                     },

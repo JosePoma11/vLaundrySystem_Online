@@ -256,7 +256,7 @@ const Productos = () => {
                     setAction("Edit");
                   }}
                 >
-                  Actualizar Producto
+                  Actualizar
                 </Button>
 
                 <Button
@@ -264,7 +264,7 @@ const Productos = () => {
                   style={{ background: "#e76565" }}
                   onClick={() => handleDeleteProduct(rowPick._id)}
                 >
-                  Eliminar Producto
+                  Eliminar
                 </Button>
               </div>
             </div>

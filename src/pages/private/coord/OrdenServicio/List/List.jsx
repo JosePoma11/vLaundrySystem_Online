@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Box, MultiSelect, Tooltip } from "@mantine/core";
+import { Box, MultiSelect, Textarea, Tooltip } from "@mantine/core";
 import { MonthPickerInput } from "@mantine/dates";
 import { MantineReactTable } from "mantine-react-table";
 
@@ -63,6 +63,7 @@ const List = () => {
   const [cPedidos, setCPedidos] = useState();
 
   const infoMetas = useSelector((state) => state.metas.infoMetas);
+  const iDelivery = useSelector((state) => state.servicios.serviceDelivery);
 
   const columns = useMemo(
     () => [
@@ -116,10 +117,10 @@ const List = () => {
         size: 100,
       },
       {
-        accessorKey: "Producto",
-        header: "Producto",
+        accessorKey: "items",
+        header: "Items",
         mantineFilterTextInputProps: {
-          placeholder: "Producto",
+          placeholder: "Item",
         },
         Cell: ({ cell }) => (
           <MultiSelect
@@ -152,19 +153,20 @@ const List = () => {
           data: [
             {
               value: "COMPLETO",
-              label: "COMPLETO",
+              label: "Completo",
             },
             {
               value: "INCOMPLETO",
-              label: "INCOMPLETO",
+              label: "Incompleto",
             },
             {
               value: "PENDIENTE",
-              label: "PENDIENTE",
+              label: "Pendiente",
             },
           ],
         },
         enableEditing: false,
+        Cell: ({ cell }) => <Box>{cell.getValue().toUpperCase()}</Box>,
         size: 150,
       },
       {
@@ -195,6 +197,27 @@ const List = () => {
           placeholder: "Numero",
         },
         size: 80,
+      },
+      {
+        accessorKey: "Direccion",
+        header: "Direccion",
+        enableColumnFilter: false,
+        mantineFilterTextInputProps: {
+          placeholder: "Direccion",
+        },
+        Cell: ({ cell }) =>
+          cell.getValue() ? (
+            <Textarea
+              autosize
+              minRows={1}
+              maxRows={3}
+              readOnly
+              value={cell.getValue()}
+            />
+          ) : (
+            ""
+          ),
+        size: 200,
       },
       {
         accessorKey: "Location",
@@ -305,24 +328,30 @@ const List = () => {
           d.estadoPrenda === "donado"
             ? d.donationDate.fecha
             : d.dateEntrega.fecha;
+
         const onWaiting = await handleOnWaiting(
           d.dateRecepcion.fecha,
           d.estadoPrenda,
           dateEndProcess
         );
+
+        const listItems = d.Items.filter(
+          (item) => item.identificador !== iDelivery._id
+        );
         const estadoPago = handleGetInfoPago(d.ListPago, d.totalNeto);
 
         const structureData = {
           Id: d._id,
-          Recibo: String(d.codRecibo).padStart(6, "0"),
+          Recibo: String(d.codRecibo).padStart(4, "0"),
           Nombre: d.Nombre,
           Modalidad: d.Modalidad,
-          Producto: handleItemsCantidad(d.Items),
+          items: handleItemsCantidad(listItems),
           PParcial: `${simboloMoneda} ${estadoPago.pago}`,
-          Pago: d.Pago.toUpperCase(),
+          Pago: estadoPago.estado,
           totalNeto: `${simboloMoneda} ${d.totalNeto}`,
           DNI: d.dni,
           Celular: d.celular,
+          Direccion: d.direccion,
           FechaEntrega: d.dateEntrega.fecha,
           FechaRecepcion: d.dateRecepcion.fecha,
           Descuento: d.descuento,
