@@ -25,125 +25,6 @@ const Gasto = ({ onClose }) => {
   const [filterBy, setFilterBy] = useState("monto");
   const [loading, setLoading] = useState(false);
 
-  // const data = [
-  //   {
-  //     id: "1",
-  //     name: "Delivery (Envio)",
-  //     cantidad: 559,
-  //     monto: 1560,
-  //     infoGastos: [
-  //       {
-  //         motivo: "motivo x",
-  //         date: {
-  //           fecha: "2024-04-17",
-  //           hora: "11:26",
-  //         },
-  //         monto: 12,
-  //         infoUser: {
-  //           name: "Joel",
-  //           rol: "Administrador",
-  //         },
-  //       },
-  //       {
-  //         motivo: "motivo x",
-  //         date: {
-  //           fecha: "2024-04-01",
-  //           hora: "11:26",
-  //         },
-  //         monto: 8,
-  //         infoUser: {
-  //           name: "Joel",
-  //           rol: "Administrador",
-  //         },
-  //       },
-  //       {
-  //         motivo: "motivo x",
-  //         date: {
-  //           fecha: "2024-04-05",
-  //           hora: "11:26",
-  //         },
-  //         monto: 7,
-  //         infoUser: {
-  //           name: "Joel",
-  //           rol: "Administrador",
-  //         },
-  //       },
-  //       {
-  //         motivo: "motivo x",
-  //         date: {
-  //           fecha: "2024-04-03",
-  //           hora: "11:26",
-  //         },
-  //         monto: 16,
-  //         infoUser: {
-  //           name: "Joel",
-  //           rol: "Administrador",
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: "2",
-  //     name: "Delivery (Recojo)",
-  //     cantidad: 559,
-  //     monto: 1423,
-  //     infoGastos: [
-  //       {
-  //         motivo: "motivo x",
-  //         date: {
-  //           fecha: "2024-04-03",
-  //           hora: "11:26",
-  //         },
-  //         monto: 16,
-  //         infoUser: {
-  //           name: "Joel",
-  //           rol: "Administrador",
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: "3",
-  //     name: "Alquiler",
-  //     cantidad: 1,
-  //     monto: 1448,
-  //     infoGastos: [
-  //       {
-  //         motivo: "motivo x",
-  //         date: {
-  //           fecha: "2024-04-01",
-  //           hora: "11:26",
-  //         },
-  //         monto: 8,
-  //         infoUser: {
-  //           name: "Joel",
-  //           rol: "Administrador",
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: "4",
-  //     name: "Gas",
-  //     cantidad: 3,
-  //     monto: 260,
-  //     infoGastos: [
-  //       {
-  //         motivo: "motivo x",
-  //         date: {
-  //           fecha: "2024-04-05",
-  //           hora: "11:26",
-  //         },
-  //         monto: 7,
-  //         infoUser: {
-  //           name: "Joel",
-  //           rol: "Administrador",
-  //         },
-  //       },
-  //     ],
-  //   },
-  // ];
-
   const columns = useMemo(
     () => [
       {
@@ -190,6 +71,7 @@ const Gasto = ({ onClose }) => {
           import.meta.env.VITE_BACKEND_URL
         }/api/lava-ya/get-gastos/${fechaFormateada}`
       );
+
       const iTransform = await handleTransformData(response.data);
 
       // Guardar la respuesta en setInfoGasto
@@ -361,13 +243,18 @@ const Gasto = ({ onClose }) => {
   };
 
   useEffect(() => {
-    if (infoGasto.length > 0) {
-      const sortedGasto = [...infoGasto].sort(
-        (a, b) => b[filterBy] - a[filterBy]
-      );
-      setInfoGasto(sortedGasto);
-    }
-  }, [filterBy]);
+    const fetchData = async () => {
+      if (infoGasto.length > 0) {
+        const sortedGasto = [...infoGasto].sort(
+          (a, b) => b[filterBy] - a[filterBy]
+        );
+        setInfoGasto(sortedGasto);
+        setInfoPie(await handleTransformData(sortedGasto));
+      }
+    };
+
+    fetchData();
+  }, [filterBy, infoGasto]);
 
   useEffect(() => {
     handleGetGastos();

@@ -1239,11 +1239,16 @@ const OrdenServicio = ({
                         disabled={row.disable.cantidad}
                         onChange={(e) => {
                           const inputValue = e.target.value;
-                          const validInput = inputValue
-                            ? inputValue.replace(/[^0-9.]/g, "")
-                            : "";
+                          // Permitir solo dígitos y un único punto decimal
+                          const validInput = inputValue.replace(/[^0-9.]/g, "");
+                          // Garantizar que no haya más de un punto decimal
+                          const validQuantity = validInput.replace(
+                            /\.(?=.*\.)/g,
+                            ""
+                          );
+
                           const newQuantity =
-                            validInput !== "" ? validInput : "";
+                            validQuantity !== "" ? validQuantity : "";
 
                           const price =
                             parseFloat(formik.values.items[index].price) || 0;

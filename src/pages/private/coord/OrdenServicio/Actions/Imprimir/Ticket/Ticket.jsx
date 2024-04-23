@@ -8,7 +8,8 @@ import {
   handleGetInfoPago,
   roundDecimal,
 } from "../../../../../../../utils/functions";
-import "./ticket.scss";
+// import "./ticket50.scss";
+import "./ticket80.scss";
 
 import Pet from "./pet.jpg";
 import AhorroPet from "./petAhorro.jpg";
@@ -24,6 +25,7 @@ import {
 import { useSelector } from "react-redux";
 
 const Ticket = React.forwardRef((props, ref) => {
+  const sizePaper80 = true;
   const { showDescripcion, tipoTicket, infoOrden, InfoNegocio } = props;
   const [listPromos, setListPromos] = useState([]);
   const [sPago, setSPago] = useState();
@@ -81,7 +83,22 @@ const Ticket = React.forwardRef((props, ref) => {
     // Parsea la fecha y hora usando Moment.js
     const dateTime = moment(datetimeString, "YYYY-MM-DD HH:mm");
 
-    return dateTime.format("D [de] MMMM, YYYY / hh:mm a");
+    if (sizePaper80) {
+      // Si sizePaper80 es true, devuelve el formato combinado
+      return dateTime.format("D [de] MMMM, YYYY / hh:mm a");
+    } else {
+      // Si sizePaper80 es false, devuelve un objeto con fecha y hora separados
+      const formattedDate = dateTime.format("D [de] MMMM, YYYY");
+      const formattedTime = dateTime.format("dddd / hh:mm a");
+
+      // Construye el objeto de respuesta
+      const result = {
+        FInfoD: formattedDate,
+        SInfoD: formattedTime,
+      };
+
+      return result;
+    }
   };
 
   const spaceLine = (txt) => {
@@ -168,9 +185,14 @@ const Ticket = React.forwardRef((props, ref) => {
                     <td>
                       {Object.keys(InfoNegocio).length > 0 ? (
                         <>
-                          {DiasAttencion(InfoNegocio?.horario.dias)}{" "}
+                          {DiasAttencion(InfoNegocio?.horario.dias)}
+
+                          {!sizePaper80 ? (
+                            <hr style={{ visibility: "hidden" }} />
+                          ) : (
+                            " - "
+                          )}
                           {HoraAttencion(InfoNegocio?.horario.horas)}
-                          {/* <hr style={{ visibility: 'hidden' }} /> */}
                         </>
                       ) : null}
                     </td>
@@ -181,23 +203,46 @@ const Ticket = React.forwardRef((props, ref) => {
             <div className="info-client">
               <div className="cod-rec">
                 <p className="l-text">
-                  ORDEN DE SERVICIO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <span>N° {String(infoOrden.codRecibo).padStart(4, "0")}</span>
+                  <span className="title-o">ORDEN DE SERVICIO</span>
+                  <span className="number-o">
+                    N° {String(infoOrden.codRecibo).padStart(4, "0")}
+                  </span>
                 </p>
               </div>
               <div className="info-detail">
                 <table className="tb-date">
                   <tbody>
                     <tr>
-                      <td>Ingreso:</td>
+                      <td>Recojo:</td>
                       <td>
                         <div className="date-time">
-                          <span>
-                            {handleShowDateTime(
-                              infoOrden.dateRecepcion.fecha,
-                              infoOrden.dateRecepcion.hora
-                            )}
-                          </span>
+                          {sizePaper80 ? (
+                            <span>
+                              {handleShowDateTime(
+                                infoOrden.dateRecepcion.fecha,
+                                infoOrden.dateRecepcion.hora
+                              )}
+                            </span>
+                          ) : (
+                            <>
+                              <span>
+                                {
+                                  handleShowDateTime(
+                                    infoOrden.dateRecepcion.fecha,
+                                    infoOrden.dateRecepcion.hora
+                                  ).SInfoD
+                                }
+                              </span>
+                              <span>
+                                {
+                                  handleShowDateTime(
+                                    infoOrden.dateRecepcion.fecha,
+                                    infoOrden.dateRecepcion.hora
+                                  ).FInfoD
+                                }
+                              </span>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -205,12 +250,33 @@ const Ticket = React.forwardRef((props, ref) => {
                       <td>Entrega:</td>
                       <td>
                         <div className="date-time">
-                          <span>
-                            {handleShowDateTime(
-                              infoOrden.datePrevista.fecha,
-                              infoOrden.datePrevista.hora
-                            )}
-                          </span>
+                          {sizePaper80 ? (
+                            <span>
+                              {handleShowDateTime(
+                                infoOrden.datePrevista.fecha,
+                                infoOrden.datePrevista.hora
+                              )}
+                            </span>
+                          ) : (
+                            <>
+                              <span>
+                                {
+                                  handleShowDateTime(
+                                    infoOrden.datePrevista.fecha,
+                                    infoOrden.datePrevista.hora
+                                  ).SInfoD
+                                }
+                              </span>
+                              <span>
+                                {
+                                  handleShowDateTime(
+                                    infoOrden.datePrevista.fecha,
+                                    infoOrden.datePrevista.hora
+                                  ).FInfoD
+                                }
+                              </span>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -224,18 +290,18 @@ const Ticket = React.forwardRef((props, ref) => {
                   <table className="tb-info-cliente">
                     <tbody>
                       {infoOrden.direccion ? (
-                        <tr>
+                        <tr className="f-direccion">
                           <td>Direccion : </td>
                           <td>&nbsp;&nbsp;{infoOrden.direccion}</td>
                         </tr>
                       ) : null}
                       {infoOrden.celular ? (
-                        <tr>
-                          <td>Telefono de cliente : </td>
+                        <tr className="f-telf">
+                          <td>Telefono : </td>
                           <td>&nbsp;&nbsp;{infoOrden.celular}</td>
                         </tr>
                       ) : null}
-                      <tr>
+                      <tr className="f-attend">
                         <td>Atentido por : </td>
                         <td>&nbsp;&nbsp;{infoOrden.attendedBy.name}</td>
                       </tr>
