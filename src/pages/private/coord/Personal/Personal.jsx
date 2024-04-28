@@ -68,7 +68,7 @@ const Personal = () => {
       <hr />
       <div className="body-personal">
         <Clock getTime={setTimeCurrent} />
-        <div className="container-mantine">
+        <div className={`container-mantine ${Loading ? "total-sp" : null}`}>
           {Loading ? (
             <LoaderSpiner />
           ) : (

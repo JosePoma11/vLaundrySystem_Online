@@ -9,6 +9,7 @@
     grid-template-columns: min-content auto;
     max-width: 1200px;
     margin: auto;
+
     .container-mantine {
       height: 100%;
       padding: 10px;
@@ -110,6 +111,9 @@
           }
         }
       }
+    }
+    .total-sp {
+      grid-template-rows: 1fr !important;
     }
   }
 }
