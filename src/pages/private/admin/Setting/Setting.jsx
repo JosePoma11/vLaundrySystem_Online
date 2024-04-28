@@ -109,7 +109,7 @@ const Setting = () => {
             <img src={GastosSetting} alt="" />
           </div>
           <div>
-            <h1>Gastos</h1>
+            <h1>Tipos de Gastos</h1>
             <p>Realiza Registros, Actualizaciones de gastos recurrentes </p>
           </div>
         </Link>
