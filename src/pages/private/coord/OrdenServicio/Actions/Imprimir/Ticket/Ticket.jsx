@@ -404,7 +404,8 @@ const Ticket = React.forwardRef((props, ref) => {
                 !tipoTicket ? (
                   <div className="space-ahorro">
                     <h2 className="title">
-                      ! Felicidades Ahorraste S/{infoOrden?.descuento} ¡
+                      ! Felicidades Ahorraste {simboloMoneda}
+                      {infoOrden?.descuento} ¡
                     </h2>
                     <div className="info-promo">
                       <span>Usando nuestras promociones :</span>

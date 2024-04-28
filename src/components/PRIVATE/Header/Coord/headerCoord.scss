@@ -140,7 +140,6 @@
       .active {
         background-color: transparent;
         transition: all 0.7s;
-
         a,
         button {
           color: var(--primary-color);
@@ -163,8 +162,7 @@
         }
         li {
           a {
-            font-size: 20px;
-            padding: 16px;
+            padding: 16px 12px;
           }
         }
       }
@@ -183,7 +181,7 @@
         li {
           a {
             font-size: 15px;
-            padding: 20px;
+            padding: 20px 12px;
           }
         }
       }

@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from "react";
 import "./clock.scss";
 import moment from "moment";
+import Digital from "./Digital/Digital";
 
 const Clock = ({ getTime }) => {
   const [time, setTime] = useState(new Date());
@@ -77,17 +78,7 @@ const Clock = ({ getTime }) => {
           {/* Mostrar la hora digital debajo del reloj */}
         </div>
       </div>
-      <div className="bottom-time">
-        <div className="digital-time">
-          <span>{formatNumber(time.getHours())}</span> :&nbsp;
-          <span>{formatNumber(time.getMinutes())}</span> :&nbsp;
-          <span>{formatNumber(time.getSeconds())}</span>&nbsp;&nbsp;
-          <span>{time.getHours() >= 12 ? "PM" : "AM"}</span>
-        </div>
-        <div className="date-time">
-          <span>{moment(time).format("dddd, D [de] MMMM [de] YYYY")}</span>
-        </div>
-      </div>
+      <Digital iTime={time} />
     </div>
   );
 };

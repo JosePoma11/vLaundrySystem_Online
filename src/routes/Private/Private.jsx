@@ -44,7 +44,8 @@ import SProductos from "../../pages/private/admin/Setting/Portafolio/Productos/P
 import SServicios from "../../pages/private/admin/Setting/Portafolio/Servicios/Servicios";
 import STipoGastos from "../../pages/private/admin/Setting/TipoGastos/TipoGastos";
 import SCategorias from "../../pages/private/admin/Setting/Categorias/Categorias";
-import Asistencia from "../../pages/private/coord/Asistencia/Asistencia";
+import Personal from "../../pages/private/coord/Personal/Personal";
+import Asistencia from "../../pages/private/coord/Personal/Asistencia/Asistencia";
 
 const Private = () => {
   return (
@@ -108,9 +109,10 @@ const Private = () => {
         {/* PAGES COORDINADOR */}
         <Route element={<RoleGuard rol={Roles.COORD} />}>
           <Route
-            path={`${PrivateRoutes.ASISTENCIA}`}
+            path={`${PrivateRoutes.ASISTENCIA}/:id`}
             element={<Asistencia />}
           />
+          <Route path={`${PrivateRoutes.PERSONAL}`} element={<Personal />} />
           <Route
             path={`${PrivateRoutes.EDIT_ORDER_SERVICE}/:id`}
             element={<EditOrdenService />}

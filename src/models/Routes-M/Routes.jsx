@@ -34,6 +34,7 @@ export const PrivateRoutes = {
 
   // COORD
   ASISTENCIA: "asistencia",
+  PERSONAL: "personal",
   LIST_ORDER_SERVICE: "list-orden-servicio",
   EDIT_ORDER_SERVICE: "update-orden-servicio",
   FINISH_ORDEN_SERVICE_PENDING: "update-orden-servicio",

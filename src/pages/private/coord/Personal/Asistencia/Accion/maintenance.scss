@@ -1,7 +1,12 @@
 .action-asistencia {
-  width: max-content;
+  min-width: 300px;
+  width: 100%;
   display: grid;
   gap: 10px;
+  .input-item {
+    width: calc(100% - 35px);
+    position: relative;
+  }
   .mantine-Radio-radio {
     display: block !important;
   }
@@ -10,16 +15,17 @@
     display: grid;
     grid-template-columns: 125px 1fr;
     align-items: center;
+    position: relative;
     .date-dh {
       position: relative;
       .hour-date {
         position: relative;
-        width: 215px;
+        width: calc(100% + 50px);
         height: 36px;
         font-size: 16px;
         display: block;
         text-align: end;
-        padding: 3px;
+        padding: 2px;
         border: 2px solid silver;
         select {
           outline: none;
@@ -28,6 +34,7 @@
           text-align: center;
           &:focus {
             outline: none;
+            background-color: rgb(217, 235, 255);
           }
           option {
             text-align: center;
@@ -40,8 +47,10 @@
           padding-right: 0;
         }
         .react-time-picker__inputGroup__amPm {
-          width: 50px;
-          padding-bottom: 2px;
+          width: 30px;
+          height: 20px;
+          padding: 3px 0;
+          line-height: 0.8;
         }
         .react-time-picker__inputGroup__amPm {
           -moz-appearance: none;
@@ -51,13 +60,24 @@
         .react-time-picker__wrapper {
           border: none;
         }
+        .react-time-picker__inputGroup {
+          flex-grow: 0;
+          padding: 0 0 0 7px;
+        }
       }
-      .day-date {
+      .accion-id {
+        display: flex;
         position: absolute;
-        left: 6px;
-        top: 0;
+        right: -45px;
+        top: 1px;
         margin: 6px;
+        gap: 10px;
+        .day-date {
+        }
       }
+    }
+    .ico-req {
+      right: -83px !important;
     }
     label {
       margin-bottom: 0;
