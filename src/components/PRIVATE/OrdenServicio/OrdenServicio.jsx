@@ -40,12 +40,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { PrivateRoutes } from "../../../models";
 import axios from "axios";
-import {
-  DateCurrent,
-  DiasAttencion,
-  HoraAttencion,
-  handleGetInfoPago,
-} from "../../../utils/functions";
+import { DateCurrent, handleGetInfoPago } from "../../../utils/functions";
 import SwitchModel from "../../SwitchModel/SwitchModel";
 import Promocion from "./Promocion/Promocion";
 import { setLastRegister } from "../../../redux/states/service_order";
@@ -55,7 +50,6 @@ import {
   documento,
   ingresoDigital,
   nameImpuesto,
-  nameMoneda,
   simboloMoneda,
 } from "../../../services/global";
 import ButtonSwitch from "../MetodoPago/ButtonSwitch/ButtonSwitch";
@@ -916,12 +910,12 @@ const OrdenServicio = ({
             <div className="info-t">
               <Logo className="ico-logo" />
               <div className="title">
-                {Object.keys(InfoNegocio).length > 0 ? (
+                {/* {Object.keys(InfoNegocio).length > 0 ? (
                   <h3>
-                    {DiasAttencion(InfoNegocio?.horario.dias)} de &nbsp;
+                    {DiasAttencion(InfoNegocio?.horario)} de &nbsp;
                     {HoraAttencion(InfoNegocio?.horario.horas)}
                   </h3>
-                ) : null}
+                ) : null} */}
               </div>
             </div>
             <div className="n-recibo">

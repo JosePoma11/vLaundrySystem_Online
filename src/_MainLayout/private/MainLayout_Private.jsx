@@ -289,35 +289,28 @@ const PrivateMasterLayout = (props) => {
     });
     // NEGOCIO
     socket.on("server:cNegocio", (data) => {
-      const { dias, horas, estado } = data.horario;
-      if (estado === false) {
-        _handleShowModal(
-          "Emergencia",
-          "Cierre total del sistema",
-          "close-emergency"
-        );
+      const { horas, actividad } = data.funcionamiento;
+      if (actividad === false) {
+        if (InfoUsuario.rol !== Roles.ADMIN) {
+          _handleShowModal(
+            "Emergencia",
+            "Cierre total del sistema",
+            "close-emergency"
+          );
+        }
       } else {
         if (InfoUsuario.rol !== Roles.ADMIN) {
-          const currentDay = moment().isoWeekday();
           const currentHour = moment();
 
-          if (dias.includes(currentDay)) {
-            const startTime = moment(horas.inicio, "HH:mm");
-            const endTime = moment(horas.fin, "HH:mm");
+          const startTime = moment(horas.inicio, "HH:mm");
+          const endTime = moment(horas.fin, "HH:mm");
 
-            if (currentHour.isBetween(startTime, endTime)) {
-              dispatch(LS_updateNegocio(data));
-            } else {
-              _handleShowModal(
-                "Comunicado",
-                "Se encuentra fuera del Horario de Atencion",
-                "time-out"
-              );
-            }
+          if (currentHour.isBetween(startTime, endTime)) {
+            dispatch(LS_updateNegocio(data));
           } else {
             _handleShowModal(
               "Comunicado",
-              "Se encuentra fuera de Dias Laborables",
+              "Se encuentra fuera del Horario de Atencion",
               "time-out"
             );
           }

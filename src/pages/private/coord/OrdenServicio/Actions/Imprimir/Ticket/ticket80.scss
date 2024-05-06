@@ -36,14 +36,21 @@ $sText: 0.8em;
       .info-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 5px;
+
+        .u-line {
+          display: flex;
+        }
+        .m-line {
+          display: grid;
+        }
+
         tr {
           td {
             font-weight: 600;
-            // font-size: $sText;
-            font-size: 3.8mm;
+            font-size: $sText;
             text-align: left;
             padding: 0;
+
             hr {
               margin: 0;
             }

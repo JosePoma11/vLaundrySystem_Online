@@ -3,8 +3,6 @@
 /* eslint-disable react/display-name */
 import React, { useEffect, useState } from "react";
 import {
-  DiasAttencion,
-  HoraAttencion,
   handleGetInfoPago,
   roundDecimal,
 } from "../../../../../../../utils/functions";
@@ -168,37 +166,58 @@ const Ticket = React.forwardRef((props, ref) => {
               <div className="name-bussiness">
                 <Logo className="img-logo" />
               </div>
-              <table className="info-table">
-                <tbody>
-                  <tr>
-                    <td>Direccion:</td>
-                    <td>{InfoNegocio?.direccion}</td>
-                  </tr>
-                  {InfoNegocio.numero.state ? (
+              {sizePaper80 === false ? (
+                <>
+                  <div className="i-negocio">
+                    <span>Horario de Atencion</span>
+                    {InfoNegocio.horario.map((hor, index) => (
+                      <span key={index}>{hor.horario}</span>
+                    ))}
+                  </div>
+                  <div className="i-negocio">
+                    <span>Direccion</span>
+                    <span>{InfoNegocio?.direccion}</span>
+                  </div>
+                  <div className="i-negocio " style={{ paddingBottom: "0" }}>
+                    <span>Telefono de contacto</span>
+                    <div className="flexd">
+                      {InfoNegocio.contacto.map((num, index) => (
+                        <span key={index}> {num.numero}</span>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <table className="info-table">
+                  <tbody>
+                    <tr>
+                      <td>Direccion:</td>
+                      <td>{InfoNegocio?.direccion}</td>
+                    </tr>
                     <tr>
                       <td>Telefono:</td>
-                      <td>{InfoNegocio?.numero?.info}</td>
+                      <td className="u-line">
+                        {InfoNegocio.contacto.map((num, index) => (
+                          <span key={index}>
+                            {num.numero}{" "}
+                            {index !== InfoNegocio.contacto.length - 1 && (
+                              <>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;</>
+                            )}
+                          </span>
+                        ))}
+                      </td>
                     </tr>
-                  ) : null}
-                  <tr>
-                    <td>Horario:</td>
-                    <td>
-                      {Object.keys(InfoNegocio).length > 0 ? (
-                        <>
-                          {DiasAttencion(InfoNegocio?.horario.dias)}
-
-                          {!sizePaper80 ? (
-                            <hr style={{ visibility: "hidden" }} />
-                          ) : (
-                            " - "
-                          )}
-                          {HoraAttencion(InfoNegocio?.horario.horas)}
-                        </>
-                      ) : null}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                    <tr>
+                      <td>Horario:</td>
+                      <td className="m-line">
+                        {InfoNegocio.horario.map((hor, index) => (
+                          <span key={index}>{hor.horario}</span>
+                        ))}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
             </div>
             <div className="info-client">
               <div className="cod-rec">
@@ -213,7 +232,7 @@ const Ticket = React.forwardRef((props, ref) => {
                 <table className="tb-date">
                   <tbody>
                     <tr>
-                      <td>Recojo:</td>
+                      <td>Ingreso:</td>
                       <td>
                         <div className="date-time">
                           {sizePaper80 ? (
