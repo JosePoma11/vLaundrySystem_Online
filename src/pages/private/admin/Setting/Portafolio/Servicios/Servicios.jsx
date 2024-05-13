@@ -89,6 +89,8 @@ const Servicios = () => {
   };
 
   const handleDeleteService = (id) => {
+    let confirmationEnabled = true;
+
     modals.openConfirmModal({
       title: "Eliminacion de Servicio",
       centered: true,
@@ -99,9 +101,12 @@ const Servicios = () => {
       confirmProps: { color: "red" },
 
       onConfirm: () => {
-        dispatch(deleteServicio(id));
-        Notify("Eliminacion Exitosa", "", "success");
-        handleCloseAction();
+        if (confirmationEnabled) {
+          confirmationEnabled = false;
+          dispatch(deleteServicio(id));
+          Notify("Eliminacion Exitosa", "", "success");
+          handleCloseAction();
+        }
       },
     });
   };

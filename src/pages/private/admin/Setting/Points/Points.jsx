@@ -31,7 +31,8 @@ const Points = () => {
     },
   });
 
-  const openModal = (data) =>
+  const openModal = (data) => {
+    let confirmationEnabled = true;
     modals.openConfirmModal({
       title: "Actualizacion de Puntos",
       centered: true,
@@ -43,8 +44,14 @@ const Points = () => {
       labels: { confirm: "Si", cancel: "No" },
       confirmProps: { color: "green" },
       onCancel: () => console.log("Cancelado"),
-      onConfirm: () => handleUpdatePuntos(data),
+      onConfirm: () => {
+        if (confirmationEnabled) {
+          confirmationEnabled = false;
+          handleUpdatePuntos(data);
+        }
+      },
     });
+  };
 
   const handleUpdatePuntos = async (info) => {
     dispatch(updatePuntos(info));

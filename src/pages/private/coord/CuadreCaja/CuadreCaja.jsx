@@ -245,6 +245,7 @@ const CuadreCaja = () => {
   };
 
   const openModal = (value) => {
+    let confirmationEnabled = true;
     const clonedElement = certificateTemplateRef.current.cloneNode(true);
 
     modals.openConfirmModal({
@@ -267,12 +268,15 @@ const CuadreCaja = () => {
       withCloseButton: false,
       closeOnClickOutside: false,
       onConfirm: () => {
-        setOnLoading(true);
-        setTimeout(() => {
-          value === true
-            ? handleSaved(clonedElement)
-            : handleGeneratePdf(clonedElement);
-        }, 500);
+        if (confirmationEnabled) {
+          confirmationEnabled = false;
+          setOnLoading(true);
+          setTimeout(() => {
+            value === true
+              ? handleSaved(clonedElement)
+              : handleGeneratePdf(clonedElement);
+          }, 500);
+        }
       },
     });
   };

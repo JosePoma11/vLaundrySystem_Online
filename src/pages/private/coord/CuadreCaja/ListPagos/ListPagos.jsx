@@ -264,14 +264,16 @@ const ListPagos = ({
                 </tr>
               </thead>
               <tbody>
-                {iClienteEfectivo.map((cliente, index) => (
-                  <tr key={index}>
-                    <td>{cliente.orden}</td>
-                    <td>{cliente.Modalidad}</td>
-                    <td>{cliente.nombre}</td>
-                    <td>{cliente.total}</td>
-                  </tr>
-                ))}
+                {iClienteEfectivo
+                  .sort((a, b) => parseInt(a.orden) - parseInt(b.orden))
+                  .map((cliente, index) => (
+                    <tr key={index}>
+                      <td>{cliente.orden}</td>
+                      <td>{cliente.Modalidad}</td>
+                      <td>{cliente.nombre}</td>
+                      <td>{cliente.total}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -333,14 +335,16 @@ const ListPagos = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {iClienteTransferencia.map((cliente, index) => (
-                    <tr key={index}>
-                      <td>{cliente.orden}</td>
-                      <td>{cliente.Modalidad}</td>
-                      <td>{cliente.nombre}</td>
-                      <td>{cliente.total}</td>
-                    </tr>
-                  ))}
+                  {iClienteTransferencia
+                    .sort((a, b) => parseInt(a.orden) - parseInt(b.orden))
+                    .map((cliente, index) => (
+                      <tr key={index}>
+                        <td>{cliente.orden}</td>
+                        <td>{cliente.Modalidad}</td>
+                        <td>{cliente.nombre}</td>
+                        <td>{cliente.total}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -360,21 +364,23 @@ const ListPagos = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {iClienteTarjeta.map((cliente, index) => (
-                    <tr
-                      key={index}
-                      className={`${
-                        cliente.estadoPrenda === "anulado"
-                          ? "mode-anulado"
-                          : null
-                      }`}
-                    >
-                      <td>{cliente.orden}</td>
-                      <td>{cliente.Modalidad}</td>
-                      <td>{cliente.nombre}</td>
-                      <td>{cliente.total}</td>
-                    </tr>
-                  ))}
+                  {iClienteTarjeta
+                    .sort((a, b) => parseInt(a.orden) - parseInt(b.orden))
+                    .map((cliente, index) => (
+                      <tr
+                        key={index}
+                        className={`${
+                          cliente.estadoPrenda === "anulado"
+                            ? "mode-anulado"
+                            : null
+                        }`}
+                      >
+                        <td>{cliente.orden}</td>
+                        <td>{cliente.Modalidad}</td>
+                        <td>{cliente.nombre}</td>
+                        <td>{cliente.total}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

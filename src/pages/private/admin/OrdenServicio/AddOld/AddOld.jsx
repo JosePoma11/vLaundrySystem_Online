@@ -1,4 +1,5 @@
-﻿/* eslint-disable react-hooks/exhaustive-deps */
+﻿/* eslint-disable no-unexpected-multiline */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Autocomplete, NumberInput, TextInput } from "@mantine/core";
@@ -148,7 +149,8 @@ const AddOld = () => {
     },
   });
 
-  const openModal = (data) =>
+  const openModal = (data) => {
+    let confirmationEnabled = true;
     modals.openConfirmModal({
       title: "Registro de Orden de Servicio",
       centered: true,
@@ -159,9 +161,15 @@ const AddOld = () => {
       ),
       labels: { confirm: "Si", cancel: "No" },
       confirmProps: { color: "green" },
-      //onCancel: () => console.log("Cancelado"),
-      onConfirm: () => handleGetInfo(data),
+      onCancel: () => console.log("Cancelado"),
+      onConfirm: () => {
+        if (confirmationEnabled) {
+          confirmationEnabled = false;
+          handleGetInfo(data);
+        }
+      },
     });
+  };
 
   const addRowGarment = (idServicio) => {
     const IService = InfoServicios.find(
@@ -286,7 +294,7 @@ const AddOld = () => {
       codRecibo: info.codigo,
       dateRecepcion: {
         fecha: tFecha(info.dateRecojo),
-        hora: tHora(infoNegocio.horario.horas.inicio, 1, "despues"),
+        hora: tHora(infoNegocio.funcionamiento?.horas?.inicio, 1, "despues"),
       },
       Modalidad: info.swModalidad,
       Nombre: info.name,
@@ -295,7 +303,7 @@ const AddOld = () => {
       direccion: info.direccion,
       datePrevista: {
         fecha: tFecha(info.datePrevista),
-        hora: tHora(infoNegocio.horario.horas.fin, 1, "antes"),
+        hora: tHora(infoNegocio.funcionamiento?.horas?.fin, 1, "antes"),
       },
       dateEntrega: {
         fecha: "",
@@ -515,7 +523,8 @@ const AddOld = () => {
                       formik.setFieldValue("datePrevista", date);
                     }}
                     placeholder="Ingrese Fecha"
-                    maxDate={moment().subtract(1, "day").toDate()}
+                    maxDate={moment().toDate()}
+                    // maxDate={moment().subtract(1, "day").toDate()}
                     //onNextYear
                   />
                   {formik.errors.dateRecojo &&
