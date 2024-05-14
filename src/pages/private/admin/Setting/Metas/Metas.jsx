@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { PrivateRoutes } from "../../../../../models";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateMetas } from "../../../../../redux/actions/aMetas";
+import { formatThousandsSeparator } from "../../../../../utils/functions";
 
 const Metas = () => {
   const dispatch = useDispatch();
@@ -71,6 +72,7 @@ const Metas = () => {
             name="Total"
             label="Meta Mensual :"
             value={formik.values.Total}
+            formatter={(value) => formatThousandsSeparator(value)}
             precision={0}
             onChange={(e) => {
               formik.setFieldValue("Total", !Number.isNaN(e) ? e : 0);

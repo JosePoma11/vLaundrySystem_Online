@@ -3,7 +3,10 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ingresoDigital } from "../../../../../services/global";
-import { DateFormat24h } from "../../../../../utils/functions";
+import {
+  DateFormat24h,
+  formatThousandsSeparator,
+} from "../../../../../utils/functions";
 import { Text } from "@mantine/core";
 import { ReactComponent as Eliminar } from "../../../../../utils/img/OrdenServicio/eliminar.svg";
 import "./listPagos.scss";
@@ -271,7 +274,7 @@ const ListPagos = ({
                       <td>{cliente.orden}</td>
                       <td>{cliente.Modalidad}</td>
                       <td>{cliente.nombre}</td>
-                      <td>{cliente.total}</td>
+                      <td>{formatThousandsSeparator(cliente.total)}</td>
                     </tr>
                   ))}
               </tbody>
@@ -302,7 +305,7 @@ const ListPagos = ({
                       <td>{gasto.tipo}</td>
                       <td>{gasto.motivo}</td>
                       <td>{DateFormat24h(gasto.date.hora)}</td>
-                      <td>{gasto.monto}</td>
+                      <td>{formatThousandsSeparator(gasto.monto)}</td>
 
                       {savedActivated === false && type !== "view" ? (
                         <td
@@ -342,7 +345,7 @@ const ListPagos = ({
                         <td>{cliente.orden}</td>
                         <td>{cliente.Modalidad}</td>
                         <td>{cliente.nombre}</td>
-                        <td>{cliente.total}</td>
+                        <td>{formatThousandsSeparator(cliente.total)}</td>
                       </tr>
                     ))}
                 </tbody>
@@ -378,7 +381,7 @@ const ListPagos = ({
                         <td>{cliente.orden}</td>
                         <td>{cliente.Modalidad}</td>
                         <td>{cliente.nombre}</td>
-                        <td>{cliente.total}</td>
+                        <td>{formatThousandsSeparator(cliente.total)}</td>
                       </tr>
                     ))}
                 </tbody>

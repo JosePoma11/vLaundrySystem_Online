@@ -20,43 +20,47 @@ const InfoPagos = ({
         <h1>{descripcion}</h1>
       </div>
       <div className="body">
-        {listPago?.map((pago, index) => (
-          <div className="card-pago" key={index}>
-            {DateCurrent().format4 === pago.date.fecha &&
-            pago.idUser === iUsuario._id ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIPago(pago);
-                    setIsPortalPago(!isPortalPago);
-                  }}
-                  className="btn-action btn-edit"
-                >
-                  <i className="fa-solid fa-pen"></i>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleNoPagar(pago._id);
-                  }}
-                  className="btn-action btn-delete"
-                >
-                  <i className="fa-solid fa-delete-left"></i>
-                </button>
-              </>
-            ) : null}
+        {listPago.length > 0 ? (
+          listPago.map((pago, index) => (
+            <div className="card-pago" key={index}>
+              {DateCurrent().format4() === pago.date.fecha &&
+                pago.idUser === iUsuario._id && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIPago(pago);
+                        setIsPortalPago(!isPortalPago);
+                      }}
+                      className="btn-action btn-edit"
+                    >
+                      <i className="fa-solid fa-pen"></i>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleNoPagar(pago._id);
+                      }}
+                      className="btn-action btn-delete"
+                    >
+                      <i className="fa-solid fa-delete-left"></i>
+                    </button>
+                  </>
+                )}
 
-            <div className="mm-pago">
-              <div className="monto-p">{pago.total}</div>
-              <span className="metodo-p">{pago.metodoPago}</span>
+              <div className="mm-pago">
+                <div className="monto-p">{pago.total}</div>
+                <span className="metodo-p">{pago.metodoPago}</span>
+              </div>
+              <hr />
+              <div className="date-p">
+                {moment(pago.date.fecha).format("dddd DD [de] MMMM [del] YYYY")}
+              </div>
             </div>
-            <hr />
-            <div className="date-p">
-              {moment(pago.date.fecha).format("dddd DD [de] MMMM [del] YYYY")}
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <span>NINGUNO (PAGO PENDIENTE)</span>
+        )}
       </div>
     </div>
   );

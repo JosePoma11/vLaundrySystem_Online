@@ -74,7 +74,8 @@ const Impuestos = () => {
             onChange={(e) => {
               formik.setFieldValue("IGV", !Number.isNaN(e) ? e : 0);
             }}
-            min={0.1}
+            min={0.01}
+            max={1}
             step={1}
             hideControls
             autoComplete="off"

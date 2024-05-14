@@ -72,7 +72,7 @@ const InfoCliente = ({
           autoFocus
           label={`${documento} :`}
           placeholder={`Ingrese ${documento}`}
-          defaultValue=""
+          value={values.dni}
           onItemSubmit={(selected) => {
             const cliente = infoClientes.find(
               (obj) => obj.dni === selected.value
@@ -80,6 +80,7 @@ const InfoCliente = ({
             changeICliente(cliente);
             changeValue("name", cliente.nombre);
             changeValue("phone", cliente.phone);
+            changeValue("direccion", cliente.direccion);
           }}
           data={
             infoClientes.length > 0 ? infoClientes.map((obj) => obj.dni) : []
@@ -94,7 +95,6 @@ const InfoCliente = ({
               const valor = e.target.value;
               changeValue("name", valor);
             }}
-            disabled={iEdit ? (iEdit.modeEditAll ? false : true) : false}
             value={values.name}
           />
           {error.name && touched.name && ValidIco({ mensaje: error.name })}

@@ -22,6 +22,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import ValidIco from "../../../../../../../components/ValidIco/ValidIco";
 import { Notify } from "../../../../../../../utils/notify/Notify";
+import { formatThousandsSeparator } from "../../../../../../../utils/functions";
 
 const Maintenance = ({ info, onClose }) => {
   const isEdit = info != null;
@@ -148,6 +149,7 @@ const Maintenance = ({ info, onClose }) => {
                 size="xs"
                 label="Precio :"
                 value={formik.values.precioVenta}
+                formatter={(value) => formatThousandsSeparator(value)}
                 onChange={(e) => {
                   formik.setFieldValue("precioVenta", e);
                 }}

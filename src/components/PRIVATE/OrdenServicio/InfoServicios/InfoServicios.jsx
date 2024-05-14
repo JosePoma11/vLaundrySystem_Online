@@ -11,6 +11,10 @@ import BotonModel from "../../BotonModel/BotonModel";
 import InputSelectedPrenda from "../../InputSelectedPrenda/InputSelectedPrenda";
 import { useEffect } from "react";
 import ValidIco from "../../../ValidIco/ValidIco";
+import {
+  formatRoundedNumber,
+  formatThousandsSeparator,
+} from "../../../../utils/functions";
 
 const InfoServicios = ({
   paso,
@@ -88,17 +92,17 @@ const InfoServicios = ({
   };
 
   const calculateTotalNeto = (items) => {
-    let subtotal = 0;
+    let subTotal = 0;
 
     if (items && items.length > 0) {
-      subtotal = items.reduce((sum, item) => {
+      subTotal = items.reduce((sum, item) => {
         const total = parseFloat(item.total) || 0;
 
         return sum + total;
       }, 0);
     }
 
-    return subtotal;
+    return subTotal;
   };
 
   const MontoxPoints = (xpoints) => {
@@ -170,48 +174,24 @@ const InfoServicios = ({
               {values.items.map((row, index) => (
                 <tr key={index}>
                   <td>
-                    <input
-                      type="text"
-                      className="txtCantidad"
+                    <NumberInput
                       name={`items.${index}.cantidad`}
-                      autoComplete="off"
+                      className="txtCantidad"
                       disabled={row.disable.cantidad}
-                      onChange={(e) => {
-                        const inputValue = e.target.value;
-                        // Permitir solo dígitos y un único punto decimal
-                        const validInput = inputValue.replace(/[^0-9.]/g, "");
-                        // Garantizar que no haya más de un punto decimal
-                        const validQuantity = validInput.replace(
-                          /\.(?=.*\.)/g,
-                          ""
-                        );
-
-                        const newQuantity =
-                          validQuantity !== "" ? validQuantity : "";
-
-                        const price =
-                          parseFloat(values.items[index].price) || 0;
-                        const newTotal =
-                          newQuantity !== "" ? newQuantity * price : "";
-
-                        changeValue(`items.${index}.cantidad`, newQuantity);
-                        changeValue(
-                          `items.${index}.total`,
-                          newTotal !== "" && newTotal !== 0
-                            ? newTotal.toFixed(1)
-                            : ""
-                        );
+                      value={+values.items[index].cantidad || ""}
+                      formatter={(value) => formatThousandsSeparator(value)}
+                      onChange={(value) => {
+                        const price = values.items[index].price || 0;
+                        const newTotal = value * price;
+                        changeValue(`items.${index}.cantidad`, value);
+                        changeValue(`items.${index}.total`, newTotal);
                       }}
+                      precision={2}
+                      min={0.01}
+                      step={1}
+                      hideControls
+                      autoComplete="off"
                       autoFocus={true}
-                      onBlur={(e) => {
-                        const inputValue = e.target.value;
-                        if (inputValue === "0") {
-                          // Si el usuario ingresa "0", establece el valor del campo a una cadena vacía
-                          changeValue(`items.${index}.cantidad`, "");
-                          changeValue(`items.${index}.total`, "");
-                        }
-                      }}
-                      value={values.items[index].cantidad || ""}
                       required
                     />
                     {values.items[index].cantidad < 0.1 &&
@@ -307,22 +287,20 @@ const InfoServicios = ({
                     </div>
                   </td>
                   <td>
-                    <input
-                      type="text"
-                      className="txtTotal"
+                    <NumberInput
                       name={`items.${index}.total`}
-                      autoComplete="off"
-                      onDragStart={(e) => e.preventDefault()}
-                      onChange={(e) => {
-                        const inputValue = e.target.value;
-                        const validInput = inputValue
-                          ? inputValue.replace(/[^0-9.]/g, "")
-                          : "";
-
-                        changeValue(`items.${index}.total`, validInput);
-                      }}
+                      className="txtTotal"
                       disabled={row.disable.total}
-                      value={values.items[index].total}
+                      value={+values.items[index].total}
+                      formatter={(value) => formatThousandsSeparator(value)}
+                      onChange={(value) => {
+                        changeValue(`items.${index}.total`, value);
+                      }}
+                      precision={2}
+                      min={0}
+                      step={1}
+                      hideControls
+                      autoComplete="off"
                       required
                     />
                   </td>
@@ -354,10 +332,11 @@ const InfoServicios = ({
                   values.modoDescuento === "Puntos" ? (
                     <div className="input-number dsc">
                       <NumberInput
-                        value={values.cargosExtras.beneficios.puntos}
+                        value={+values.cargosExtras.beneficios.puntos}
                         label={`Descuento x Puntos -  Max(${iCliente.scoreTotal})`}
                         description={`Por cada ${InfoPuntos.score} puntos -  ${simboloMoneda} ${InfoPuntos.valor} de descuento`}
                         max={parseInt(iCliente?.scoreTotal)}
+                        formatter={(value) => formatThousandsSeparator(value)}
                         min={0}
                         step={1}
                         hideControls={true}
@@ -389,9 +368,7 @@ const InfoServicios = ({
                   )}
                 </td>
                 <td>Subtotal :</td>
-                <td>
-                  {simboloMoneda} {values.subTotal}
-                </td>
+                <td>{formatThousandsSeparator(values.subTotal, true)}</td>
                 <td></td>
               </tr>
               <tr>
@@ -402,26 +379,19 @@ const InfoServicios = ({
               </tr>
               <tr>
                 <td></td>
-                <td>
-                  {values.onDescuento ? (
-                    <>Descuento x ({values.modoDescuento})</>
-                  ) : null}
-                </td>
-                <td>
-                  {values.onDescuento ? (
-                    <>
-                      {simboloMoneda} {values.descuento}
-                    </>
-                  ) : null}
-                </td>
+                {values.onDescuento ? (
+                  <>
+                    <td>Descuento x ({values.modoDescuento})</td>
+                    <td>{formatThousandsSeparator(values.descuento, true)}</td>
+                  </>
+                ) : null}
+
                 <td></td>
               </tr>
               <tr>
                 <td></td>
                 <td>Total :</td>
-                <td>
-                  {simboloMoneda} {values.totalNeto}
-                </td>
+                <td>{formatThousandsSeparator(values.totalNeto, true)}</td>
                 <td></td>
               </tr>
             </tfoot>

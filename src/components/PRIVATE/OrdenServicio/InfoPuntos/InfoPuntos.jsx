@@ -4,6 +4,7 @@ import React from "react";
 import "./infoPuntos.scss";
 import Coins from "../../../../utils/img/Puntos/coins.png";
 import moment from "moment";
+import { formatThousandsSeparator } from "../../../../utils/functions";
 
 const InfoPuntos = ({ iCliente }) => {
   return (
@@ -82,7 +83,7 @@ const InfoPuntos = ({ iCliente }) => {
                   color: `${row.score > 0 ? "#59b78a" : "#ff8383"}`,
                 }}
               >
-                {row.score}
+                {formatThousandsSeparator(row.score)}
               </span>
             </div>
           </div>
@@ -91,8 +92,8 @@ const InfoPuntos = ({ iCliente }) => {
       <hr />
       <div className="footer-promo">
         <div className="total-point">
-          <label htmlFor="">Total de Puntos :</label>
-          <span>{iCliente?.scoreTotal}</span>
+          <label htmlFor="">Total de Puntos</label>
+          <span>{formatThousandsSeparator(iCliente?.scoreTotal)}</span>
         </div>
       </div>
     </div>

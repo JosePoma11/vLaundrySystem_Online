@@ -5,6 +5,10 @@ import { ReactComponent as Eliminar } from "../../../../utils/img/OrdenServicio/
 import { simboloMoneda } from "../../../../services/global";
 import "./infoPromociones.scss";
 import { TextInput } from "@mantine/core";
+import {
+  formatRoundedNumber,
+  formatThousandsSeparator,
+} from "../../../../utils/functions";
 
 const InfoPromociones = ({ listCupones, changeValue, setListCupones }) => {
   return (
@@ -53,7 +57,7 @@ const InfoPromociones = ({ listCupones, changeValue, setListCupones }) => {
                   <TextInput
                     className="input-info"
                     label="Descuento :"
-                    value={cupon.descuento}
+                    value={formatThousandsSeparator(cupon.descuento)}
                     readOnly
                   />
                 </div>
@@ -65,10 +69,12 @@ const InfoPromociones = ({ listCupones, changeValue, setListCupones }) => {
       <hr />
       <div className="footer-promo">
         <div className="total-point">
-          <label htmlFor="">Total de Descueto :</label>
+          <label htmlFor="">Total de Descuento</label>
           <span>
-            {simboloMoneda}{" "}
-            {listCupones.reduce((total, cupon) => total + cupon.descuento, 0)}
+            {formatThousandsSeparator(
+              listCupones.reduce((total, cupon) => total + cupon.descuento, 0),
+              true
+            )}
           </span>
         </div>
       </div>

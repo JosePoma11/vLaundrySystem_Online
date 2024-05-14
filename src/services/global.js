@@ -9,11 +9,11 @@ export const nameMoneda = "Soles";
 export const ingresoDigital = "YAPE";
 
 export const politicaAbandono = {
-  mResaltado: "El plazo maximo para retirar las prendas es de 20 dias ",
-  mGeneral: `despues de entregada a la lavanderia; vencido el plazo se donara a instituciones de caridad.No hay lugar a
-   reclamo una ves retirada la prenda No nos reposabilizamos por prendas que se destiñan por malos tintes, botones o adornos 
-   que no resistan al lavado o planchado, por las prendas que se deterioren por estar demasiado usadas, tejidos y confecciones defectuosas.
-    La indemnización por ropa perdida o malograda se ajusta de acuerdo a la ley R.S. 2322 que equivale al 20% del valor de la prenda. No nos reponsabilizamos por dinero u objetos de valor dejados en la prenda`,
+  mResaltado: "El plazo máximo para retirar las prendas es de 30 días ",
+  mGeneral: `después de entregada a la lavandería; vencido el plazo, se donará a instituciones de caridad. 
+  No hay lugar al reclamo una vez retirada la prenda. No nos responsabilizamos por prendas que se destiñan, 
+  por malos tintes, botones o adornos que no resistan al lavado o planchado, por las prendas que se deterioren 
+  por estar demasiado usadas, tejidos y confecciones defectuosas.`,
 };
 
 export const documento = "DNI"; // DNI

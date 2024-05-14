@@ -22,7 +22,11 @@ import InfoPago from "./InfoPago/InfoPago";
 import { simboloMoneda } from "../../../services/global";
 import { modals } from "@mantine/modals";
 import axios from "axios";
-import { DateCurrent, handleGetInfoPago } from "../../../utils/functions";
+import {
+  DateCurrent,
+  formatRoundedNumber,
+  handleGetInfoPago,
+} from "../../../utils/functions";
 import { useNavigate } from "react-router-dom";
 import { PrivateRoutes } from "../../../models";
 import { DeletePago, UpdatePago } from "../../../redux/actions/aPago";
@@ -380,6 +384,8 @@ const OrdenServicio = ({
     let finalUpdatePromo = info.cargosExtras;
     if (info.modoDescuento === "Promocion" && !iEdit) {
       finalUpdatePromo.beneficios.promociones = listCupones;
+      finalUpdatePromo.beneficios.puntos = 0;
+      finalUpdatePromo.descuentos.puntos = 0;
     } else if (info.modoDescuento === "Puntos" && !iEdit) {
       finalUpdatePromo.beneficios.promociones = [];
       finalUpdatePromo.descuentos.promocion = 0;
@@ -661,10 +667,15 @@ const OrdenServicio = ({
     } else {
       setSidePanelVisible(false);
     }
-  }, [formik.values.onDescuento, formik.values.modoDescuento, listCupones]);
+  }, [
+    formik.values.onDescuento,
+    formik.values.modoDescuento,
+    listCupones.length,
+  ]);
 
   useEffect(() => {
     const subTotal = formik.values.subTotal;
+
     let montoIGV = 0;
     if (formik.values.factura === true) {
       montoIGV = +(subTotal * formik.values.cargosExtras.igv.valor).toFixed(2);
@@ -677,10 +688,7 @@ const OrdenServicio = ({
         : formik.values.cargosExtras.descuentos.promocion;
     formik.setFieldValue("descuento", descuento);
     const totalNeto = total - descuento;
-    formik.setFieldValue(
-      "totalNeto",
-      (Math.floor(totalNeto * 10) / 10).toFixed(1)
-    );
+    formik.setFieldValue("totalNeto", +formatRoundedNumber(totalNeto));
   }, [
     formik.values.cargosExtras.igv,
     formik.values.items,

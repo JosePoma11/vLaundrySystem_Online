@@ -14,6 +14,7 @@ import { getInfoCategoria } from "../utilsPortafolio";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteServicio } from "../../../../../../redux/actions/aServicios";
 import { Notify } from "../../../../../../utils/notify/Notify";
+import { formatThousandsSeparator } from "../../../../../../utils/functions";
 
 const Servicios = () => {
   const [infoServicios, setInfoServicios] = useState([]);
@@ -65,9 +66,7 @@ const Servicios = () => {
           placeholder: "",
         },
         Cell: ({ cell }) => (
-          <Box>
-            {simboloMoneda} {cell.getValue()}
-          </Box>
+          <Box>{formatThousandsSeparator(cell.getValue(), true)}</Box>
         ),
       },
       {

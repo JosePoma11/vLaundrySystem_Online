@@ -10,7 +10,7 @@ import styled from "styled-components";
 import {
   DateCurrent,
   cLetter,
-  redondearNumero,
+  formatRoundedNumber,
 } from "../../../../utils/functions/index";
 import { DatePickerInput } from "@mantine/dates";
 
@@ -725,7 +725,7 @@ const CuadreCaja = () => {
               <div className="i-final">
                 <span>
                   {cLetter(valueFinalINS?.tipo)} : &nbsp;&nbsp; {simboloMoneda}{" "}
-                  {redondearNumero(valueFinalINS?.total)}
+                  {formatRoundedNumber(valueFinalINS?.total)}
                 </span>
               </div>
             </div>
