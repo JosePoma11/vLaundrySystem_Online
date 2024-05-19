@@ -1,0 +1,35 @@
+.table-list {
+  width: 100%;
+  max-width: 1003px;
+  margin: auto;
+}
+
+@media screen and (max-width: 1020px) {
+  .table-list {
+    max-width: 803px;
+  }
+}
+
+@media screen and (max-width: 903px) {
+  .table-list {
+    max-width: 703px;
+  }
+}
+
+@media screen and (max-width: 703px) {
+  .table-list {
+    max-width: 503px;
+  }
+}
+
+@media screen and (max-width: 603px) {
+  .table-list {
+    max-width: 403px;
+  }
+}
+
+@media screen and (max-width: 503px) {
+  .table-list {
+    max-width: 303px;
+  }
+}
