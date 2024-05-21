@@ -2,158 +2,245 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import "react-tabulator/lib/styles.css"; // required styles
 import "react-tabulator/lib/css/tabulator.min.css"; // theme
-import { ReactTabulator } from "react-tabulator";
-import "./diseñobase.scss";
+import { ReactTabulator } from "react-tabulator"; //
+import "./newDesignList.scss";
+import { useState } from "react";
+import {
+  handleGetInfoPago,
+  handleItemsCantidad,
+  handleOnWaiting,
+} from "../../../../../utils/functions";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { documento } from "../../../../../services/global";
+import { useRef } from "react";
 
-const List = () => {
-  const data = [
-    {
-      id: 1,
-      name: "John Doe",
-      progress: 50,
-      gender: "Male",
-      rating: 5,
-      col: "red",
-      dob: "01/01/2000",
-      car: true,
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      progress: 80,
-      gender: "Female",
-      rating: 3,
-      col: "blue",
-      dob: "02/02/1999",
-      car: false,
-    },
-  ];
+const NewDesignList = () => {
+  const [idRowSelected, setIdRowSelected] = useState("");
+  const ref = useRef();
+
+  const [infoRegistrado, setInfoRegistrado] = useState([]);
+
+  const { registered } = useSelector((state) => state.orden);
+  const iDelivery = useSelector((state) => state.servicios.serviceDelivery);
+
+  const printIcon = function (cell, formatterParams) {
+    //plain text value
+    return "<i class='fa fa-print'></i>";
+  };
 
   const columns = [
     {
-      title: "Name",
-      field: "name",
-      width: 200,
-      headerFilter: "input",
-      hozAlign: "left",
+      formatter: "responsiveCollapse",
+      headerSort: false,
     },
-    { title: "Progress", field: "progress", width: 100, hozAlign: "left" },
-    { title: "Gender", field: "gender", width: 100, hozAlign: "left" },
-    { title: "Rating", field: "rating", width: 100, hozAlign: "left" },
-    { title: "Favourite Color", field: "col", width: 200, hozAlign: "left" },
-    { title: "Date Of Birth", field: "dob", width: 100, hozAlign: "left" },
-    { title: "Driver", field: "car", width: 200, hozAlign: "left" },
+    {
+      formatter: printIcon,
+      width: 40,
+      hozAlign: "center",
+      cellClick: function (e, cell) {
+        alert("Printing row data for: " + cell.getRow().getData().name);
+      },
+    },
+    {
+      title: "Orden",
+      field: "Recibo",
+      width: 70,
+      headerHozAlign: "center",
+      // formatter: (cell) => {
+      //   return cell.getValue();
+      // },
+      // formatter: reactFormatter(<SimpleButton />),
+      // headerFilter: "input",
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: "Nombre",
+      field: "Nombre",
+      headerHozAlign: "center",
+      width: 180,
+      hozAlign: "left",
+      // headerSort: false,
+    },
+    {
+      title: "Modalidad",
+      field: "Modalidad",
+      headerHozAlign: "center",
+      width: 90,
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: "items",
+      field: "items",
+      headerHozAlign: "center",
+      width: 200,
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: "Monto Cobrado",
+      field: "PParcial",
+      headerHozAlign: "center",
+      width: 160,
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: "Pago",
+      field: "Pago",
+      headerHozAlign: "center",
+      width: 160,
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: "Total",
+      field: "totalNeto",
+      headerHozAlign: "center",
+      width: 200,
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: "Celular",
+      field: "Celular",
+      headerHozAlign: "center",
+      width: 200,
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: "Direccion",
+      field: "Direccion",
+      headerHozAlign: "center",
+      width: 100,
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: "Ubicacion",
+      field: "Location",
+      headerHozAlign: "center",
+      width: 100,
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: documento,
+      field: "DNI",
+      headerHozAlign: "center",
+      width: 100,
+      hozAlign: "center",
+      // headerSort: false,
+    },
+    {
+      title: "onWaiting",
+      field: "onWaiting",
+      headerHozAlign: "center",
+      width: 100,
+      hozAlign: "center",
+      // headerSort: false,
+    },
   ];
 
-  var minMaxFilterEditor = function (
-    cell,
-    onRendered,
-    success,
-    cancel,
-    editorParams
-  ) {
-    var end;
+  const handleRowClick = (e, row) => {
+    const isSelected = row.getElement().classList.contains("on-selected");
 
-    var container = document.createElement("span");
+    // Remueve la clase "on-selected" de todas las filas
+    const listOrders = document.getElementById("list-orders");
+    const tabulatorRows = listOrders.querySelectorAll(".tabulator-row");
+    tabulatorRows.forEach((tabulatorRow) => {
+      tabulatorRow.classList.remove("on-selected");
+    });
 
-    //create and style inputs
-    var start = document.createElement("input");
-    start.setAttribute("type", "number");
-    start.setAttribute("placeholder", "Min");
-    start.setAttribute("min", 0);
-    start.setAttribute("max", 100);
-    start.style.padding = "4px";
-    start.style.width = "50%";
-    start.style.boxSizing = "border-box";
-
-    start.value = cell.getValue();
-
-    function buildValues() {
-      success({
-        start: start.value,
-        end: end.value,
-      });
+    // Agrega o remueve la clase "on-selected" según sea necesario
+    if (!isSelected) {
+      row.getElement().classList.add("on-selected");
     }
+  };
+  const handleGetFactura = async (info) => {
+    const reOrdenar = [...info].sort((a, b) => b.index - a.index);
+    const newData = await Promise.all(
+      reOrdenar.map(async (d) => {
+        const dateEndProcess =
+          d.estadoPrenda === "donado"
+            ? d.donationDate.fecha
+            : d.dateEntrega.fecha;
 
-    function keypress(e) {
-      if (e.keyCode == 13) {
-        buildValues();
-      }
+        const onWaiting = await handleOnWaiting(
+          d.dateRecepcion.fecha,
+          d.estadoPrenda,
+          dateEndProcess
+        );
 
-      if (e.keyCode == 27) {
-        cancel();
-      }
-    }
+        const listItems = d.Items.filter(
+          (item) => item.identificador !== iDelivery?._id
+        );
+        const estadoPago = handleGetInfoPago(d.ListPago, d.totalNeto);
 
-    end = start.cloneNode();
-    end.setAttribute("placeholder", "Max");
+        const structureData = {
+          id: d._id,
+          Recibo: String(d.codRecibo).padStart(4, "0"),
+          Nombre: d.Nombre,
+          Modalidad: d.Modalidad,
+          items: handleItemsCantidad(listItems),
+          PParcial: estadoPago.pago,
+          Pago: estadoPago.estado,
+          totalNeto: d.totalNeto,
+          DNI: d.dni,
+          Celular: d.celular,
+          Direccion: d.direccion,
+          FechaEntrega: d.dateEntrega.fecha,
+          FechaRecepcion: d.dateRecepcion.fecha,
+          Descuento: d.descuento,
+          Location: d.location,
+          EstadoPrenda: d.estadoPrenda,
+          Estado: d.estado,
+          Notas: d.notas,
+          onWaiting: onWaiting,
+        };
 
-    start.addEventListener("change", buildValues);
-    start.addEventListener("blur", buildValues);
-    start.addEventListener("keydown", keypress);
+        return structureData;
+      })
+    );
 
-    end.addEventListener("change", buildValues);
-    end.addEventListener("blur", buildValues);
-    end.addEventListener("keydown", keypress);
-
-    container.appendChild(start);
-    container.appendChild(end);
-
-    return container;
+    setInfoRegistrado(newData);
   };
 
-  //custom max min filter function
-  function minMaxFilterFunction(headerValue, rowValue, rowData, filterParams) {
-    //headerValue - the value of the header filter element
-    //rowValue - the value of the column in this row
-    //rowData - the data for the row being filtered
-    //filterParams - params object passed to the headerFilterFuncParams property
+  useEffect(() => {
+    handleGetFactura(registered);
+  }, [registered]);
 
-    if (rowValue) {
-      if (headerValue.start != "") {
-        if (headerValue.end != "") {
-          return rowValue >= headerValue.start && rowValue <= headerValue.end;
-        } else {
-          return rowValue >= headerValue.start;
-        }
-      } else {
-        if (headerValue.end != "") {
-          return rowValue <= headerValue.end;
-        }
-      }
-    }
-
-    return true; //must return a boolean, true if it passes the filter.
-  }
+  useEffect(() => {
+    console.log(idRowSelected);
+  }, [idRowSelected]);
 
   return (
     <div className="table-list">
       <ReactTabulator
-        data={data}
+        id="list-orders"
+        onRef={ref}
+        data={infoRegistrado}
         columns={columns}
         height={"max-content"}
-        // width={"max-content"}
+        events={{
+          rowDblClick: handleRowClick,
+        }}
         options={{
           layout: "fitDataFill",
           responsiveLayout: "collapse",
           tooltips: true,
           tooltipsHeader: true,
-          tooltipsColumn: true,
-          rowFormatter: function (row) {
-            //Establecer fondo de fila de forma alternada
-            if (row.getData().id % 2 === 0) {
-              row.getElement().style.backgroundColor = "#f9f9f9";
-            } else {
-              row.getElement().style.backgroundColor = "#ffffff";
-            }
-          },
+          responsiveLayoutCollapseStartOpen: false,
         }}
       />
     </div>
   );
 };
 
-export default List;
+export default NewDesignList;
