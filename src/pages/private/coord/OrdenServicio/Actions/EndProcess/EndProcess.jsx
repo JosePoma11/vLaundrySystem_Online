@@ -137,7 +137,7 @@ const EndProcess = ({ IdCliente, onClose }) => {
   // Entregado
   const handleEditEntrega = (values) => {
     let infoGastoByDelivery;
-    if (infoCliente.Modalidad === "Delivery") {
+    if (infoCliente.Modalidad === "Delivery" && !InfoNegocio?.hasMobility) {
       infoGastoByDelivery = {
         idTipoGasto: infoTipoGastoDeliveryEnvio._id,
         tipo: infoTipoGastoDeliveryEnvio.name,
@@ -177,14 +177,15 @@ const EndProcess = ({ IdCliente, onClose }) => {
   };
 
   const handleEntregar = () => {
-    if (infoCliente.Modalidad === "Tienda") {
-      console.log("tienda");
+    if (infoCliente.Modalidad === "Tienda" || InfoNegocio?.hasMobility) {
+      console.log("tienda o delivery (propio)");
       openModalEntregar();
     } else {
-      console.log("delivery");
+      console.log("delivery particular");
       setOnAction("concluir");
     }
   };
+
   const validationSchema = Yup.object().shape({
     tipoTrasporte:
       infoCliente.Modalidad === "Delivery" && estadoPago.estado === "Completo"
@@ -399,7 +400,8 @@ const EndProcess = ({ IdCliente, onClose }) => {
                       />
                     </>
                   ) : null}
-                  {infoCliente.Modalidad === "Delivery" &&
+                  {!InfoNegocio?.hasMobility &&
+                  infoCliente.Modalidad === "Delivery" &&
                   estadoPago.estado === "Completo" ? (
                     <Entregar
                       setFieldValue={setFieldValue}

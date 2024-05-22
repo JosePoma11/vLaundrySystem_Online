@@ -9,8 +9,8 @@ import {
 } from "../../pages/private/coord/index";
 
 import {
-  AddOrderService_Delivery,
-  AddOrderService_Tienda,
+  AddOrderService_RDelivery,
+  AddOrderService_R,
 } from "../../pages/private/coord/OrdenServicio/Add/index";
 
 import Imprimir from "../../pages/private/coord/OrdenServicio/Actions/Imprimir/Imprimir";
@@ -59,8 +59,8 @@ const Private = () => {
         {/* PAGES DEL PERSONAL */}
         <Route
           path={PrivateRoutes.LIST_ORDER_SERVICE}
-          // element={<ListOrdenService />}
-          element={<NewDesignList />}
+          element={<ListOrdenService />}
+          // element={<NewDesignList />}
         />
         {/* PAGES ADMINISTRADOR O PAGES GERENTE */}
         <Route element={<RoleGuard rol={Roles.GERENTE} />}>
@@ -120,12 +120,12 @@ const Private = () => {
             element={<EditOrdenService />}
           />
           <Route
-            path={PrivateRoutes.REGISTER_TIENDA}
-            element={<AddOrderService_Tienda />}
+            path={PrivateRoutes.REGISTER}
+            element={<AddOrderService_R />}
           />
           <Route
             path={PrivateRoutes.REGISTER_DELIVERY}
-            element={<AddOrderService_Delivery />}
+            element={<AddOrderService_RDelivery />}
           />
           <Route
             path={`${PrivateRoutes.FINISH_ORDEN_SERVICE_PENDING}/:id`}
