@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { NumberInput } from "@mantine/core";
+import { NumberInput, TextInput } from "@mantine/core";
 
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -25,6 +25,7 @@ import { AddOrdenServices } from "../../../../../../redux/actions/aOrdenServices
 import { setLastRegister } from "../../../../../../redux/states/service_order";
 import { PrivateRoutes } from "../../../../../../models";
 import { simboloMoneda } from "../../../../../../services/global";
+import ValidIco from "../../../../../../components/ValidIco/ValidIco";
 
 const Delivery = () => {
   const dispatch = useDispatch();
@@ -274,141 +275,133 @@ const Delivery = () => {
                 setFieldValue,
               }) => (
                 <Form onSubmit={handleSubmit} className="content-delivery">
-                  <fieldset className="checkbox-group">
-                    <legend className="checkbox-group-legend">Delivery</legend>
-                    <div className="checkbox">
-                      <label className="checkbox-wrapper">
-                        <Field
-                          type="radio"
-                          className="checkbox-input"
-                          name="tipoDelivery"
-                          value="Taxi"
-                          onClick={() => {
-                            // setFieldValue('price', +getProductValue('Delivery'));
-                            setShouldFocusInput(true);
-                          }}
-                        />
-                        <span className="checkbox-tile">
-                          <span className="checkbox-icon">
-                            <Taxi className="custom-icon" />
-                          </span>
-                          <span className="checkbox-label">Taxi</span>
-                        </span>
-                      </label>
-                    </div>
-                    <div className="checkbox">
-                      <label className="checkbox-wrapper">
-                        <Field
-                          type="radio"
-                          className="checkbox-input"
-                          name="tipoDelivery"
-                          value="Moto"
-                          onClick={() => {
-                            setFieldValue("price", "");
-                            setShouldFocusInput(true);
-                          }}
-                        />
-                        <span className="checkbox-tile">
-                          <span className="checkbox-icon">
-                            <Moto className="custom-icon" />
-                          </span>
-                          <span className="checkbox-label">Moto</span>
-                        </span>
-                      </label>
-                    </div>
-                    {errors.tipoDelivery && touched.tipoDelivery && (
-                      <div className="ico-req">
-                        <i className="fa-solid fa-circle-exclamation ">
-                          <div
-                            className="info-req"
-                            style={{ pointerEvents: "none" }}
-                          >
-                            <span>{errors.tipoDelivery}</span>
-                          </div>
-                        </i>
-                      </div>
-                    )}
-                  </fieldset>
+                  <div className="head-info-cd">
+                    <h1>
+                      Oden de Servcio :&nbsp;
+                      {String(infoCodigo.codActual).padStart(6, "0")}
+                    </h1>
+                  </div>
                   <hr />
-                  <div className="code-reserva">
-                    <h2>Codigo de Reserva</h2>
-                    <h1>{String(infoCodigo.codActual).padStart(6, "0")}</h1>
-                  </div>
-                  <div className="selectBoxGroup">
-                    <div className="selectBox radio">
-                      <input
-                        type="checkbox"
-                        id={"radio-recojo"}
-                        readOnly={true}
-                        checked={true}
-                      />
-                      <label htmlFor={"radio-recojo"}>Recojo</label>
-                    </div>
-                  </div>
-                  <div className="infoDelivery">
-                    <div className="name-d">
-                      <div className="input-valid">
-                        <input
-                          type="text"
-                          name="name"
-                          onChange={handleChange}
-                          value={values.name}
-                          placeholder="Ingrese Nombre"
-                          autoComplete="off"
-                          ref={inputRef}
-                        />
-                        {errors.name && touched.name && (
-                          <div className="ico-req">
-                            <i className="fa-solid fa-circle-exclamation ">
-                              <div
-                                className="info-req"
-                                style={{ pointerEvents: "none" }}
-                              >
-                                <span>{errors.name}</span>
-                              </div>
-                            </i>
+                  <div className="body-c-movilidad">
+                    <fieldset className="content-movilidad">
+                      <legend className="legend-c-movilidad">
+                        &nbsp;&nbsp;
+                        <span className="accion">&nbsp;(RECOJO)</span>
+                        &nbsp;&nbsp;
+                      </legend>
+                      <div className="group-fieldset">
+                        <fieldset className="checkbox-sub-group">
+                          <legend className="checkbox-group-legend">
+                            &nbsp;&nbsp;EXTERNO&nbsp;&nbsp;
+                          </legend>
+                          <div className="checkbox">
+                            <label className="checkbox-wrapper">
+                              <Field
+                                type="radio"
+                                className="checkbox-input"
+                                name="tipoDelivery"
+                                value="Taxi"
+                                onClick={() => {
+                                  // setFieldValue('price', +getProductValue('Delivery'));
+                                  setShouldFocusInput(true);
+                                }}
+                              />
+                              <span className="checkbox-tile">
+                                <span className="checkbox-icon">
+                                  <Taxi className="custom-icon" />
+                                </span>
+                                <span className="checkbox-label">Taxi</span>
+                              </span>
+                            </label>
                           </div>
-                        )}
+                          <div className="checkbox">
+                            <label className="checkbox-wrapper">
+                              <Field
+                                type="radio"
+                                className="checkbox-input"
+                                name="tipoDelivery"
+                                value="Moto"
+                                onClick={() => {
+                                  setFieldValue("price", "");
+                                  setShouldFocusInput(true);
+                                }}
+                              />
+                              <span className="checkbox-tile">
+                                <span className="checkbox-icon">
+                                  <Moto className="custom-icon" />
+                                </span>
+                                <span className="checkbox-label">Moto</span>
+                              </span>
+                            </label>
+                          </div>
+                          {errors.tipoDelivery && touched.tipoDelivery && (
+                            <div className="ico-req">
+                              <i className="fa-solid fa-circle-exclamation ">
+                                <div
+                                  className="info-req"
+                                  style={{ pointerEvents: "none" }}
+                                >
+                                  <span>{errors.tipoDelivery}</span>
+                                </div>
+                              </i>
+                            </div>
+                          )}
+                        </fieldset>
+                        <fieldset className="checkbox-sub-group">
+                          <legend className="checkbox-group-legend">
+                            &nbsp;&nbsp;PROPIO&nbsp;&nbsp;
+                          </legend>
+                        </fieldset>
                       </div>
-                    </div>
-                    <div className="data-prices">
-                      <div className="input-valid">
-                        <NumberInput
-                          name="price"
-                          value={values.price}
-                          parser={(value) =>
-                            value.replace(
-                              new RegExp(`${simboloMoneda}\\s?|(,*)`, "g"),
-                              ""
-                            )
-                          }
-                          formatter={(value) => {
-                            return Number.isNaN(parseFloat(value))
-                              ? ""
-                              : `${simboloMoneda} ${value}`.replace(
-                                  /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
-                                  ","
-                                );
-                          }}
-                          placeholder="Ingrese Monto"
-                          precision={2}
-                          step={0.05}
-                          hideControls={true}
-                          autoComplete="off"
-                          onChange={(value) => setFieldValue("price", value)}
-                        />
-                        {errors.price && touched.price && (
-                          <div className="ico-req">
-                            <i className="fa-solid fa-circle-exclamation ">
-                              <div
-                                className="info-req"
-                                style={{ pointerEvents: "none" }}
-                              >
-                                <span>{errors.price}</span>
-                              </div>
-                            </i>
-                          </div>
-                        )}
+                    </fieldset>
+                    <div className="infoDelivery">
+                      <div className="b-inputs">
+                        <div className="input-info-required">
+                          <TextInput
+                            name="name"
+                            size="md"
+                            label="Nombres :"
+                            autocomplete="off"
+                            onChange={handleChange}
+                            autoComplete="off"
+                            ref={inputRef}
+                            value={values.name}
+                          />
+                          {errors.name &&
+                            touched.name &&
+                            ValidIco({ mensaje: errors.name })}
+                        </div>
+                        <div className="input-info-required">
+                          <NumberInput
+                            name="price"
+                            label="Gasto por Delivery :"
+                            size="md"
+                            value={values.price}
+                            parser={(value) =>
+                              value.replace(
+                                new RegExp(`${simboloMoneda}\\s?|(,*)`, "g"),
+                                ""
+                              )
+                            }
+                            formatter={(value) => {
+                              return Number.isNaN(parseFloat(value))
+                                ? ""
+                                : `${simboloMoneda} ${value}`.replace(
+                                    /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
+                                    ","
+                                  );
+                            }}
+                            placeholder="Ingrese Monto"
+                            precision={2}
+                            step={0.05}
+                            hideControls={true}
+                            autoComplete="off"
+                            onChange={(value) => setFieldValue("price", value)}
+                          />
+                          {errors.price &&
+                            touched.price &&
+                            ValidIco({ mensaje: errors.price })}
+                        </div>
                       </div>
                     </div>
                   </div>

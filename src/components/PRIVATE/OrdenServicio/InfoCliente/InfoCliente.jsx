@@ -82,7 +82,7 @@ const InfoCliente = ({
             changeValue("phone", cliente.phone);
             changeValue("direccion", cliente.direccion);
           }}
-          autocomplete="off"
+          autoComplete="off"
           data={
             infoClientes.length > 0 ? infoClientes.map((obj) => obj.dni) : []
           }
@@ -92,7 +92,7 @@ const InfoCliente = ({
           <TextInput
             name="name"
             label="Nombres :"
-            autocomplete="off"
+            autoComplete="off"
             onChange={(e) => {
               const valor = e.target.value;
               changeValue("name", valor);
@@ -106,7 +106,7 @@ const InfoCliente = ({
           name="direccion"
           className="input-info"
           label="Direccion :"
-          autocomplete="off"
+          autoComplete="off"
           onChange={(e) => {
             const valor = e.target.value;
             changeValue("direccion", valor);
@@ -117,7 +117,7 @@ const InfoCliente = ({
           name="phone"
           className="input-info"
           label="Celular :"
-          autocomplete="off"
+          autoComplete="off"
           onChange={(e) => {
             const valor = e.target.value;
             changeValue("phone", valor);

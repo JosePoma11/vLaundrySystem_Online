@@ -14,35 +14,7 @@ const pago = createSlice({
     isLoading: false,
     error: null,
   },
-  reducers: {
-    // LS_changeListPagoByDate: (state, action) => {
-    //   const { tipo, info } = action.payload;
-    //   // Realizar la acción según el tipo
-    //   if (tipo === "deleted") {
-    //     // Eliminar el pago del array ListPago
-    //     state.listPagoByDate = state.listPagoByDate.filter(
-    //       (pago) => pago?._id !== info?._id
-    //     );
-    //   } else if (tipo === "updated") {
-    //     // Actualizar el pago con la nueva información
-    //     const indexPago = state.listPagoByDate.findIndex(
-    //       (pago) => pago?._id === info?._id
-    //     );
-    //     if (indexPago !== -1) {
-    //       state.listPagoByDate[indexPago] = info;
-    //     } else {
-    //       console.error("No se encontró el pago a actualizar");
-    //     }
-    //   } else if (tipo === "added") {
-    //     // Agregar el nuevo pago a ListPago
-    //     if (!state.listPagoByDate.some((pago) => pago?._id === info?._id)) {
-    //       state.listPagoByDate.push(info);
-    //     }
-    //   } else {
-    //     console.error("Tipo de acción no válido");
-    //   }
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // AddPago
@@ -52,7 +24,7 @@ const pago = createSlice({
       })
       .addCase(AddPago.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.listPagoByDate.push(action.payload.info);
+        state.listPagoByDate.push(action.payload);
       })
       .addCase(AddPago.rejected, (state, action) => {
         state.isLoading = false;
@@ -76,7 +48,7 @@ const pago = createSlice({
         state.isLoading = false;
         const updatedPago = action.payload;
         const indexPago = state.listPagoByDate.findIndex(
-          (pago) => pago?._id === updatedPago._id
+          (pago) => pago?._id === updatedPago?._id
         );
         if (indexPago !== -1) {
           state.listPagoByDate[indexPago] = updatedPago;
@@ -91,9 +63,9 @@ const pago = createSlice({
       // DeletePago
       .addCase(DeletePago.fulfilled, (state, action) => {
         state.isLoading = false;
-        const deletedPagoId = action.payload._id;
+        const deletedPago = action.payload;
         state.listPagoByDate = state.listPagoByDate.filter(
-          (pago) => pago._id !== deletedPagoId
+          (pago) => pago?._id !== deletedPago?._id
         );
       })
       .addCase(DeletePago.rejected, (state, action) => {

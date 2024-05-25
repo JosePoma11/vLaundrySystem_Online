@@ -19,7 +19,7 @@ import { useEffect } from "react";
 import InfoPromociones from "./InfoPromociones/InfoPromociones";
 import InfoPuntos from "./InfoPuntos/InfoPuntos";
 import InfoPago from "./InfoPago/InfoPago";
-import { simboloMoneda } from "../../../services/global";
+import { showFactura, simboloMoneda } from "../../../services/global";
 import { modals } from "@mantine/modals";
 import axios from "axios";
 import {
@@ -36,6 +36,7 @@ import InfoPagos from "./InfoPagos/InfoPagos";
 import MetodoPago from "../MetodoPago/MetodoPago";
 import Portal from "../Portal/Portal";
 import SwtichDimension from "../../SwitchDimension/SwitchDimension";
+import InfoFactura from "./InfoFactura/InfoFactura";
 
 const OrdenServicio = ({
   mode,
@@ -47,7 +48,7 @@ const OrdenServicio = ({
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const iCodigo = useSelector((state) => state.codigo.infoCodigo.codActual);
-  const { InfoImpuesto: iImpuesto } = useSelector(
+  const { InfoImpuesto: iImpuesto, InfoPuntos: iPuntos } = useSelector(
     (state) => state.modificadores
   );
   const iPromocion = useSelector((state) => state.promocion.infoPromocion);
@@ -797,6 +798,7 @@ const OrdenServicio = ({
             descripcion="¿Qué trajo el cliente?"
             iEdit={iEdit}
             iDelivery={iDelivery}
+            iPuntos={iPuntos}
             error={formik.errors}
             touched={formik.touched}
             iServicios={iServicios}
@@ -810,6 +812,16 @@ const OrdenServicio = ({
             descripcion="¿Para cuando estara Listo?"
             iEdit={iEdit}
           />
+          {showFactura ? (
+            <InfoFactura
+              paso={showFactura ? "4" : "5"}
+              descripcion="Agregar Factura"
+              changeValue={handleChageValue}
+              values={formik.values}
+              iPuntos={iPuntos}
+              iEdit={iEdit}
+            />
+          ) : null}
           {(iEdit && iEdit.modeEditAll) || !iEdit ? (
             <>
               <InfoDescuento
