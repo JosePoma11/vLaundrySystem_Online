@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  AddPago,
-  GetPagosByDate,
-  UpdatePago,
-  DeletePago,
-} from "../actions/aPago";
+import { AddPago, UpdatePago, DeletePago } from "../actions/aPago";
 
 const pago = createSlice({
   name: "pago",
@@ -27,19 +22,6 @@ const pago = createSlice({
         state.listPagoByDate.push(action.payload);
       })
       .addCase(AddPago.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
-      })
-      // GetPagosByDate
-      .addCase(GetPagosByDate.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(GetPagosByDate.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.listPagoByDate = action.payload; // Actualiza el estado con los pagos obtenidos
-      })
-      .addCase(GetPagosByDate.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
       })
@@ -75,5 +57,4 @@ const pago = createSlice({
   },
 });
 
-// export const { LS_changeListPagoByDate } = pago.actions;
 export default pago.reducer;

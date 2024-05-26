@@ -14,8 +14,8 @@ import LoaderSpiner from "../../../../../../components/LoaderSpinner/LoaderSpine
 import { DateCurrent } from "../../../../../../utils/functions";
 import "./delivery.scss";
 
-import { ReactComponent as Moto } from "../../../../../../utils/img/Delivery/moto.svg";
-import { ReactComponent as Taxi } from "../../../../../../utils/img/Delivery/taxi-lateral.svg";
+import { ReactComponent as DeliveryPropio } from "../../../../../../utils/img/Delivery/delivery-propio.svg";
+import { ReactComponent as DeliveryPrivado } from "../../../../../../utils/img/Delivery/delivery-privado.svg";
 
 import { Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
@@ -62,7 +62,9 @@ const Delivery = () => {
       motivo: `[${String(infoCodigo.codActual).padStart(
         4,
         "0"
-      )}] Delivery recojo en ${values.tipoDelivery} - ${values.name}`,
+      )}] Delivery RECOJO en Transporte ${values.tipoDelivery} - ${
+        values.name
+      }`,
       date: {
         fecha: DateCurrent().format4,
         hora: DateCurrent().format3,
@@ -182,7 +184,9 @@ const Delivery = () => {
       motivo: `[${String(infoCodigo.codActual).padStart(
         4,
         "0"
-      )}] Delivery recojo en ${values.tipoDelivery} - ${values.name}`,
+      )}] Delivery RECOJO en Transporte ${values.tipoDelivery} - ${
+        values.name
+      }`,
       date: {
         fecha: DateCurrent().format4,
         hora: DateCurrent().format3,
@@ -286,13 +290,13 @@ const Delivery = () => {
                     <fieldset className="content-movilidad">
                       <legend className="legend-c-movilidad">
                         &nbsp;&nbsp;
-                        <span className="accion">&nbsp;(RECOJO)</span>
+                        <span className="accion">&nbsp;(GASTO POR RECOJO)</span>
                         &nbsp;&nbsp;
                       </legend>
                       <div className="group-fieldset">
                         <fieldset className="checkbox-sub-group">
                           <legend className="checkbox-group-legend">
-                            &nbsp;&nbsp;EXTERNO&nbsp;&nbsp;
+                            &nbsp;&nbsp;PAGADO&nbsp;&nbsp;
                           </legend>
                           <div className="checkbox">
                             <label className="checkbox-wrapper">
@@ -300,59 +304,59 @@ const Delivery = () => {
                                 type="radio"
                                 className="checkbox-input"
                                 name="tipoDelivery"
-                                value="Taxi"
+                                value="Privado"
                                 onClick={() => {
-                                  // setFieldValue('price', +getProductValue('Delivery'));
                                   setShouldFocusInput(true);
-                                }}
-                              />
-                              <span className="checkbox-tile">
-                                <span className="checkbox-icon">
-                                  <Taxi className="custom-icon" />
-                                </span>
-                                <span className="checkbox-label">Taxi</span>
-                              </span>
-                            </label>
-                          </div>
-                          <div className="checkbox">
-                            <label className="checkbox-wrapper">
-                              <Field
-                                type="radio"
-                                className="checkbox-input"
-                                name="tipoDelivery"
-                                value="Moto"
-                                onClick={() => {
                                   setFieldValue("price", "");
-                                  setShouldFocusInput(true);
                                 }}
                               />
                               <span className="checkbox-tile">
                                 <span className="checkbox-icon">
-                                  <Moto className="custom-icon" />
+                                  <DeliveryPrivado className="custom-icon" />
                                 </span>
-                                <span className="checkbox-label">Moto</span>
+                                <span className="checkbox-label">Privado</span>
                               </span>
                             </label>
                           </div>
-                          {errors.tipoDelivery && touched.tipoDelivery && (
-                            <div className="ico-req">
-                              <i className="fa-solid fa-circle-exclamation ">
-                                <div
-                                  className="info-req"
-                                  style={{ pointerEvents: "none" }}
-                                >
-                                  <span>{errors.tipoDelivery}</span>
-                                </div>
-                              </i>
-                            </div>
-                          )}
                         </fieldset>
                         <fieldset className="checkbox-sub-group">
                           <legend className="checkbox-group-legend">
-                            &nbsp;&nbsp;PROPIO&nbsp;&nbsp;
+                            &nbsp;&nbsp;GRATIS&nbsp;&nbsp;
                           </legend>
+                          <div className="checkbox">
+                            <label className="checkbox-wrapper">
+                              <Field
+                                type="radio"
+                                className="checkbox-input"
+                                name="tipoDelivery"
+                                value="Propio"
+                                onClick={() => {
+                                  setFieldValue("price", 0);
+                                  setShouldFocusInput(true);
+                                }}
+                              />
+                              <span className="checkbox-tile">
+                                <span className="checkbox-icon">
+                                  <DeliveryPropio className="custom-icon" />
+                                </span>
+                                <span className="checkbox-label">Propio</span>
+                              </span>
+                            </label>
+                          </div>
                         </fieldset>
                       </div>
+                      {errors.tipoDelivery && touched.tipoDelivery && (
+                        <div className="ico-req">
+                          <i className="fa-solid fa-circle-exclamation ">
+                            <div
+                              className="info-req"
+                              style={{ pointerEvents: "none" }}
+                            >
+                              <span>{errors.tipoDelivery}</span>
+                            </div>
+                          </i>
+                        </div>
+                      )}
                     </fieldset>
                     <div className="infoDelivery">
                       <div className="b-inputs">
@@ -360,10 +364,9 @@ const Delivery = () => {
                           <TextInput
                             name="name"
                             size="md"
-                            label="Nombres :"
-                            autocomplete="off"
-                            onChange={handleChange}
+                            label="Nombres del Cliente :"
                             autoComplete="off"
+                            onChange={handleChange}
                             ref={inputRef}
                             value={values.name}
                           />
@@ -394,6 +397,7 @@ const Delivery = () => {
                             placeholder="Ingrese Monto"
                             precision={2}
                             step={0.05}
+                            disabled={values.tipoDelivery === "Propio"}
                             hideControls={true}
                             autoComplete="off"
                             onChange={(value) => setFieldValue("price", value)}
@@ -426,16 +430,14 @@ const Delivery = () => {
               )}
             </Formik>
           ) : (
-            <div className="OS-content">
-              <OrdenServicio
-                titleMode="REGISTRAR"
-                mode={"Delivery"}
-                action={"Guardar"}
-                onAction={handleRegistrar}
-                onReturn={setRegistrar}
-                nameDefault={nameDefault}
-              />
-            </div>
+            <OrdenServicio
+              titleMode="REGISTRAR"
+              mode={"Delivery"}
+              action={"Guardar"}
+              onAction={handleRegistrar}
+              onReturn={setRegistrar}
+              nameDefault={nameDefault}
+            />
           )}
         </div>
       ) : (

@@ -144,7 +144,9 @@ const EndProcess = ({ IdCliente, onClose }) => {
         motivo: `[${String(infoCliente.codRecibo).padStart(
           4,
           "0"
-        )}] Delivery envio en ${values.tipoTrasporte} - ${infoCliente.Nombre}`,
+        )}] Delivery ENVIO en Transporte ${values.tipoTrasporte} - ${
+          infoCliente.Nombre
+        }`,
         date: {
           fecha: DateCurrent().format4,
           hora: DateCurrent().format3,
@@ -336,14 +338,7 @@ const EndProcess = ({ IdCliente, onClose }) => {
               }
             }}
           >
-            {({
-              handleSubmit,
-              setFieldValue,
-              isSubmitting,
-              values,
-              errors,
-              touched,
-            }) => (
+            {({ handleSubmit, setFieldValue, values, errors, touched }) => (
               <Form onSubmit={handleSubmit} className="content-pE">
                 <div className="trasporte-pago">
                   {estadoPago.estado !== "Completo" ? (
