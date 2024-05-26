@@ -281,7 +281,7 @@ const Delivery = () => {
                 <Form onSubmit={handleSubmit} className="content-delivery">
                   <div className="head-info-cd">
                     <h1>
-                      Oden de Servcio :&nbsp;
+                      Orden de Servcio :&nbsp;
                       {String(infoCodigo.codActual).padStart(6, "0")}
                     </h1>
                   </div>
