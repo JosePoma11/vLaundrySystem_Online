@@ -39,6 +39,8 @@ export const AddOrdenServices = createAsyncThunk(
         dataSend
       );
 
+      Notify("Registro de Orden Exitoso", "", "success");
+
       const res = response.data;
       const { newOrder } = res;
 
