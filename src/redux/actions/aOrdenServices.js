@@ -97,6 +97,8 @@ export const UpdateDetalleOrdenServices = createAsyncThunk(
         data
       );
 
+      Notify("Actualziacion de Orden Exitosa", "", "success");
+
       const res = response.data;
       socket.emit("client:updateOrder(ITEMS)", res);
 
@@ -125,6 +127,9 @@ export const FinalzarReservaOrdenService = createAsyncThunk(
         }/api/lava-ya/update-factura/finalizar-reserva/${id}`,
         dataSend
       );
+
+      Notify("Registro Éxito", "", "success");
+
       const res = response.data;
       const { orderUpdated } = res;
 

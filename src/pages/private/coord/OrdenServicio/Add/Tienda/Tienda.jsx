@@ -37,7 +37,6 @@ const Tienda = () => {
     setRedirect(true);
 
     await dispatch(AddOrdenServices(nuevaOrden)).then((res) => {
-      console.log(res);
       if (res.error) {
         console.error(
           "Error en el servicio al agregar la orden:",
