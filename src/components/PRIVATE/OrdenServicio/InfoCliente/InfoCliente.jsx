@@ -132,6 +132,7 @@ const InfoCliente = ({
                   changeValue("name", cliente?.nombre || "");
                   changeValue("celular", cliente?.phone || "");
                   changeValue("direccion", cliente?.direccion || "");
+                  setSearchedValue("");
                 }}
                 data={
                   searchedValue
