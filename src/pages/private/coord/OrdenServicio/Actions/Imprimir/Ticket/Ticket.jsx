@@ -20,6 +20,7 @@ import {
   politicaAbandono,
 } from "../../../../../../../services/global";
 import { useSelector } from "react-redux";
+import { Notify } from "../../../../../../../utils/notify/Notify";
 
 const Ticket = React.forwardRef((props, ref) => {
   const sizePaper80 = true;
@@ -63,11 +64,16 @@ const Ticket = React.forwardRef((props, ref) => {
       );
       return response.data;
     } catch (error) {
+      Notify(
+        "CUPON ENTREGADO NO ENCONTRADO",
+        "Promocion fue Eliminada",
+        "warning"
+      );
+
       // Maneja los errores aquí
       console.error(
         `No se pudo obtener información de la promoción - ${error}`
       );
-      throw error; // Lanza el error para que pueda ser capturado por Promise.all
     }
   };
 
@@ -125,23 +131,19 @@ const Ticket = React.forwardRef((props, ref) => {
     const fetchData = async () => {
       setSPago(handleGetInfoPago(infoOrden.ListPago, infoOrden.totalNeto));
       if (infoOrden) {
-        if (infoOrden.gift_promo.length > 0) {
-          const promos = infoOrden.gift_promo;
-
-          try {
-            const results = await Promise.all(
-              promos.map(async (promo) => {
+        if (infoOrden?.gift_promo.length > 0) {
+          const results = await Promise.all(
+            infoOrden.gift_promo.map(async (promo) => {
+              try {
                 return await handleGetInfoPromo(promo.codigoCupon);
-              })
-            );
+              } catch {
+                return null; // Retorna null si hay un error
+              }
+            })
+          );
 
-            setListPromos(results);
-          } catch (error) {
-            console.error(
-              "Error al obtener información de las promociones:",
-              error
-            );
-          }
+          // Filtrar resultados no válidos
+          setListPromos(results.filter((result) => result));
         }
       }
     };

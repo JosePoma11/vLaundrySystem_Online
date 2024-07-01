@@ -213,11 +213,6 @@ const EndProcess = ({ IdCliente, onClose }) => {
       <div className="body-ac">
         {onAction === "principal" ? ( // Principal
           <div className="actions-init">
-            {/* {infoCliente.estadoPrenda === 'pendiente' ? (
-              <button type="button" className="btn-exm" onClick={handleButtonClick}>
-                {btnText}
-              </button>
-            ) : null} */}
             {infoCliente.estadoPrenda === "pendiente" &&
             estadoPago.estado === "Completo" ? (
               <button
