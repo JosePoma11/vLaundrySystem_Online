@@ -577,7 +577,7 @@ const List = () => {
                   dispatch(setSearchOptionByDate("latest"));
                   dispatch(setFilterBy(option));
                 }}
-                colorOn="#5bc97d"
+                colorOn="goldenrod"
                 // colorOff=""
                 // disabled=""
               />
@@ -599,7 +599,7 @@ const List = () => {
                       value === "MESES ANTERIORES" ? "selected" : "latest";
                     handleValidarConsulta(option);
                   }}
-                  colorOn="#5bc97d"
+                  colorOn="goldenrod"
                   // colorOff=""
                   // disabled=""
                 />
