@@ -485,7 +485,7 @@ const Negocio = () => {
                         value === "Fecha" ? "date" : "pendiente"
                       );
                     }}
-                    colorOn="#5bc97d"
+                    colorOn="goldenrod"
                     // colorOff=""
                     // disabled=""
                   />
