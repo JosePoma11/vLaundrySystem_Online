@@ -120,20 +120,20 @@ const service_order = createSlice({
         updatedOrder.notas = action.payload.notas;
       }
     },
-    // ---------------------- //
-    LS_updateListOrder: (state, action) => {
-      const listOrderUpdated = action.payload;
-      listOrderUpdated.map((order) => {
-        // Busca si existe un elemento con el mismo _id en state.registered
-        const eRegistered = state.registered.findIndex(
-          (item) => item._id === order._id
+    updateLocationOrden: (state, action) => {
+      action.payload.map((orden) => {
+        const index = state.registered.findIndex(
+          (item) => item._id === orden._id
         );
-        if (eRegistered !== -1) {
-          // Si existe, actualiza las propiedades existentes en action.payload en el elemento correspondiente
-          Object.assign(state.registered[eRegistered], order);
+
+        if (index !== -1) {
+          const updatedOrder = state.registered[index];
+          updatedOrder.location = orden.location;
+          updatedOrder.estadoPrenda = orden.estadoPrenda;
         }
       });
     },
+    // ---------------------- //
     LS_newOrder: (state, action) => {
       if (action.payload.estado === "reservado") {
         state.reserved.push(action.payload);
@@ -462,6 +462,7 @@ const service_order = createSlice({
 export const {
   setLastRegister,
   updateNotaOrden,
+  updateLocationOrden,
   updateDetalleOrden,
   updateFinishReserva,
   updateEntregaOrden,
@@ -469,7 +470,6 @@ export const {
   updateAnulacionOrden,
   updateLastRegister,
   LS_newOrder,
-  LS_updateListOrder,
   LS_changeListPago,
   LS_changePagoOnOrden,
   // Filter

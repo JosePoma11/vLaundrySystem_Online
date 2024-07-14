@@ -17,13 +17,13 @@ import {
   LS_changeListPago,
   LS_changePagoOnOrden,
   LS_newOrder,
-  LS_updateListOrder,
   setFilterBy,
   updateAnulacionOrden,
   updateCancelarEntregaOrden,
   updateDetalleOrden,
   updateEntregaOrden,
   updateFinishReserva,
+  updateLocationOrden,
   updateNotaOrden,
 } from "../../redux/states/service_order";
 
@@ -221,9 +221,8 @@ const PrivateMasterLayout = (props) => {
     socket.on("server:updateOrder(NOTA)", (data) => {
       dispatch(updateNotaOrden(data));
     });
-    // ORDEN LIST
-    socket.on("server:updateListOrder", (data) => {
-      dispatch(LS_updateListOrder(data));
+    socket.on("server:updateOrder(LOCATION)", (data) => {
+      dispatch(updateLocationOrden(data));
     });
     // CUADRE
     socket.on("server:changeCuadre", () => {
@@ -331,31 +330,26 @@ const PrivateMasterLayout = (props) => {
     return () => {
       // Remove the event listener when the component unmounts
       socket.off("server:newOrder");
-      socket.off("server:updateCodigo");
-
       socket.off("server:updateOrder(ITEMS)");
       socket.off("server:updateOrder(FINISH_RESERVA)");
       socket.off("server:updateOrder(ENTREGA)");
       socket.off("server:updateOrder(CANCELAR_ENTREGA)");
       socket.off("server:updateOrder(ANULACION)");
       socket.off("server:updateOrder(NOTA)");
-
+      socket.off("server:updateOrder(LOCATION)");
+      socket.off("server:changeCuadre");
       socket.off("server:cPago");
       socket.off("server:cGasto");
-      socket.off("server:cClientes");
-
-      socket.off("server:updateListOrder");
-      socket.off("server:changeCuadre");
-
-      socket.off("server:cPricePrendas");
+      socket.off("server:updateCodigo");
       socket.off("server:cPuntos");
+      socket.off("server:cClientes");
       socket.off("server:cImpuesto");
       socket.off("server:cPromotions");
       socket.off("server:cNegocio");
       socket.off("server:onLogin");
       socket.off("server:onFirtLogin");
-      socket.off("server:onDeleteAccount");
       socket.off("server:onChangeUser");
+      socket.off("server:onDeleteAccount");
     };
   }, []);
 

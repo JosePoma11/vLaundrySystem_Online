@@ -183,10 +183,11 @@ export const FinalzarReservaOrdenService = createAsyncThunk(
 
 export const Entregar_OrdenService = createAsyncThunk(
   "service_order/Entregar_OrdenService",
-  async ({ id, rol, infoGastoByDelivery }) => {
+  async ({ id, rol, infoGastoByDelivery, location }) => {
     try {
       const dataSend = {
         rol,
+        location,
         ...(infoGastoByDelivery && { infoGastoByDelivery }),
       };
       // Lógica para cancelar entrega en el backend
@@ -211,6 +212,8 @@ export const Entregar_OrdenService = createAsyncThunk(
         const { changeCliente } = res;
         socket.emit("client:cClientes", changeCliente);
       }
+
+      socket.emit("client:onRemoveOrderReporteAE", id);
 
       return orderUpdated;
     } catch (error) {
@@ -282,6 +285,8 @@ export const Anular_OrdenService = createAsyncThunk(
         const { changeCliente } = orderUpdated;
         socket.emit("client:cClientes", changeCliente);
       }
+
+      socket.emit("client:onRemoveOrderReporteAE", id);
 
       return orderAnulado;
     } catch (error) {

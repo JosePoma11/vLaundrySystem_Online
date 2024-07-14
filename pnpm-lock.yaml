@@ -71,21 +71,12 @@ dependencies:
   react-router-dom:
     specifier: 6.14.2
     version: 6.14.2(react-dom@18.2.0)(react@18.2.0)
-  react-simple-clock:
-    specifier: ^1.1.3
-    version: 1.1.3
-  react-tabulator:
-    specifier: ^0.19.0
-    version: 0.19.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
   react-time-picker:
     specifier: ^6.6.0
     version: 6.6.0(@types/react-dom@18.3.0)(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0)
   react-to-print:
     specifier: 2.14.13
     version: 2.14.13(react-dom@18.2.0)(react@18.2.0)
-  react-tsparticles:
-    specifier: ^2.12.2
-    version: 2.12.2(react@18.2.0)
   sass:
     specifier: ^1.66.0
     version: 1.66.0
@@ -2811,12 +2802,6 @@ packages:
     resolution: {integrity: sha512-QlCdhsV1+JIf0c0U6ge6SQmpwsyAT0oQaOSZk50AtEeAyQl9tQrd6qCHAslxQpgphrfe945abvKG8uYvw3hIGA==}
     dev: false
 
-  /@types/babel__traverse@7.20.5:
-    resolution: {integrity: sha512-WXCyOcRtH37HAUkpXhUduaxdm82b4GSlyTqajXviN4EfiuPgNYR109xMCKvpl6zPIpua0DGlMEDCq+g8EdoheQ==}
-    dependencies:
-      '@babel/types': 7.24.0
-    dev: false
-
   /@types/d3-color@2.0.6:
     resolution: {integrity: sha512-tbaFGDmJWHqnenvk3QGSvD3RVwr631BjKRD7Sc7VLRgrdX5mk5hTyoeBL6rXZaeoXzmZwIl1D2HPogEdt1rHBg==}
     dev: false
@@ -2920,12 +2905,6 @@ packages:
 
   /@types/react-lifecycles-compat@3.0.4:
     resolution: {integrity: sha512-1CM48Y9ztL5S4wjt7DK2izrkgPp/Ql0zCJu/vHzhgl7J+BD4UbSGjHN1M2TlePms472JvOazUtAO1/G3oFZqIQ==}
-    dependencies:
-      '@types/react': 18.3.2
-    dev: false
-
-  /@types/react-tag-autocomplete@5.12.6:
-    resolution: {integrity: sha512-7TH9bghG+O3fwiyUrpriUs9wrOs744ilay+omshoH9ZzzDOSrNDoGmE0SfFtsxxOe5si93riFc3KHCptzzNQFQ==}
     dependencies:
       '@types/react': 18.3.2
     dev: false
@@ -3745,11 +3724,6 @@ packages:
     dev: false
     optional: true
 
-  /dotenv@16.4.5:
-    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
-    engines: {node: '>=12'}
-    dev: false
-
   /duplexer2@0.1.4:
     resolution: {integrity: sha512-asLFVfWWtJ90ZyOUHMqk7/S2w2guQKxUI2itj3d92ADHhxUSbCMGi1f1cBcJ7xM1To+pE/Khbwo1yuNbMEPKeA==}
     dependencies:
@@ -3886,10 +3860,6 @@ packages:
       is-date-object: 1.0.5
       is-symbol: 1.0.4
     dev: true
-
-  /es6-promise@4.2.8:
-    resolution: {integrity: sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==}
-    dev: false
 
   /esbuild@0.18.20:
     resolution: {integrity: sha512-ceqxoedUrcayh7Y7ZX6NdbbDzGROiyVBgC4PriJThBKSVPWnnFHZAkfI1lJT8QFkOwH4qOS2SJkS4wvpGl8BpA==}
@@ -4378,11 +4348,6 @@ packages:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
       react-is: 16.13.1
-    dev: false
-
-  /html-attributes@1.1.0:
-    resolution: {integrity: sha512-reT/KK6Ju+DZqAbAn3sIkpMH+658kEsaEjpNrej2O5XSUsH5SzVHX7NGZk5RiZcVi7l+RsV+5q3C6TqM5vxsVA==}
-    engines: {node: '>= 0.10.26', npm: '>=1.4.3'}
     dev: false
 
   /html2canvas@1.4.1:
@@ -5045,14 +5010,6 @@ packages:
     dev: false
     optional: true
 
-  /pick-react-known-prop@0.1.5:
-    resolution: {integrity: sha512-SnDf64AVdvqoAFpHeZUKT9kdn40Ellj84CPALRxYWqNJ6r6f44eAAT+Jtkb0Suhiw7yg5BdOFAQ25OJnjG+afw==}
-    dependencies:
-      html-attributes: 1.1.0
-      lodash.isplainobject: 4.0.6
-      svg-attributes: 1.0.0
-    dev: false
-
   /picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
 
@@ -5281,12 +5238,6 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-simple-clock@1.1.3:
-    resolution: {integrity: sha512-wM8pdqywJ4xQrR3U0I6QWEbuUk05MRV+FUnJTpqOnZTictroO14AmQRvqQ8RwBcQrp5FALfQ8LDfB+Sf1Bq40Q==}
-    dependencies:
-      prop-types: 15.8.1
-    dev: false
-
   /react-style-singleton@2.2.1(@types/react@18.3.2)(react@18.2.0):
     resolution: {integrity: sha512-ZWj0fHEMyWkHzKYUr2Bs/4zU6XLmq9HsgBURm7g5pAVfyn49DgUiNgY2d4lXRlYSiCif9YBGpQleewkcqddc7g==}
     engines: {node: '>=10'}
@@ -5302,37 +5253,6 @@ packages:
       invariant: 2.2.4
       react: 18.2.0
       tslib: 2.6.2
-    dev: false
-
-  /react-tabulator@0.19.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-I9cHN9Iblnda2TBG9xLgWnQ3MW5GoZJLgy+Knjab28Zt+4UHeDc5eblLr8nypP8b2t7eFK9TRz9GVvwIxIRqpQ==}
-    peerDependencies:
-      react: '>=15.6.2 || ^16.0.0 || ^17.0.0'
-      react-dom: '>=15.6.2 || ^16.0.0 || ^17.0.0'
-    dependencies:
-      '@types/babel__traverse': 7.20.5
-      '@types/react-tag-autocomplete': 5.12.6
-      dotenv: 16.4.5
-      es6-promise: 4.2.8
-      pick-react-known-prop: 0.1.5
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-tag-autocomplete: 5.13.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
-      tabulator-tables: 5.5.2
-    transitivePeerDependencies:
-      - prop-types
-    dev: false
-
-  /react-tag-autocomplete@5.13.1(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ECcQnizAxw8VnEDUfCKuA2ZDQ0Fyxds3kVtE4NVAhJvBYOMMgkRNAM3UwyEXAQ0h7nnCwmIA+czJiwso07Mrqw==}
-    peerDependencies:
-      prop-types: ^15.0.0
-      react: ^15.0.0 || ^16.0.0
-      react-dom: ^15.0.0 || ^16.0.0
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-textarea-autosize@8.3.4(@types/react@18.3.2)(react@18.2.0):
@@ -5396,17 +5316,6 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /react-tsparticles@2.12.2(react@18.2.0):
-    resolution: {integrity: sha512-/nrEbyL8UROXKIMXe+f+LZN2ckvkwV2Qa+GGe/H26oEIc+wq/ybSG9REDwQiSt2OaDQGu0MwmA4BKmkL6wAWcA==}
-    deprecated: '@tsparticles/react is the new version, please use that'
-    requiresBuild: true
-    peerDependencies:
-      react: '>=16'
-    dependencies:
-      react: 18.2.0
-      tsparticles-engine: 2.12.0
     dev: false
 
   /react@18.2.0:
@@ -5868,11 +5777,6 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svg-attributes@1.0.0:
-    resolution: {integrity: sha512-opDCROGf0kXDKJFg0so8Ydg2jewgaWRuF/35Xxuqox54Rg12rR7pLnRaru06NfJ5WCxjUSRjT5AGcikxMmzG6g==}
-    engines: {node: '>= 0.10.26', npm: '>=1.4.3'}
-    dev: false
-
   /svg-parser@2.0.4:
     resolution: {integrity: sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==}
     dev: false
@@ -5886,10 +5790,6 @@ packages:
 
   /tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
-    dev: false
-
-  /tabulator-tables@5.5.2:
-    resolution: {integrity: sha512-GlzUPXeH9Rw1iPXcl3uBLJk6Sz51xdwscZ5RrsKxDQDQ+t2g31hGq/0xjaj6ea62wHgl8vzVsHuwap0jKzsUNg==}
     dev: false
 
   /tar-stream@2.2.0:
@@ -5949,12 +5849,6 @@ packages:
 
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
-    dev: false
-
-  /tsparticles-engine@2.12.0:
-    resolution: {integrity: sha512-ZjDIYex6jBJ4iMc9+z0uPe7SgBnmb6l+EJm83MPIsOny9lPpetMsnw/8YJ3xdxn8hV+S3myTpTN1CkOVmFv0QQ==}
-    deprecated: starting from tsparticles v3 the packages are now moved to @tsparticles/package-name instead of tsparticles-package-name
-    requiresBuild: true
     dev: false
 
   /type-check@0.4.0:

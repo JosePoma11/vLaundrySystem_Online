@@ -153,6 +153,7 @@ const EndProcess = ({ IdCliente, onClose }) => {
       Entregar_OrdenService({
         id: IdCliente,
         rol: InfoUsuario.rol,
+        location: infoCliente.location,
         infoGastoByDelivery,
       })
     ).then((res) => {

@@ -45,10 +45,6 @@ import { Roles } from "../../../../../models";
 import { documento } from "../../../../../services/global";
 import { useRef } from "react";
 import SwtichDimension from "../../../../../components/SwitchDimension/SwitchDimension";
-import { WSendMessage } from "../../../../../services/default.services";
-import { Notify } from "../../../../../utils/notify/Notify";
-import { socket } from "../../../../../utils/socket/connect";
-import axios from "axios";
 
 const List = () => {
   //Filtros de Fecha
@@ -109,34 +105,11 @@ const List = () => {
           placeholder: "Cliente",
         },
         //enableSorting: false,
-        size: 100,
-      },
-      {
-        accessorKey: "Modalidad",
-        header: "Modalidad",
-        //enableSorting: false,
-        filterVariant: "select",
-        mantineFilterSelectProps: { data: ["TIENDA", "DELIVERY"] },
-        mantineFilterTextInputProps: { placeholder: "Modalidad" },
-        editVariant: "select",
-        mantineEditSelectProps: {
-          data: [
-            {
-              value: "Tienda",
-              label: "Tienda",
-            },
-            {
-              value: "Delivery",
-              label: "Delivery",
-            },
-          ],
-        },
-        enableEditing: false,
-        size: 100,
+        size: 180,
       },
       {
         accessorKey: "FechaRecepcion",
-        header: "Recepcion",
+        header: "Ingreso",
         mantineFilterTextInputProps: {
           placeholder: "Fecha",
         },
@@ -171,14 +144,9 @@ const List = () => {
       },
       {
         accessorKey: "Pago",
-        header: "Pago",
+        header: "Estado de Pago",
         filterVariant: "select",
         mantineFilterSelectProps: {
-          data: ["COMPLETO", "INCOMPLETO", "PENDIENTE"],
-        },
-        mantineFilterTextInputProps: { placeholder: "C / I / P" },
-        editVariant: "select",
-        mantineEditSelectProps: {
           data: [
             {
               value: "COMPLETO",
@@ -194,6 +162,8 @@ const List = () => {
             },
           ],
         },
+        mantineFilterTextInputProps: { placeholder: "C / I / P" },
+        editVariant: "select",
         enableEditing: false,
         size: 150,
       },
@@ -211,35 +181,58 @@ const List = () => {
         size: 130,
       },
       {
+        accessorKey: "Modalidad",
+        header: "Modalidad",
+        //enableSorting: false,
+        filterVariant: "select",
+        mantineFilterSelectProps: { data: ["TIENDA", "DELIVERY"] },
+        mantineFilterTextInputProps: { placeholder: "Modalidad" },
+        editVariant: "select",
+        mantineEditSelectProps: {
+          data: [
+            {
+              value: "Tienda",
+              label: "Tienda",
+            },
+            {
+              value: "Delivery",
+              label: "Delivery",
+            },
+          ],
+        },
+        enableEditing: false,
+        size: 100,
+      },
+      {
         accessorKey: "Celular",
         header: "Celular",
         //enableSorting: false,
         mantineFilterTextInputProps: {
           placeholder: "Numero",
         },
-        size: 80,
+        size: 100,
       },
-      {
-        accessorKey: "Direccion",
-        header: "Direccion",
-        enableColumnFilter: false,
-        mantineFilterTextInputProps: {
-          placeholder: "Direccion",
-        },
-        Cell: ({ cell }) =>
-          cell.getValue() ? (
-            <Textarea
-              autosize
-              minRows={1}
-              maxRows={3}
-              readOnly
-              value={cell.getValue()}
-            />
-          ) : (
-            ""
-          ),
-        size: 200,
-      },
+      // {
+      //   accessorKey: "Direccion",
+      //   header: "Direccion",
+      //   enableColumnFilter: false,
+      //   mantineFilterTextInputProps: {
+      //     placeholder: "Direccion",
+      //   },
+      //   Cell: ({ cell }) =>
+      //     cell.getValue() ? (
+      //       <Textarea
+      //         autosize
+      //         minRows={1}
+      //         maxRows={3}
+      //         readOnly
+      //         value={cell.getValue()}
+      //       />
+      //     ) : (
+      //       ""
+      //     ),
+      //   size: 200,
+      // },
       {
         accessorKey: "Location",
         header: "Ubicacion",
@@ -264,7 +257,6 @@ const List = () => {
         mantineFilterTextInputProps: {
           placeholder: "Tienda / Almacen / Donacion",
         },
-
         Cell: ({ cell }) => (
           // Wrapped the arrow function with parentheses
           <Box
@@ -306,7 +298,7 @@ const List = () => {
         mantineFilterTextInputProps: {
           placeholder: documento,
         },
-        size: 80,
+        size: 90,
       },
       {
         accessorKey: "onWaiting",
@@ -332,9 +324,7 @@ const List = () => {
             >
               {cell.getValue().showText}
             </Box>
-          ) : (
-            <span>-</span>
-          ),
+          ) : null,
         size: 150,
       },
     ],
@@ -345,15 +335,10 @@ const List = () => {
     const reOrdenar = [...info].sort((a, b) => b.index - a.index);
     const newData = await Promise.all(
       reOrdenar.map(async (d) => {
-        const dateEndProcess =
-          d.estadoPrenda === "donado"
-            ? d.donationDate.fecha
-            : d.dateEntrega.fecha;
-
         const onWaiting = await handleOnWaiting(
           d.dateRecepcion.fecha,
           d.estadoPrenda,
-          dateEndProcess
+          d.dateEntrega.fecha
         );
 
         const listItems = d.Items.filter(
@@ -368,7 +353,7 @@ const List = () => {
           Modalidad: d.Modalidad,
           items: handleItemsCantidad(listItems),
           PParcial: estadoPago.pago,
-          Pago: estadoPago.estado,
+          Pago: estadoPago.estado.toLocaleUpperCase(),
           totalNeto: d.totalNeto,
           DNI: d.dni,
           Celular: d.celular,
