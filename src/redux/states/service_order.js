@@ -143,7 +143,7 @@ const service_order = createSlice({
         state.registered.push(action.payload);
       }
     },
-    LS_changeListPago: (state, action) => {
+    LS_changePagoOnOrden: (state, action) => {
       const { tipo, info } = action.payload;
 
       // Buscar la orden por su _id
@@ -196,54 +196,6 @@ const service_order = createSlice({
 
       // Actualizar la orden en state.registered
       state.registered[orderToUpdateIndex] = orderToUpdate;
-    },
-    LS_changePagoOnOrden: (state, action) => {
-      const { tipo, info } = action.payload;
-
-      // Encontrar la orden por su _id
-      const orderIndex = state.registered.findIndex(
-        (order) => order._id === info.idOrden
-      );
-
-      // Verificar si la orden existe
-      if (orderIndex === -1) {
-        console.error("Orden no encontrada:", info.idOrden);
-        return;
-      }
-
-      const order = state.registered[orderIndex];
-      let updatedPagoIndex, existingPagoIndex; // Declaraciones fuera del switch
-
-      // Realizar la acción según el tipo
-      switch (tipo) {
-        case "deleted":
-          // Eliminar el pago del array ListPago
-          order.listPago.splice(order.listPago.indexOf(info._id), 1);
-          break;
-        case "updated":
-          // Buscar el pago por su _id y actualizarlo con la nueva información
-          updatedPagoIndex = order.listPago.findIndex(
-            (pagoId) => pagoId === info._id
-          );
-          if (updatedPagoIndex !== -1) {
-            order.listPago[updatedPagoIndex] = info._id;
-          } else {
-            console.error("Pago no encontrado para actualizar:", info._id);
-          }
-          break;
-        case "added":
-          // Verificar si el pago ya existe en ListPago
-          existingPagoIndex = order.listPago.indexOf(info._id);
-          if (existingPagoIndex === -1) {
-            // Agregar el nuevo pago a ListPago solo si no existe
-            order.listPago.push(info._id);
-          } else {
-            console.error("El pago ya existe en ListPago:", info._id);
-          }
-          break;
-        default:
-          console.error("Tipo de acción no válido:", tipo);
-      }
     },
   },
   extraReducers: (builder) => {
@@ -470,7 +422,6 @@ export const {
   updateAnulacionOrden,
   updateLastRegister,
   LS_newOrder,
-  LS_changeListPago,
   LS_changePagoOnOrden,
   // Filter
   setFilterBy,

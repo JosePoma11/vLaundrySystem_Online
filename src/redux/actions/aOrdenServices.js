@@ -46,7 +46,7 @@ export const GetOrdenServices_Date = createAsyncThunk(
 
 export const AddOrdenServices = createAsyncThunk(
   "service_order/AddOrdenServices",
-  async ({ infoOrden, infoPago, infoGastoByDelivery, rol }) => {
+  async ({ infoOrden, infoPago, infoGastoByDelivery, rol, infoUser }) => {
     try {
       const dataSend = {
         infoOrden,
@@ -64,15 +64,16 @@ export const AddOrdenServices = createAsyncThunk(
       const res = response.data;
       const { newOrder } = res;
 
-      if ("listNewsPagos" in res) {
-        const { listNewsPagos } = res;
-        listNewsPagos.map((p) => {
-          const pago = {
-            tipo: "added",
-            info: p,
-          };
-          socket.emit("client:cPago", pago);
-        });
+      if ("newPago" in res) {
+        const { newPago } = res;
+        const pago = {
+          tipo: "added",
+          info: {
+            ...newPago,
+            infoUser,
+          },
+        };
+        socket.emit("client:cPago", pago);
       }
 
       if ("newGasto" in res) {
@@ -92,7 +93,10 @@ export const AddOrdenServices = createAsyncThunk(
 
       socket.emit("client:newOrder", newOrder);
 
-      return newOrder;
+      return {
+        ...newOrder,
+        ListPago: newOrder.ListPago.map((pago) => ({ ...pago, infoUser })),
+      };
     } catch (error) {
       console.log(error.response.data.mensaje);
       Notify("Error", "No se registro la Orden de Servicio", "fail");
@@ -134,7 +138,7 @@ export const UpdateDetalleOrdenServices = createAsyncThunk(
 
 export const FinalzarReservaOrdenService = createAsyncThunk(
   "service_order/FinalzarReservaOrdenService",
-  async ({ id, infoOrden, infoPago, rol }) => {
+  async ({ id, infoOrden, infoPago, rol, infoUser }) => {
     try {
       const dataSend = {
         infoOrden,
@@ -155,15 +159,16 @@ export const FinalzarReservaOrdenService = createAsyncThunk(
 
       socket.emit("client:updateOrder(FINISH_RESERVA)", orderUpdated);
 
-      if ("listNewsPagos" in res) {
-        const { listNewsPagos } = res;
-        listNewsPagos.map((p) => {
-          const pago = {
-            tipo: "added",
-            info: p,
-          };
-          socket.emit("client:cPago", pago);
-        });
+      if ("newPago" in res) {
+        const { newPago } = res;
+        const pago = {
+          tipo: "added",
+          info: {
+            ...newPago,
+            infoUser,
+          },
+        };
+        socket.emit("client:cPago", pago);
       }
 
       if ("changeCliente" in res) {
@@ -171,7 +176,10 @@ export const FinalzarReservaOrdenService = createAsyncThunk(
         socket.emit("client:cClientes", changeCliente);
       }
 
-      return orderUpdated;
+      return {
+        ...orderUpdated,
+        ListPago: orderUpdated.ListPago.map((pago) => ({ ...pago, infoUser })),
+      };
     } catch (error) {
       // Puedes manejar los errores aquí
       console.log(error.response.data.mensaje);

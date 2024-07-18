@@ -307,6 +307,12 @@ const AddOld = () => {
         infoOrden,
         infoPago,
         rol: InfoUsuario.rol,
+        infoUser: {
+          _id: InfoUsuario._id,
+          name: InfoUsuario.name,
+          usuario: InfoUsuario.usuario,
+          rol: InfoUsuario.rol,
+        },
       })
     );
 

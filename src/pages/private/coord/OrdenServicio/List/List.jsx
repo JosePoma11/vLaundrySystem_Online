@@ -331,8 +331,16 @@ const List = () => {
     []
   );
 
+  const getObjectIdTimestamp = (objectId) => {
+    const timestamp = parseInt(objectId.substring(0, 8), 16) * 1000;
+    return new Date(timestamp);
+  };
+
   const handleGetFactura = async (info) => {
-    const reOrdenar = [...info].sort((a, b) => b.index - a.index);
+    const reOrdenar = [...info].sort((a, b) => {
+      return getObjectIdTimestamp(b._id) - getObjectIdTimestamp(a._id);
+    });
+
     const newData = await Promise.all(
       reOrdenar.map(async (d) => {
         const onWaiting = await handleOnWaiting(
@@ -643,6 +651,9 @@ const List = () => {
                 background: "transparent",
               },
             })}
+            mantinePaginationProps={{
+              showRowsPerPage: false,
+            }}
             mantineTableBodyRowProps={({ row }) => ({
               onDoubleClick: () => handleSelectRow(row.original),
               onTouchStart: () => handleTouchStartRow(row.original),
@@ -666,9 +677,9 @@ const List = () => {
             enableStickyHeader={true}
             mantineTableContainerProps={{
               sx: {
-                // maxHeight: " clamp(370px, calc(100vh - 56px), 370px)",
                 width: "100%",
-                maxHeight: "100vh",
+                height: "100%",
+                maxHeight: "calc(100% - 56px)",
                 zIndex: "2",
               },
             }}

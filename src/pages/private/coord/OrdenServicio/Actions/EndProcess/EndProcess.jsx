@@ -124,7 +124,21 @@ const EndProcess = ({ IdCliente, onClose }) => {
       idUser: InfoUsuario._id,
     };
 
-    dispatch(AddPago(newPago));
+    const extraInfo = {
+      orden: {
+        codRecibo: infoCliente.codRecibo,
+        Nombre: infoCliente.Nombre,
+        Modalidad: infoCliente.Modalidad,
+      },
+      infoUser: {
+        _id: InfoUsuario._id,
+        name: InfoUsuario.name,
+        usuario: InfoUsuario.usuario,
+        rol: InfoUsuario.rol,
+      },
+    };
+
+    dispatch(AddPago({ newPago, extraInfo }));
   };
 
   // Entregado

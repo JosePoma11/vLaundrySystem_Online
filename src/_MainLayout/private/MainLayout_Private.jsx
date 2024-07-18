@@ -14,7 +14,6 @@ import { GetOrdenServices_DateRange } from "../../redux/actions/aOrdenServices";
 import { GetMetas } from "../../redux/actions/aMetas";
 import { DateCurrent, GetFirstFilter } from "../../utils/functions";
 import {
-  LS_changeListPago,
   LS_changePagoOnOrden,
   LS_newOrder,
   setFilterBy,
@@ -44,7 +43,6 @@ import { GetPromocion } from "../../redux/actions/aPromociones";
 import { LS_updatePromociones } from "../../redux/states/promociones";
 import { GetInfoNegocio } from "../../redux/actions/aNegocio";
 import { LS_updateNegocio } from "../../redux/states/negocio";
-import { LS_FirtsLogin } from "../../redux/states/user";
 import { useDisclosure } from "@mantine/hooks";
 import { ScrollArea } from "@mantine/core";
 import { Modal } from "@mantine/core";
@@ -58,7 +56,6 @@ import moment from "moment";
 import LoaderSpiner from "../../components/LoaderSpinner/LoaderSpiner";
 import { socket } from "../../utils/socket/connect";
 import { GetCuadre, GetPagos_OnCuadreToday } from "../../redux/actions/aCuadre";
-import { GetListUser } from "../../redux/actions/aUser";
 import { getListCategorias } from "../../redux/actions/aCategorias";
 import { getServicios } from "../../redux/actions/aServicios";
 import { GetTipoGastos } from "../../redux/actions/aTipoGasto";
@@ -118,7 +115,6 @@ const PrivateMasterLayout = (props) => {
           dispatch(GetImpuesto()),
           dispatch(GetPuntos()),
           dispatch(GetInfoNegocio()),
-          dispatch(GetListUser()),
           dispatch(getListCategorias()),
           dispatch(getServicios()),
           dispatch(getListClientes()),
@@ -231,7 +227,6 @@ const PrivateMasterLayout = (props) => {
     // PAGO
     socket.on("server:cPago", (data) => {
       dispatch(LS_changePagoOnOrden(data));
-      dispatch(LS_changeListPago(data));
       if (data.info.isCounted) {
         dispatch(updateRegistrosNCuadrados({ tipoMovimiento: "pagos", data }));
       }
@@ -303,9 +298,9 @@ const PrivateMasterLayout = (props) => {
       }
     });
     // 1er LOGIN
-    socket.on("server:onFirtLogin", (data) => {
-      dispatch(LS_FirtsLogin(data));
-    });
+    // socket.on("server:onFirtLogin", (data) => {
+    //   dispatch(LS_FirtsLogin(data));
+    // });
     // Cambio en los datos de usuario
     socket.on("server:onChangeUser", (data) => {
       if (InfoUsuario._id === data) {
