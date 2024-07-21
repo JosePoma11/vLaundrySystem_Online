@@ -24,6 +24,24 @@ export const GetOrdenServices_DateRange = createAsyncThunk(
   }
 );
 
+export const GetOrdenServices_Last = createAsyncThunk(
+  "service_order/GetOrdenServices_Last",
+  async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/lava-ya/get-order/last`
+      );
+
+      return response.data;
+    } catch (error) {
+      // Puedes manejar los errores aquí
+      //Notify('Error', 'No se ontemer la lista de Ordenes de Servicio', 'fail');
+      console.log(error.response.data.mensaje);
+      throw new Error(`No se pudo actualizar el cliente - ${error}`);
+    }
+  }
+);
+
 export const GetOrdenServices_Date = createAsyncThunk(
   "service_order/GetOrdenServices_Date",
   async (date) => {

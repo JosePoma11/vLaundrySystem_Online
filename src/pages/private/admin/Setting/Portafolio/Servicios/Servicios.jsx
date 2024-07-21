@@ -108,12 +108,11 @@ const Servicios = () => {
               // Aquí manejamos el error de la eliminación
               const { mensaje, codigos } = error;
               if (codigos?.length > 0) {
-                Notify("NO SE PUDO ELIMINAR EL SERVICIO", "", "fail");
-
                 setTimeout(() => {
                   alert(`${mensaje}: ${codigos.join(", ")}`);
                 }, 1500);
               }
+              Notify("NO SE PUDO ELIMINAR EL SERVICIO", "", "fail");
             });
           handleCloseAction();
         }

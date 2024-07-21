@@ -473,16 +473,18 @@ const Negocio = () => {
                   </div>
                   <SwtichDimension
                     title="Filtrar Lista Principal Por :"
-                    onSwitch="Fecha"
-                    offSwitch="Pendientes"
+                    onSwitch="Pendientes"
+                    offSwitch="Otros"
                     name="filterListDefault"
                     defaultValue={
-                      formik.values.filterListDefault === "date" ? true : false
+                      formik.values.filterListDefault === "others"
+                        ? false
+                        : true
                     }
                     handleChange={(value) => {
                       formik.setFieldValue(
                         "filterListDefault",
-                        value === "Fecha" ? "date" : "pendiente"
+                        value === "Otros" ? "others" : "pendiente"
                       );
                     }}
                     colorOn="goldenrod"

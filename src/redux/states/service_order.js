@@ -8,6 +8,7 @@ import {
   FinalzarReservaOrdenService,
   GetOrdenServices_Date,
   GetOrdenServices_DateRange,
+  GetOrdenServices_Last,
   Nota_OrdenService,
   UpdateDetalleOrdenServices,
 } from "../actions/aOrdenServices";
@@ -23,9 +24,9 @@ const service_order = createSlice({
     lastRegister: null,
     orderServiceId: false,
     // filtros
-    filterBy: "date",
-    searhOptionByDate: "latest",
-    selectedMonth: moment().subtract(2, "months").toDate(),
+    filterBy: "pendiente",
+    searhOptionByOthers: "date",
+    selectedMonth: moment().toDate(),
     // ----------------- //
     isLoading: false,
     error: null,
@@ -35,8 +36,8 @@ const service_order = createSlice({
     setFilterBy: (state, action) => {
       state.filterBy = action.payload;
     },
-    setSearchOptionByDate: (state, action) => {
-      state.searhOptionByDate = action.payload;
+    setSearchOptionByOthers: (state, action) => {
+      state.searhOptionByOthers = action.payload;
     },
     setSelectedMonth: (state, action) => {
       state.selectedMonth = action.payload;
@@ -387,6 +388,27 @@ const service_order = createSlice({
         state.infoServiceOrder = false;
         state.error = action.error.message;
       })
+      // List Last
+      .addCase(GetOrdenServices_Last.pending, (state) => {
+        state.isLoading = true;
+        state.infoServiceOrder = false;
+        state.error = null;
+      })
+      .addCase(GetOrdenServices_Last.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.infoServiceOrder = action.payload.length > 0;
+        state.reserved = action.payload.filter(
+          (item) => item.estado === "reservado"
+        );
+        state.registered = action.payload.filter(
+          (item) => item.estado === "registrado"
+        );
+      })
+      .addCase(GetOrdenServices_Last.rejected, (state, action) => {
+        state.isLoading = false;
+        state.infoServiceOrder = false;
+        state.error = action.error.message;
+      })
       // List for Date
       .addCase(GetOrdenServices_Date.pending, (state) => {
         state.isLoading = true;
@@ -425,7 +447,7 @@ export const {
   LS_changePagoOnOrden,
   // Filter
   setFilterBy,
-  setSearchOptionByDate,
+  setSearchOptionByOthers,
   setSelectedMonth,
 } = service_order.actions;
 export default service_order.reducer;
