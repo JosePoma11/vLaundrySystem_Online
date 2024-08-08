@@ -281,8 +281,8 @@ const Ticket = React.forwardRef((props, ref) => {
                           {sizePaper80 ? (
                             <span>
                               {handleShowDateTime(
-                                infoOrden.dateRecojo.fecha,
-                                infoOrden.dateRecojo.hora
+                                infoOrden.datePrevista.fecha,
+                                infoOrden.datePrevista.hora
                               )}
                             </span>
                           ) : (
