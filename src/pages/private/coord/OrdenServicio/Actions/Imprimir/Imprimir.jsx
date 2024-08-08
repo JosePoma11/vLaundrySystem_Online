@@ -22,7 +22,7 @@ import moment from "moment";
 const index = () => {
   const { id } = useParams();
   const infoOrden = useSelector((state) =>
-    state.orden.registere.find((item) => item._id === id)
+    state.orden.registered.find((item) => item._id === id)
   );
   const InfoNegocio = useSelector((state) => state.negocio.infoNegocio);
 
