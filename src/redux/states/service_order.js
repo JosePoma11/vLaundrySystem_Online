@@ -9,8 +9,10 @@ import {
   GetOrdenServices_Date,
   GetOrdenServices_DateRange,
   GetOrdenServices_Last,
+  GetOrdenServices_Preliminar,
   Nota_OrdenService,
   UpdateDetalleOrdenServices,
+  UpdateOrdenServices,
 } from "../actions/aOrdenServices";
 import { handleGetInfoPago } from "../../utils/functions";
 import moment from "moment";
@@ -20,6 +22,7 @@ const service_order = createSlice({
   initialState: {
     infoServiceOrder: false,
     registered: [],
+    preliminary: [],
     reserved: [],
     lastRegister: null,
     orderServiceId: false,
@@ -143,6 +146,10 @@ const service_order = createSlice({
       if (action.payload.estado === "registrado") {
         state.registered.push(action.payload);
       }
+
+      if (action.payload.estado === "preliminar") {
+        state.preliminary.push(action.payload);
+      }
     },
     LS_changePagoOnOrden: (state, action) => {
       const { tipo, info } = action.payload;
@@ -217,6 +224,10 @@ const service_order = createSlice({
           state.registered.push(action.payload);
         }
 
+        if (action.payload.estado === "preliminar") {
+          state.preliminary.push(action.payload);
+        }
+
         state.lastRegister = action.payload;
       })
       .addCase(AddOrdenServices.rejected, (state) => {
@@ -235,6 +246,22 @@ const service_order = createSlice({
         state.registered[index].Items = action.payload.Items;
       })
       .addCase(UpdateDetalleOrdenServices.rejected, (state) => {
+        state.isLoading = false;
+      })
+      // Update Orden Completo
+      .addCase(UpdateOrdenServices.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(UpdateOrdenServices.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const index = state.registered.findIndex(
+          (item) => item._id === action.payload._id
+        );
+
+        state.registered[index] = action.payload;
+      })
+      .addCase(UpdateOrdenServices.rejected, (state) => {
         state.isLoading = false;
       })
       // Finalizar Reserva
@@ -409,6 +436,19 @@ const service_order = createSlice({
         state.infoServiceOrder = false;
         state.error = action.error.message;
       })
+      // List Preliminar
+      .addCase(GetOrdenServices_Preliminar.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(GetOrdenServices_Preliminar.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.preliminary = action.payload;
+      })
+      .addCase(GetOrdenServices_Preliminar.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
       // List for Date
       .addCase(GetOrdenServices_Date.pending, (state) => {
         state.isLoading = true;
@@ -423,6 +463,9 @@ const service_order = createSlice({
         );
         state.registered = action.payload.filter(
           (item) => item.estado === "registrado"
+        );
+        state.preliminary = action.payload.filter(
+          (item) => item.estado === "preliminar"
         );
       })
       .addCase(GetOrdenServices_Date.rejected, (state, action) => {

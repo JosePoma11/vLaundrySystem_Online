@@ -24,6 +24,9 @@ import { RoleGuard } from "../Guard/index";
 import RoutesWithNotFound from "../NotFound/RoutesWithNotFound";
 import CuadreCaja from "../../pages/private/coord/CuadreCaja/CuadreCaja";
 import AddOld from "../../pages/private/admin/OrdenServicio/AddOld/AddOld";
+
+import Preliminar from "../../pages/private/coord/OrdenServicio/Preliminar/Preliminar";
+
 // import Graficos from '../../pages/private/admin/Graficos/Graficos';
 import Promociones from "../../pages/private/admin/Promociones/Promociones";
 
@@ -145,6 +148,11 @@ const Private = () => {
             element={<ReporteMesual />}
           />
           <Route path={PrivateRoutes.CUADRE_CAJA} element={<CuadreCaja />} />
+          {/* --------------- PRELIMINAR --------------- */}
+          <Route
+            path={PrivateRoutes.REGISTER_PRELIMINAR}
+            element={<Preliminar />}
+          />
         </Route>
       </RoutesWithNotFound>
     </PrivateMainLayout>

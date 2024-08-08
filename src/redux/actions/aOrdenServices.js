@@ -37,7 +37,25 @@ export const GetOrdenServices_Last = createAsyncThunk(
       // Puedes manejar los errores aquí
       //Notify('Error', 'No se ontemer la lista de Ordenes de Servicio', 'fail');
       console.log(error.response.data.mensaje);
-      throw new Error(`No se pudo actualizar el cliente - ${error}`);
+      throw new Error(`No se obtener ordenes de servicio - ${error}`);
+    }
+  }
+);
+
+export const GetOrdenServices_Preliminar = createAsyncThunk(
+  "service_order/GetOrdenServices_Preliminar",
+  async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/lava-ya/get-order/preliminar`
+      );
+
+      return response.data;
+    } catch (error) {
+      // Puedes manejar los errores aquí
+      //Notify('Error', 'No se ontemer la lista de Ordenes de Servicio', 'fail');
+      console.log(error.response.data.mensaje);
+      throw new Error(`No se obtener ordenes de servicio- ${error}`);
     }
   }
 );
@@ -145,6 +163,46 @@ export const UpdateDetalleOrdenServices = createAsyncThunk(
       socket.emit("client:updateOrder(ITEMS)", res);
 
       return res;
+    } catch (error) {
+      // Puedes manejar los errores aquí
+      console.log(error.response.data.mensaje);
+      Notify("Error", "No se actualizo la Orden de Servicio", "fail");
+      throw new Error(error);
+    }
+  }
+);
+
+export const UpdateOrdenServices = createAsyncThunk(
+  "service_order/UpdateOrdenServices",
+  async ({ id, infoOrden, rol, ListPago }) => {
+    try {
+      const data = {
+        infoOrden,
+        rol,
+      };
+
+      const response = await axios.put(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/lava-ya/update-factura/completa/${id}`,
+        data
+      );
+
+      const res = response.data;
+      const { infoUpdated } = res;
+      let infoUpdateWPay = {
+        ...infoUpdated,
+        ListPago,
+      };
+
+      if ("changeCliente" in res) {
+        const { changeCliente } = res;
+        socket.emit("client:cClientes", changeCliente);
+      }
+
+      Notify("Actualziacion de Orden Exitosa", "", "success");
+
+      return infoUpdateWPay;
     } catch (error) {
       // Puedes manejar los errores aquí
       console.log(error.response.data.mensaje);

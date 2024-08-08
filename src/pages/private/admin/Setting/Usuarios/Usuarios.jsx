@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { Button, Modal, ScrollArea, ActionIcon, Box } from "@mantine/core";
+import { Button, Modal, ScrollArea } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useMemo } from "react";
 

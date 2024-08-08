@@ -3,7 +3,7 @@ import OrdenServicio from "../../../../../components/PRIVATE/OrdenServicio/Orden
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { UpdateDetalleOrdenServices } from "../../../../../redux/actions/aOrdenServices";
+import { UpdateOrdenServices } from "../../../../../redux/actions/aOrdenServices";
 
 import { PrivateRoutes } from "../../../../../models";
 import "./edit.scss";
@@ -24,13 +24,12 @@ const Editar = () => {
   const handleEditarDetalle = async (updateData) => {
     setRedirect(true);
     const { infoOrden, infoPago, rol } = updateData;
-    const { Items } = infoOrden;
 
     await dispatch(
-      UpdateDetalleOrdenServices({
+      UpdateOrdenServices({
         id,
         infoOrden: {
-          Items,
+          ...infoOrden,
           lastEdit: [
             ...ordenToUpdate.lastEdit,
             {
@@ -41,11 +40,38 @@ const Editar = () => {
         },
         infoPago,
         rol,
+        ListPago: ordenToUpdate.ListPago,
       })
     );
 
     navigate(`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.LIST_ORDER_SERVICE}`);
   };
+
+  // const handleEditarDetalle = async (updateData) => {
+  //   setRedirect(true);
+  //   const { infoOrden, infoPago, rol } = updateData;
+  //   const { Items } = infoOrden;
+
+  //   await dispatch(
+  //     UpdateDetalleOrdenServices({
+  //       id,
+  //       infoOrden: {
+  //         Items,
+  //         lastEdit: [
+  //           ...ordenToUpdate.lastEdit,
+  //           {
+  //             name: iUsuario.name,
+  //             date: moment().format("YYYY-MM-DD HH:mm"),
+  //           },
+  //         ],
+  //       },
+  //       infoPago,
+  //       rol,
+  //     })
+  //   );
+
+  //   navigate(`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.LIST_ORDER_SERVICE}`);
+  // };
 
   return (
     <>

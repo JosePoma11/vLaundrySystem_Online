@@ -5,6 +5,7 @@ $widthG_mm: 80mm;
 $sImgPromo: 120px;
 $sH1: 25px;
 $sH2: 20px;
+$capitalizacion: lowercase;
 
 .container-ticket {
   width: $widthG_mm;
@@ -45,7 +46,6 @@ $sH2: 20px;
           td {
             font-weight: 600;
             font-size: $sizeBase;
-            text-transform: uppercase;
             text-align: left;
             padding: 0;
 
@@ -68,7 +68,6 @@ $sH2: 20px;
       .cod-rec {
         text-align: center;
         border-bottom: 0.2mm solid #000;
-        text-transform: uppercase;
         font-weight: 800;
         color: #000;
         .l-text {
@@ -132,7 +131,6 @@ $sH2: 20px;
                 td {
                   color: #000;
                   font-size: $sizeBase;
-                  text-transform: uppercase;
                   width: auto;
                   &:nth-child(2) {
                     word-wrap: break-word;
@@ -192,7 +190,6 @@ $sH2: 20px;
               td {
                 &:nth-child(2) {
                   font-size: $sizeBase;
-                  text-transform: uppercase;
                   text-align: center;
                 }
               }
@@ -259,13 +256,16 @@ $sH2: 20px;
             display: flex;
             gap: 5px;
             justify-content: space-between;
+            position: relative;
+            width: 100%;
+            min-height: 65px;
           }
           span {
             font-size: $sizeBase;
-            text-transform: uppercase;
             font-weight: 600;
           }
           .list-promo {
+            width: 190px;
             ul {
               padding-left: 15px;
               margin: 0;
@@ -281,6 +281,9 @@ $sH2: 20px;
             }
           }
           .img-pet {
+            position: absolute;
+            right: 0;
+            top: -20px;
             img {
               width: $sImgPromo;
               max-width: 100px;
@@ -342,6 +345,46 @@ $sH2: 20px;
             }
           }
         }
+        .info-manual {
+          display: grid;
+          .body-ahorro {
+            display: flex;
+            gap: 5px;
+            justify-content: space-between;
+            position: relative;
+            width: 100%;
+            min-height: 65px;
+          }
+          span {
+            font-size: $sizeBase;
+            font-weight: 600;
+          }
+          .list-descuentos {
+            width: 185px;
+            height: min-content;
+            ul {
+              padding-left: 15px;
+              margin: 0;
+              li {
+                text-align: justify;
+                list-style: disc;
+                font-size: $sizeBase;
+                color: #000;
+                font-weight: 600;
+                padding-top: 5px;
+              }
+            }
+          }
+          .img-pet {
+            position: absolute;
+            right: 0;
+            top: -20px;
+            img {
+              width: $sImgPromo;
+              max-width: 100px;
+            }
+          }
+        }
       }
     }
     .monto-final {
@@ -385,11 +428,10 @@ $sH2: 20px;
       text-align: justify;
       color: #000;
       font-weight: 500;
-      font-size: 3mm;
+      font-size: 3.5mm;
       line-height: 1;
-      text-transform: uppercase;
       span {
-        font-size: 3.3mm;
+        font-size: 3.8mm;
         font-weight: 800;
         line-height: 1.2;
       }

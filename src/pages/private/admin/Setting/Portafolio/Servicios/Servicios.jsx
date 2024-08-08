@@ -7,7 +7,6 @@ import { Box, Button, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 import "./servicios.scss";
-import { simboloMoneda } from "../../../../../../services/global";
 import Portal from "../../../../../../components/PRIVATE/Portal/Portal";
 import Maintenance from "./accion/Maintenance";
 import { getInfoCategoria } from "../utilsPortafolio";

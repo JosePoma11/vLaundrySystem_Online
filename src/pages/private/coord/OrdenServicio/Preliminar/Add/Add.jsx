@@ -7,14 +7,14 @@ import OrdenServicio from "../../../../../../components/PRIVATE/OrdenServicio/Or
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { AddOrdenServices } from "../../../../../../redux/actions/aOrdenServices";
 import LoaderSpiner from "../../../../../../components/LoaderSpinner/LoaderSpiner";
 import { setLastRegister } from "../../../../../../redux/states/service_order";
 
-import "./tienda.scss";
+import "./add.scss";
 import { PrivateRoutes } from "../../../../../../models";
+import { AddOrdenServices } from "../../../../../../redux/actions/aOrdenServices";
 
-const Tienda = () => {
+const Add = () => {
   const [redirect, setRedirect] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,14 +22,14 @@ const Tienda = () => {
   const { lastRegister } = useSelector((state) => state.orden);
   const InfoUsuario = useSelector((state) => state.user.infoUsuario);
 
-  const handleRegistrar = async (data) => {
+  const handleRegistrarPreliminar = async (data) => {
     const { infoOrden, infoPago, rol } = data;
 
     // Crear la nueva orden con los datos necesarios
     const nuevaOrden = {
       infoOrden: {
         ...infoOrden,
-        estado: "registrado",
+        estado: "preliminar",
         typeRegistro: "normal",
       },
       infoPago,
@@ -72,8 +72,8 @@ const Tienda = () => {
         <div className="content-tienda">
           <OrdenServicio
             titleMode="REGISTRAR"
-            mode={"NEW"}
-            onAction={handleRegistrar}
+            mode={"PRELIMINARY"}
+            onAction={handleRegistrarPreliminar}
             infoDefault={null}
           />
         </div>
@@ -86,4 +86,4 @@ const Tienda = () => {
   );
 };
 
-export default Tienda;
+export default Add;
