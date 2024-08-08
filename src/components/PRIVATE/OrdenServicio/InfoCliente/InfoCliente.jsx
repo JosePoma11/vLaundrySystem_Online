@@ -82,9 +82,7 @@ const InfoCliente = ({
       <div className="body">
         <DateInput
           className="input-info"
-          label={`${
-            mode === "PRELIMINARY" ? "Fecha de Registro" : "Fecha de Ingreso"
-          }`}
+          label="Fecha de Ingreso"
           name="dateIngreso"
           value={values.dateIngreso}
           onChange={(date) => {

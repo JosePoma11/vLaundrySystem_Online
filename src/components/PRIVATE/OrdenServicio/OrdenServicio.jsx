@@ -125,7 +125,7 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
     initialValues: {
       dni: "",
       name: "",
-      Modalidad: mode === "PRELIMINARY" ? "Delivery" : "Tienda",
+      Modalidad: "Tienda",
       direccion: "",
       celular: "",
       dateIngreso: new Date(),
@@ -133,32 +133,7 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
       hourRecojo: defaultHoraRecojo,
       datePrevista: new Date(),
       hourPrevista: defaultHoraPrevista,
-      Items:
-        mode === "PRELIMINARY"
-          ? [
-              {
-                identificador: iDelivery._id,
-                tipo: "servicio",
-                cantidad: 1,
-                item: iDelivery.nombre,
-                simboloMedida: iDelivery.simboloMedida,
-                descripcion: "Transporte",
-                price: iDelivery.precioVenta,
-                monto: iDelivery.precioVenta,
-                descuentoManual: 0,
-                total: iDelivery.precioVenta,
-                disable: {
-                  cantidad: true,
-                  item: true,
-                  descripcion: true,
-                  monto: false,
-                  total: false,
-                  descuentoManual: false,
-                  action: true,
-                },
-              },
-            ]
-          : [],
+      Items: [],
       descuento: {
         estado: false,
         modoDescuento: "Ninguno", // Puntos | Promocion | Manual | Ninguno
@@ -408,16 +383,10 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
         fecha: formatFecha(data.datePrevista),
         hora: data.hourPrevista,
       },
-      dateRecojo:
-        mode === "PRELIMINARY" && "Delivery"
-          ? {
-              fecha: formatFecha(data.dateRecojo),
-              hora: data.hourRecojo,
-            }
-          : {
-              fecha: "",
-              hora: "",
-            },
+      dateRecojo: {
+        fecha: "",
+        hora: "",
+      },
       dateEntrega: {
         fecha: "",
         hora: "",
@@ -539,7 +508,7 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
     } else {
       setSidePanelVisible(false);
     }
-  }, [formik.values.descuento]);
+  }, [formik.values.descuento.estado, formik.values.descuento.modoDescuento]);
 
   useEffect(() => {
     const subTotal = formik.values.subTotal;
@@ -656,14 +625,10 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
           }`}
         >
           <div className="title-recibo">
-            {mode === "PRELIMINARY" ? (
-              <h1>ORDEN DE RECOJO A DOMICILIO</h1>
-            ) : (
-              <h1>
-                {titleMode}&nbsp;-&nbsp;ORDEN SERVICIO N°&nbsp;
-                {infoDefault ? `${infoDefault.codRecibo} ` : iCodigo}
-              </h1>
-            )}
+            <h1>
+              {titleMode}&nbsp;-&nbsp;ORDEN SERVICIO N°&nbsp;
+              {infoDefault ? `${infoDefault.codRecibo} ` : iCodigo}
+            </h1>
           </div>
           <Button className="btn-saved" type="submit">
             {titleMode}
@@ -714,9 +679,7 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
               }}
               colorOn="#75cbaf"
               // colorOff=""
-              disabled={
-                mode === "UPDATE" || mode === "PRELIMINARY" ? true : false
-              }
+              disabled={mode === "UPDATE" ? true : false}
             />
           </div>
         ) : null}
@@ -753,25 +716,18 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
           />
         </div>
         <div className="other-info">
-          {formik.values.Modalidad === "Delivery" && mode === "PRELIMINARY" ? (
-            <InfoRecojo
-              mode={mode}
-              changeValue={handleChageValue}
-              values={formik.values}
-              paso="3"
-              descripcion="Fecha de Recojo"
-            />
-          ) : null}
-
+          {/* <InfoRecojo
+            mode={mode}
+            changeValue={handleChageValue}
+            values={formik.values}
+            paso="3"
+            descripcion="Fecha de Recojo"
+          /> */}
           <InfoEntrega
             mode={mode}
             changeValue={handleChageValue}
             values={formik.values}
-            paso={
-              formik.values.Modalidad === "Delivery" && mode === "PRELIMINARY"
-                ? "4"
-                : "3"
-            }
+            paso="3"
             descripcion="¿Para cuando estara Listo?"
           />
           {showFactura ? (
@@ -779,13 +735,7 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
               mode={mode}
               changeValue={handleChageValue}
               values={formik.values}
-              paso={
-                showFactura &&
-                formik.values.Modalidad === "Delivery" &&
-                mode === "PRELIMINARY"
-                  ? "5"
-                  : "4"
-              }
+              paso="4"
               descripcion="Agregar Factura"
             />
           ) : null}
@@ -798,43 +748,18 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
                 changeValue={handleChageValue}
                 values={formik.values}
                 // ------------------------------------- //
-                paso={
-                  showFactura
-                    ? formik.values.Modalidad === "Delivery" &&
-                      mode === "PRELIMINARY"
-                      ? "6"
-                      : "5"
-                    : formik.values.Modalidad === "Delivery" &&
-                      mode === "PRELIMINARY"
-                    ? "5"
-                    : "4"
-                }
+                paso={showFactura ? "5" : "4"}
                 descripcion="¿Deseas Agregar Descuento?"
               />
-
-              {mode !== "PRELIMINARY" ? (
-                <>
-                  <InfoPago
-                    currentPago={currentPago}
-                    openModalMetodoPago={openModalMetodoPago}
-                    // ------------------------------------- //
-                    values={formik.values}
-                    // ------------------------------------- //
-                    paso={
-                      showFactura
-                        ? formik.values.Modalidad === "Delivery" &&
-                          mode === "PRELIMINARY"
-                          ? "7"
-                          : "6"
-                        : formik.values.Modalidad === "Delivery" &&
-                          mode === "PRELIMINARY"
-                        ? "6"
-                        : "5"
-                    }
-                    descripcion="Agregar Pago"
-                  />
-                </>
-              ) : null}
+              <InfoPago
+                currentPago={currentPago}
+                openModalMetodoPago={openModalMetodoPago}
+                // ------------------------------------- //
+                values={formik.values}
+                // ------------------------------------- //
+                paso={showFactura ? "6" : "5"}
+                descripcion="Agregar Pago"
+              />
             </>
           ) : (
             <InfoPagos

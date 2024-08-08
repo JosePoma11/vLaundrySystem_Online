@@ -10,10 +10,7 @@ import {
 } from "../../components/PRIVATE/Header/index";
 import { PrivateRoutes, PublicRoutes, Roles } from "../../models/index";
 import { GetCodigos } from "../../redux/actions/aCodigo";
-import {
-  GetOrdenServices_Last,
-  GetOrdenServices_Preliminar,
-} from "../../redux/actions/aOrdenServices";
+import { GetOrdenServices_Last } from "../../redux/actions/aOrdenServices";
 import { GetMetas } from "../../redux/actions/aMetas";
 import { DateCurrent } from "../../utils/functions";
 import {
@@ -24,7 +21,6 @@ import {
   updateCancelarEntregaOrden,
   updateDetalleOrden,
   updateEntregaOrden,
-  updateFinishRegistroPreliminar,
   updateFinishReserva,
   updateLocationOrden,
   updateNotaOrden,
@@ -120,7 +116,6 @@ const PrivateMasterLayout = (props) => {
           dispatch(getServicios()),
           dispatch(getListClientes()),
           dispatch(GetPagos_OnCuadreToday()),
-          // dispatch(GetOrdenServices_Preliminar()),
         ];
 
         const responses = await Promise.all(promises);
@@ -221,9 +216,6 @@ const PrivateMasterLayout = (props) => {
     });
     socket.on("server:updateOrder(LOCATION)", (data) => {
       dispatch(updateLocationOrden(data));
-    });
-    socket.on("server:updateOrder(FINISH_REGISTRO_PRELIMINAR)", (data) => {
-      dispatch(updateFinishRegistroPreliminar(data));
     });
     // CUADRE
     socket.on("server:changeCuadre", () => {
@@ -350,7 +342,6 @@ const PrivateMasterLayout = (props) => {
       socket.off("server:updateOrder(ANULACION)");
       socket.off("server:updateOrder(NOTA)");
       socket.off("server:updateOrder(LOCATION)");
-      socket.off("server:updateOrder(FINISH_REGISTRO_PRELIMINAR)");
       socket.off("server:changeCuadre");
       socket.off("server:cPago");
       socket.off("server:cGasto");

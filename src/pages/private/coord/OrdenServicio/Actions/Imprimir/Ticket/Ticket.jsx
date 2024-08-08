@@ -231,11 +231,7 @@ const Ticket = React.forwardRef((props, ref) => {
             <div className="info-client">
               <div className="cod-rec">
                 <p className="l-text">
-                  <span className="title-o">
-                    {infoOrden.estado === "preliminar"
-                      ? "ORDEN DE RECOJO"
-                      : "ORDEN DE SERVICIO"}
-                  </span>
+                  <span className="title-o">ORDEN DE SERVICIO</span>
                   <span className="number-o">
                     N° {String(infoOrden.codRecibo).padStart(4, "0")}
                   </span>
@@ -245,49 +241,33 @@ const Ticket = React.forwardRef((props, ref) => {
                 <table className="tb-date">
                   <tbody>
                     <tr>
-                      <td>
-                        {infoOrden.estado === "preliminar"
-                          ? "Registro"
-                          : "Ingreso"}
-                        :
-                      </td>
+                      <td>Ingreso :</td>
                       <td>
                         <div className="date-time">
                           {sizePaper80 ? (
                             <span>
-                              {infoOrden.estado === "preliminar"
-                                ? handleShowDateTime(
-                                    infoOrden.dateCreation.fecha,
-                                    infoOrden.dateCreation.hora
-                                  )
-                                : handleShowDateTime(
-                                    infoOrden.dateRecepcion.fecha,
-                                    infoOrden.dateRecepcion.hora
-                                  )}
+                              {handleShowDateTime(
+                                infoOrden.dateRecepcion.fecha,
+                                infoOrden.dateRecepcion.hora
+                              )}
                             </span>
                           ) : (
                             <>
                               <span>
-                                {infoOrden.estado === "preliminar"
-                                  ? handleShowDateTime(
-                                      infoOrden.dateCreation.fecha,
-                                      infoOrden.dateCreation.hora
-                                    ).SInfoD
-                                  : handleShowDateTime(
-                                      infoOrden.dateRecepcion.fecha,
-                                      infoOrden.dateRecepcion.hora
-                                    ).SInfoD}
+                                {
+                                  handleShowDateTime(
+                                    infoOrden.dateRecepcion.fecha,
+                                    infoOrden.dateRecepcion.hora
+                                  ).SInfoD
+                                }
                               </span>
                               <span>
-                                {infoOrden.estado === "preliminar"
-                                  ? handleShowDateTime(
-                                      infoOrden.dateCreation.fecha,
-                                      infoOrden.dateCreation.hora
-                                    ).FInfoD
-                                  : handleShowDateTime(
-                                      infoOrden.dateRecepcion.fecha,
-                                      infoOrden.dateRecepcion.hora
-                                    ).FInfoD}
+                                {
+                                  handleShowDateTime(
+                                    infoOrden.dateRecepcion.fecha,
+                                    infoOrden.dateRecepcion.hora
+                                  ).FInfoD
+                                }
                               </span>
                             </>
                           )}
@@ -295,49 +275,33 @@ const Ticket = React.forwardRef((props, ref) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        {infoOrden.estado === "preliminar"
-                          ? "Recojo"
-                          : "Entrega"}
-                        :
-                      </td>
+                      <td>Entrega :</td>
                       <td>
                         <div className="date-time">
                           {sizePaper80 ? (
                             <span>
-                              {infoOrden.estado === "preliminar"
-                                ? handleShowDateTime(
-                                    infoOrden.dateRecojo.fecha,
-                                    infoOrden.dateRecojo.hora
-                                  )
-                                : handleShowDateTime(
-                                    infoOrden.datePrevista.fecha,
-                                    infoOrden.datePrevista.hora
-                                  )}
+                              {handleShowDateTime(
+                                infoOrden.dateRecojo.fecha,
+                                infoOrden.dateRecojo.hora
+                              )}
                             </span>
                           ) : (
                             <>
                               <span>
-                                {infoOrden.estado === "preliminar"
-                                  ? handleShowDateTime(
-                                      infoOrden.dateRecojo.fecha,
-                                      infoOrden.dateRecojo.hora
-                                    ).SInfoD
-                                  : handleShowDateTime(
-                                      infoOrden.datePrevista.fecha,
-                                      infoOrden.datePrevista.hora
-                                    ).SInfoD}
+                                {
+                                  handleShowDateTime(
+                                    infoOrden.datePrevista.fecha,
+                                    infoOrden.datePrevista.hora
+                                  ).SInfoD
+                                }
                               </span>
                               <span>
-                                {infoOrden.estado === "preliminar"
-                                  ? handleShowDateTime(
-                                      infoOrden.dateRecojo.fecha,
-                                      infoOrden.dateRecojo.hora
-                                    ).FInfoD
-                                  : handleShowDateTime(
-                                      infoOrden.datePrevista.fecha,
-                                      infoOrden.datePrevista.hora
-                                    ).FInfoD}
+                                {
+                                  handleShowDateTime(
+                                    infoOrden.datePrevista.fecha,
+                                    infoOrden.datePrevista.hora
+                                  ).FInfoD
+                                }
                               </span>
                             </>
                           )}

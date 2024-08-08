@@ -6,7 +6,6 @@ import SwtichDimension from "../../../SwitchDimension/SwitchDimension";
 import { Button, Group } from "@mantine/core";
 
 import { Radio } from "@mantine/core";
-import { useEffect } from "react";
 
 const InfoDescuento = ({
   paso,
@@ -57,7 +56,10 @@ const InfoDescuento = ({
   };
 
   const handleCancelarDescuento = () => {
-    changeValue("descuento", defaultDescuento);
+    changeValue("descuento", {
+      ...defaultDescuento,
+      estado: false,
+    });
   };
 
   return (

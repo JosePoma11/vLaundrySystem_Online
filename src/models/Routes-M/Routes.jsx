@@ -41,7 +41,6 @@ export const PrivateRoutes = {
   EDIT_ORDER_RECOJO: "update-orden-recojo",
   FINISH_ORDEN_SERVICE_PENDING: "finish-reserved-orden",
   REGISTER: "add-orden-servicio/registro",
-  REGISTER_PRELIMINAR: "add-orden-servicio/registro-preliminar",
   REGISTER_DELIVERY: "add-orden-servicio/registro-delivery",
   IMPRIMIR_ORDER_SERVICE: "imprimir-orden-servicio",
   ANULAR_REMPLAZAR: "anular-remplazar/orden-servicio",

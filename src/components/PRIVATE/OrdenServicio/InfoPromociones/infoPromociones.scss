@@ -76,6 +76,10 @@
   }
   .list-buttons-promos {
     display: grid;
+    height: min-content;
+    max-height: 500px;
+    overflow: auto;
+    padding-right: 10px;
     gap: 10px;
     .optin-promo {
       padding: 0.5rem;

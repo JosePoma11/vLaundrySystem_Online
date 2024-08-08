@@ -42,24 +42,6 @@ export const GetOrdenServices_Last = createAsyncThunk(
   }
 );
 
-export const GetOrdenServices_Preliminar = createAsyncThunk(
-  "service_order/GetOrdenServices_Preliminar",
-  async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/lava-ya/get-order/preliminar`
-      );
-
-      return response.data;
-    } catch (error) {
-      // Puedes manejar los errores aquí
-      //Notify('Error', 'No se ontemer la lista de Ordenes de Servicio', 'fail');
-      console.log(error.response.data.mensaje);
-      throw new Error(`No se obtener ordenes de servicio- ${error}`);
-    }
-  }
-);
-
 export const GetOrdenServices_Date = createAsyncThunk(
   "service_order/GetOrdenServices_Date",
   async (date) => {
@@ -416,43 +398,6 @@ export const Nota_OrdenService = createAsyncThunk(
       Notify(
         "Error",
         "No se pudo realizar la actualizacion en la NOTA en la Orden de Servicio",
-        "fail"
-      );
-      throw new Error(error);
-    }
-  }
-);
-
-export const FinalzarRegistroPreliminar = createAsyncThunk(
-  "service_order/FinalzarRegistroPreliminar",
-  async (id) => {
-    try {
-      // Lógica para cancelar entrega en el backend
-      const response = await axios.put(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/lava-ya/update-factura/finalizar/orden-preliminar/${id}`
-      );
-
-      const data = response.data;
-
-      Notify(
-        "Éxito",
-        "Orden de Preliminar, Finalizado Correctamente",
-        "success"
-      );
-
-      socket.emit("client:updateOrder(FINISH_REGISTRO_PRELIMINAR)", data);
-
-      return data;
-    } catch (error) {
-      console.error(
-        "Error al Finalizar Registro de Orden de Preliminar:",
-        error
-      );
-      Notify(
-        "Error",
-        "No se pudo Finalizar Registro de Orden de Preliminar",
         "fail"
       );
       throw new Error(error);
