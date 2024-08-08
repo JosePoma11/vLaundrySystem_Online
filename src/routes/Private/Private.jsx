@@ -26,6 +26,7 @@ import CuadreCaja from "../../pages/private/coord/CuadreCaja/CuadreCaja";
 import AddOld from "../../pages/private/admin/OrdenServicio/AddOld/AddOld";
 
 import Preliminar from "../../pages/private/coord/OrdenServicio/Preliminar/Preliminar";
+import { default as EditOrdenRecojo_Preliminar } from "../../pages/private/coord/OrdenServicio/Preliminar/Edit/Edit";
 
 // import Graficos from '../../pages/private/admin/Graficos/Graficos';
 import Promociones from "../../pages/private/admin/Promociones/Promociones";
@@ -152,6 +153,10 @@ const Private = () => {
           <Route
             path={PrivateRoutes.REGISTER_PRELIMINAR}
             element={<Preliminar />}
+          />
+          <Route
+            path={`${PrivateRoutes.EDIT_ORDER_RECOJO}/:id`}
+            element={<EditOrdenRecojo_Preliminar />}
           />
         </Route>
       </RoutesWithNotFound>

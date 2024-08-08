@@ -2,6 +2,8 @@
 export const timeZone = "America/Lima";
 // Default Hora Prevista
 export const defaultHoraPrevista = "18:00";
+// Default Hora Recojo
+export const defaultHoraRecojo = "11:00";
 // Roles validaos
 export const allowedRoles = [
   {

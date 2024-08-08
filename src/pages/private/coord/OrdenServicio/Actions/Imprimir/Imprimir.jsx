@@ -18,7 +18,6 @@ import {
 } from "../../../../../../utils/functions";
 import { WSendMessage } from "../../../../../../services/default.services";
 import moment from "moment";
-import OrdenRecojo from "./OrdenRecojo/OrdenRecojo";
 
 const index = () => {
   const { id } = useParams();
@@ -107,45 +106,39 @@ const index = () => {
         ) : null}
       </div>
 
-      {infoOrden.estado === "preliminar" ? (
-        <OrdenRecojo ref={componentRef} infoOrden={infoOrden} />
-      ) : (
-        <>
-          <div className="actions">
-            <SwtichModel
-              title="Tipo Ticket :"
-              onSwitch="Produccion" // ON = TRUE
-              offSwitch="Cliente" // OFF = FALSE
-              name="tipo"
-              defaultValue={false}
-              colorBackground="#D5A040" // COLOR FONDO
-              onChange={() => {
-                // value = (TRUE O FALSE)
-                setTipoTicket(!tipoTicket);
-              }}
-            />
-            <SwtichModel
-              title="Descripcion :"
-              onSwitch="Mostrar" // ON = TRUE
-              offSwitch="Ocultar" // OFF = FALSE
-              name="descripcion"
-              defaultValue={false}
-              colorBackground="#45c877" // COLOR FONDO
-              onChange={() => {
-                // value = (TRUE O FALSE)
-                setDescription(!showDescripcion);
-              }}
-            />
-          </div>
-          <Ticket
-            ref={componentRef}
-            showDescripcion={showDescripcion}
-            tipoTicket={tipoTicket}
-            infoOrden={infoOrden}
-            InfoNegocio={InfoNegocio}
-          />
-        </>
-      )}
+      <div className="actions">
+        <SwtichModel
+          title="Tipo Ticket :"
+          onSwitch="Produccion" // ON = TRUE
+          offSwitch="Cliente" // OFF = FALSE
+          name="tipo"
+          defaultValue={false}
+          colorBackground="#D5A040" // COLOR FONDO
+          onChange={() => {
+            // value = (TRUE O FALSE)
+            setTipoTicket(!tipoTicket);
+          }}
+        />
+        <SwtichModel
+          title="Descripcion :"
+          onSwitch="Mostrar" // ON = TRUE
+          offSwitch="Ocultar" // OFF = FALSE
+          name="descripcion"
+          defaultValue={false}
+          colorBackground="#45c877" // COLOR FONDO
+          onChange={() => {
+            // value = (TRUE O FALSE)
+            setDescription(!showDescripcion);
+          }}
+        />
+      </div>
+      <Ticket
+        ref={componentRef}
+        showDescripcion={showDescripcion}
+        tipoTicket={tipoTicket}
+        infoOrden={infoOrden}
+        InfoNegocio={InfoNegocio}
+      />
     </div>
   );
 };

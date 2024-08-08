@@ -1,17 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate, useParams } from "react-router-dom";
-import OrdenServicio from "../../../../../components/PRIVATE/OrdenServicio/OrdenServicio";
+import OrdenServicio from "../../../../../../components/PRIVATE/OrdenServicio/OrdenServicio";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  UpdateDetalleOrdenServices,
-  // UpdateOrdenServices,
-} from "../../../../../redux/actions/aOrdenServices";
+import { UpdateOrdenServices } from "../../../../../../redux/actions/aOrdenServices";
 
-import { PrivateRoutes } from "../../../../../models";
+import { PrivateRoutes } from "../../../../../../models";
 import "./edit.scss";
 import moment from "moment";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Editar = () => {
   const navigate = useNavigate();
@@ -19,21 +18,20 @@ const Editar = () => {
   const { id } = useParams();
 
   const ordenToUpdate = useSelector((state) =>
-    state.orden.registered.find((item) => item._id === id)
+    state.orden.preliminary.find((item) => item._id === id)
   );
   const iUsuario = useSelector((state) => state.user.infoUsuario);
   const [redirect, setRedirect] = useState(false);
 
-  const handleEditarDetalle = async (updateData) => {
+  const handleEditar = async (updateData) => {
     setRedirect(true);
     const { infoOrden, infoPago, rol } = updateData;
-    const { Items } = infoOrden;
 
     await dispatch(
-      UpdateDetalleOrdenServices({
+      UpdateOrdenServices({
         id,
         infoOrden: {
-          Items,
+          ...infoOrden,
           lastEdit: [
             ...ordenToUpdate.lastEdit,
             {
@@ -44,11 +42,18 @@ const Editar = () => {
         },
         infoPago,
         rol,
+        ListPago: ordenToUpdate.ListPago,
       })
     );
 
-    navigate(`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.LIST_ORDER_SERVICE}`);
+    navigate(`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.REGISTER_PRELIMINAR}`);
   };
+
+  useEffect(() => {
+    if (!ordenToUpdate) {
+      navigate(`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.LIST_ORDER_SERVICE}`);
+    }
+  }, [ordenToUpdate]);
 
   return (
     <>
@@ -56,8 +61,8 @@ const Editar = () => {
         <div className="edit-orden-service">
           <OrdenServicio
             titleMode="ACTUALIZAR"
-            mode="UPDATE"
-            onAction={handleEditarDetalle}
+            mode="PRELIMINARY"
+            onAction={handleEditar}
             infoDefault={ordenToUpdate}
           />
         </div>

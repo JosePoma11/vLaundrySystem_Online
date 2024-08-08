@@ -81,6 +81,10 @@ const Delivery = () => {
         fecha: DateCurrent().format4,
         hora: DateCurrent().format3,
       },
+      dateRecojo: {
+        fecha: "",
+        hora: "",
+      },
       Modalidad: "Delivery",
       Nombre: values.name,
       idCliente: "",

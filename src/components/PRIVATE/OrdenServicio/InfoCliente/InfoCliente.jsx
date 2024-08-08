@@ -82,11 +82,13 @@ const InfoCliente = ({
       <div className="body">
         <DateInput
           className="input-info"
-          label="Fecha de Ingreso"
-          name="dateRecojo"
-          value={values.dateRecojo}
+          label={`${
+            mode === "PRELIMINARY" ? "Fecha de Registro" : "Fecha de Ingreso"
+          }`}
+          name="dateIngreso"
+          value={values.dateIngreso}
           onChange={(date) => {
-            changeValue("dateRecojo", date);
+            changeValue("dateIngreso", date);
           }}
           style={{ paddingBottom: "8px" }}
           readOnly

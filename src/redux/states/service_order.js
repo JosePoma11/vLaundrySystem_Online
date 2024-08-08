@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { createSlice } from "@reduxjs/toolkit";
 import {
   AddOrdenServices,
@@ -5,6 +6,7 @@ import {
   Anular_OrdenService,
   CancelEntrega_OrdenService,
   Entregar_OrdenService,
+  FinalzarRegistroPreliminar,
   FinalzarReservaOrdenService,
   GetOrdenServices_Date,
   GetOrdenServices_DateRange,
@@ -105,13 +107,22 @@ const service_order = createSlice({
       }
     },
     updateAnulacionOrden: (state, action) => {
-      const index = state.registered.findIndex(
+      const indexOnRegistered = state.registered.findIndex(
         (item) => item._id === action.payload._id
       );
 
-      if (index !== -1) {
-        const updatedOrder = state.registered[index];
+      if (indexOnRegistered !== -1) {
+        const updatedOrder = state.registered[indexOnRegistered];
         updatedOrder.estadoPrenda = action.payload.estadoPrenda;
+      } else {
+        const indexOnPreliminar = state.preliminary.findIndex(
+          (item) => item._id === action.payload._id
+        );
+
+        if (indexOnPreliminar !== -1) {
+          // Actualiza directamente el array usando splice
+          state.preliminary.splice(indexOnPreliminar, 1);
+        }
       }
     },
     updateNotaOrden: (state, action) => {
@@ -137,18 +148,67 @@ const service_order = createSlice({
         }
       });
     },
+    updateFinishRegistroPreliminar: (state, action) => {
+      const { _id, dateRecepcion, estado } = action.payload;
+
+      const infoPreliminar = state.preliminary.find((item) => item._id === _id);
+
+      infoPreliminar.dateRecepcion = dateRecepcion;
+      infoPreliminar.estado = estado;
+
+      state.registered.push(infoPreliminar);
+
+      // ELIMINAR ORDEN DE RECOJO DE PRELIMINAR
+
+      const indexOnPreliminar = state.preliminary.findIndex(
+        (item) => item._id === action.payload._id
+      );
+
+      if (indexOnPreliminar !== -1) {
+        // Actualiza directamente el array usando splice
+        state.preliminary.splice(indexOnPreliminar, 1);
+      }
+    },
     // ---------------------- //
-    LS_newOrder: (state, action) => {
-      if (action.payload.estado === "reservado") {
-        state.reserved.push(action.payload);
+    changeOrder: (state, action) => {
+      const { tipo, info } = action.payload;
+      const stateMap = {
+        reservado: state.reserved,
+        registrado: state.registered,
+        preliminar: state.preliminary,
+      };
+
+      const stateArray = stateMap[info.estado];
+      if (!stateArray) {
+        console.log("Estado no reconocido:", info.estado);
+        return;
       }
 
-      if (action.payload.estado === "registrado") {
-        state.registered.push(action.payload);
-      }
+      const findIndexById = (arr, id) =>
+        arr.findIndex((item) => item._id === id);
 
-      if (action.payload.estado === "preliminar") {
-        state.preliminary.push(action.payload);
+      switch (tipo) {
+        case "add":
+          stateArray.push(info);
+          break;
+        case "update":
+          const updateIndex = findIndexById(stateArray, info._id);
+          if (updateIndex !== -1) {
+            stateArray[updateIndex] = info;
+          } else {
+            console.log("Orden no encontrada para actualizar:", info._id);
+          }
+          break;
+        case "delete":
+          const deleteIndex = findIndexById(stateArray, info._id);
+          if (deleteIndex !== -1) {
+            stateArray.splice(deleteIndex, 1);
+          } else {
+            console.log("Orden no encontrada para eliminar:", info._id);
+          }
+          break;
+        default:
+          console.log("Acción no reconocida:", tipo);
       }
     },
     LS_changePagoOnOrden: (state, action) => {
@@ -248,18 +308,18 @@ const service_order = createSlice({
       .addCase(UpdateDetalleOrdenServices.rejected, (state) => {
         state.isLoading = false;
       })
-      // Update Orden Completo
+      // Update Orden Completo - PRELIMINAR
       .addCase(UpdateOrdenServices.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(UpdateOrdenServices.fulfilled, (state, action) => {
         state.isLoading = false;
-        const index = state.registered.findIndex(
+        const index = state.preliminary.findIndex(
           (item) => item._id === action.payload._id
         );
 
-        state.registered[index] = action.payload;
+        state.preliminary[index] = action.payload;
       })
       .addCase(UpdateOrdenServices.rejected, (state) => {
         state.isLoading = false;
@@ -331,13 +391,22 @@ const service_order = createSlice({
       })
       .addCase(Anular_OrdenService.fulfilled, (state, action) => {
         state.isLoading = false;
-        const index = state.registered.findIndex(
+        const indexOnRegistered = state.registered.findIndex(
           (item) => item._id === action.payload._id
         );
 
-        if (index !== -1) {
-          const updatedOrder = state.registered[index];
+        if (indexOnRegistered !== -1) {
+          const updatedOrder = state.registered[indexOnRegistered];
           updatedOrder.estadoPrenda = action.payload.estadoPrenda;
+        } else {
+          const indexOnPreliminar = state.preliminary.findIndex(
+            (item) => item._id === action.payload._id
+          );
+
+          if (indexOnPreliminar !== -1) {
+            // Actualiza directamente el array usando splice
+            state.preliminary.splice(indexOnPreliminar, 1);
+          }
         }
       })
       .addCase(Anular_OrdenService.rejected, (state, action) => {
@@ -367,6 +436,42 @@ const service_order = createSlice({
         state.infoServiceOrder = false;
         state.error = action.error.message;
       })
+      // Finalizar Registro Preliminar
+      .addCase(FinalzarRegistroPreliminar.pending, (state) => {
+        state.isLoading = true;
+        state.infoServiceOrder = false;
+        state.error = null;
+      })
+      .addCase(FinalzarRegistroPreliminar.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        const { _id, dateRecepcion, estado } = action.payload;
+
+        const infoPreliminar = state.preliminary.find(
+          (item) => item._id === _id
+        );
+
+        infoPreliminar.dateRecepcion = dateRecepcion;
+        infoPreliminar.estado = estado;
+
+        state.registered.push(infoPreliminar);
+
+        // ELIMINAR ORDEN DE RECOJO DE PRELIMINAR
+
+        const indexOnPreliminar = state.preliminary.findIndex(
+          (item) => item._id === action.payload._id
+        );
+
+        if (indexOnPreliminar !== -1) {
+          // Actualiza directamente el array usando splice
+          state.preliminary.splice(indexOnPreliminar, 1);
+        }
+      })
+      .addCase(FinalzarRegistroPreliminar.rejected, (state, action) => {
+        state.isLoading = false;
+        state.infoServiceOrder = false;
+        state.error = action.error.message;
+      })
       // Anular y Remplazar
       .addCase(AnularRemplazar_OrdensService.pending, (state) => {
         state.isLoading = true;
@@ -376,6 +481,7 @@ const service_order = createSlice({
       .addCase(AnularRemplazar_OrdensService.fulfilled, (state, action) => {
         state.isLoading = false;
         const { newOrder, orderAnulado } = action.payload;
+
         const indexOrderToAnular = state.registered.findIndex(
           (item) => item._id === orderAnulado._id
         );
@@ -485,8 +591,9 @@ export const {
   updateEntregaOrden,
   updateCancelarEntregaOrden,
   updateAnulacionOrden,
+  updateFinishRegistroPreliminar,
   updateLastRegister,
-  LS_newOrder,
+  changeOrder,
   LS_changePagoOnOrden,
   // Filter
   setFilterBy,

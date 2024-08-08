@@ -152,11 +152,14 @@ const HeaderUser = () => {
                   {InfoNegocio?.hasMobility ? "REGISTRAR" : "Tienda"}
                 </Link>
               </li>
-              {/* <li>
+
+              {/* 
+                 <li>
                 <Link to={`./${PrivateRoutes.REGISTER_PRELIMINAR}`}>
-                  Preliminar
+                  PRELIMINAR
                 </Link>
-              </li> */}
+              </li>
+               */}
               {!InfoNegocio?.hasMobility ? (
                 <li>
                   <Link to={`./${PrivateRoutes.REGISTER_DELIVERY}`}>

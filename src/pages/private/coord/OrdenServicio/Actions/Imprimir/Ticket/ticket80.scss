@@ -1,6 +1,6 @@
 @import "@fontsource/source-sans-pro";
 
-$sizeBase: 14px;
+$sizeBase: 16px;
 $widthG_mm: 80mm;
 $sImgPromo: 120px;
 $sH1: 25px;
@@ -57,7 +57,7 @@ $capitalizacion: lowercase;
               width: 19mm;
             }
             &:nth-child(2) {
-              padding-left: 10px;
+              padding-left: 6px;
             }
           }
         }
@@ -99,7 +99,6 @@ $capitalizacion: lowercase;
           .date-time {
             display: grid;
             font-size: $sizeBase;
-            text-transform: uppercase;
           }
         }
         .i-cliente {
@@ -156,7 +155,7 @@ $capitalizacion: lowercase;
             text-align: left;
             padding: 0;
             &:first-child {
-              width: 18mm;
+              width: 16mm;
             }
           }
         }
@@ -170,46 +169,97 @@ $capitalizacion: lowercase;
           border-collapse: collapse;
           td,
           th {
-            border: none;
-            padding: 0;
-            text-align: center;
             font-weight: 800;
+          }
+
+          thead,
+          tbody,
+          tfoot {
+            tr {
+              display: grid;
+              grid-template-columns: 5mm auto 20mm 14mm;
+              line-height: 1;
+              // &:first-child {
+              //   padding-top: 3px;
+              // }
+              // &:last-child {
+              //   padding-bottom: 3px;
+              // }
+              td,
+              th {
+                display: flex;
+                place-content: center;
+                align-items: center;
+              }
+            }
           }
 
           thead {
             border-bottom: 0.2mm solid #000;
+
             th {
               font-weight: bold;
+            }
+            tr {
+              padding: 3px 0;
             }
           }
 
           tbody {
             border-bottom: 0.2mm solid #000;
+
             tr {
               background: #fff;
+              border-bottom: 1px dotted #000;
+              padding: 3px 0;
+
+              &:last-child {
+                border-bottom: none;
+              }
+              &:only-child {
+                border-bottom: none;
+              }
               td {
                 &:nth-child(2) {
                   font-size: $sizeBase;
-                  text-align: center;
+                  display: flex;
+                  line-height: 1;
+                  // justify-content: flex-start;
                 }
               }
             }
+            .no-border {
+              border: none !important;
+            }
             .fila_descripcion {
+              display: flex;
               background: #fff;
               border-top: 0.2mm solid #000;
               border-bottom: 0.2mm solid #000;
               font-size: $sizeBase;
-              text-transform: uppercase;
               td {
                 text-align: left;
                 .formatted-list {
                   padding: 0 5px;
                   margin: 0;
+
                   .formatted-line {
                     text-align: justify;
                     position: relative;
                     margin: 5px 0;
+                    line-height: 1;
                     padding-left: 5mm;
+                    font-size: 12px;
+                    &:first-child {
+                      margin-top: 3px;
+                    }
+                    &:last-child {
+                      margin-bottom: 3px;
+                    }
+                    &:only-child {
+                      margin-top: 1.5px;
+                      margin-bottom: 1.5px;
+                    }
                     &:before {
                       content: "✔  ";
                       position: absolute;
@@ -217,6 +267,7 @@ $capitalizacion: lowercase;
                     }
                     p {
                       margin: 0;
+                      font-size: 14px;
                     }
                   }
                 }
@@ -226,12 +277,27 @@ $capitalizacion: lowercase;
 
           tfoot {
             tr {
-              padding: -1mm;
+              display: grid;
+              grid-template-columns: 64mm 16mm;
+              grid-template-rows: 17px;
+              &:first-child {
+                padding-top: 3px;
+              }
+              &:last-child {
+                padding-bottom: 3px;
+              }
               td {
+                display: flex;
+                place-content: center;
+                align-items: center;
+                justify-content: flex-end;
                 font-weight: bold;
                 font-size: $sizeBase;
                 &:first-child {
                   text-align: right;
+                }
+                &:nth-child(2) {
+                  justify-content: center;
                 }
               }
             }
@@ -242,7 +308,6 @@ $capitalizacion: lowercase;
         display: grid;
         border-top: 0.6mm solid #000;
         padding: 5px;
-        gap: 5px;
         .title {
           border: none;
           line-height: 1;
@@ -258,7 +323,7 @@ $capitalizacion: lowercase;
             justify-content: space-between;
             position: relative;
             width: 100%;
-            min-height: 65px;
+            min-height: 53px;
           }
           span {
             font-size: $sizeBase;
@@ -273,10 +338,10 @@ $capitalizacion: lowercase;
                 text-align: justify;
                 list-style: disc;
                 font-size: $sizeBase;
-                text-transform: uppercase;
                 color: #000;
                 font-weight: 600;
                 padding-top: 10px;
+                line-height: 1;
               }
             }
           }
@@ -287,6 +352,7 @@ $capitalizacion: lowercase;
             img {
               width: $sImgPromo;
               max-width: 100px;
+              height: 75px;
             }
           }
         }
@@ -297,6 +363,7 @@ $capitalizacion: lowercase;
             gap: 5px;
             justify-content: space-between;
             align-items: flex-end;
+            min-height: 53px;
           }
           span {
             font-size: $sizeBase;
@@ -353,7 +420,7 @@ $capitalizacion: lowercase;
             justify-content: space-between;
             position: relative;
             width: 100%;
-            min-height: 65px;
+            min-height: 55px;
           }
           span {
             font-size: $sizeBase;
@@ -372,6 +439,7 @@ $capitalizacion: lowercase;
                 color: #000;
                 font-weight: 600;
                 padding-top: 5px;
+                line-height: 1;
               }
             }
           }
@@ -382,6 +450,7 @@ $capitalizacion: lowercase;
             img {
               width: $sImgPromo;
               max-width: 100px;
+              height: 75px;
             }
           }
         }
@@ -470,14 +539,16 @@ $capitalizacion: lowercase;
       }
       .cod-i {
         border: 1px solid silver;
-        padding: 0 5%;
+        padding: 5px;
         text-align: center;
       }
 
       h2 {
         margin: 0;
         color: #000;
-        font-size: $sH2;
+        font-size: 16px;
+        line-height: 1;
+        padding-bottom: 5px;
       }
 
       img {

@@ -193,7 +193,6 @@ $capitalizacion: lowercase;
           th {
             font-weight: 800;
           }
-
           thead,
           tbody,
           tfoot {
@@ -265,6 +264,9 @@ $capitalizacion: lowercase;
                   justify-content: flex-start;
                 }
               }
+            }
+            .no-border {
+              border: none !important;
             }
             .fila_descripcion {
               display: flex;

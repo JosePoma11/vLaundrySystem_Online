@@ -6,8 +6,8 @@ import {
   formatThousandsSeparator,
   handleGetInfoPago,
 } from "../../../../../../../utils/functions";
-import "./ticket50.scss";
-// import "./ticket80.scss";
+// import "./ticket50.scss";
+import "./ticket80.scss";
 
 import Pet from "./pet.jpg";
 import AhorroPet from "./petAhorro.jpg";
@@ -19,12 +19,13 @@ import {
   nameImpuesto,
   politicaAbandono,
   showPuntosOnTicket,
+  simboloMoneda,
 } from "../../../../../../../services/global";
 import { useSelector } from "react-redux";
 import { Notify } from "../../../../../../../utils/notify/Notify";
 
 const Ticket = React.forwardRef((props, ref) => {
-  const sizePaper80 = false;
+  const sizePaper80 = true;
   const { showDescripcion, tipoTicket, infoOrden, InfoNegocio } = props;
   const [listPromos, setListPromos] = useState([]);
   const [sPago, setSPago] = useState();
@@ -47,7 +48,7 @@ const Ticket = React.forwardRef((props, ref) => {
   };
 
   const montoDelivery = () => {
-    return infoOrden.Items.find((p) => p.item === "Delivery").total;
+    return infoOrden.Items.find((p) => p.item === "Delivery")?.total || 0;
   };
 
   const calcularFechaFutura = (numeroDeDias) => {
@@ -196,12 +197,12 @@ const Ticket = React.forwardRef((props, ref) => {
                   <table className="info-table">
                     <tbody>
                       <tr>
-                        <td>DIRECCION :</td>
+                        <td>Direccion :</td>
                         <td>{InfoNegocio?.direccion}</td>
                       </tr>
                       {InfoNegocio.contacto.length > 0 ? (
                         <tr>
-                          <td>TELEFONO :</td>
+                          <td>Telefono :</td>
                           <td className="u-line">
                             {InfoNegocio.contacto.map((num, index) => (
                               <span key={index}>
@@ -215,7 +216,7 @@ const Ticket = React.forwardRef((props, ref) => {
                         </tr>
                       ) : null}
                       <tr>
-                        <td>HORARIO :</td>
+                        <td>Horario :</td>
                         <td className="m-line">
                           {InfoNegocio.horario.map((hor, index) => (
                             <span key={index}>{hor.horario}</span>
@@ -230,7 +231,11 @@ const Ticket = React.forwardRef((props, ref) => {
             <div className="info-client">
               <div className="cod-rec">
                 <p className="l-text">
-                  <span className="title-o">ORDEN DE SERVICIO</span>
+                  <span className="title-o">
+                    {infoOrden.estado === "preliminar"
+                      ? "ORDEN DE RECOJO"
+                      : "ORDEN DE SERVICIO"}
+                  </span>
                   <span className="number-o">
                     N° {String(infoOrden.codRecibo).padStart(4, "0")}
                   </span>
@@ -240,33 +245,49 @@ const Ticket = React.forwardRef((props, ref) => {
                 <table className="tb-date">
                   <tbody>
                     <tr>
-                      <td>Ingreso :</td>
+                      <td>
+                        {infoOrden.estado === "preliminar"
+                          ? "Registro"
+                          : "Ingreso"}
+                        :
+                      </td>
                       <td>
                         <div className="date-time">
                           {sizePaper80 ? (
                             <span>
-                              {handleShowDateTime(
-                                infoOrden.dateRecepcion.fecha,
-                                infoOrden.dateRecepcion.hora
-                              )}
+                              {infoOrden.estado === "preliminar"
+                                ? handleShowDateTime(
+                                    infoOrden.dateCreation.fecha,
+                                    infoOrden.dateCreation.hora
+                                  )
+                                : handleShowDateTime(
+                                    infoOrden.dateRecepcion.fecha,
+                                    infoOrden.dateRecepcion.hora
+                                  )}
                             </span>
                           ) : (
                             <>
                               <span>
-                                {
-                                  handleShowDateTime(
-                                    infoOrden.dateRecepcion.fecha,
-                                    infoOrden.dateRecepcion.hora
-                                  ).SInfoD
-                                }
+                                {infoOrden.estado === "preliminar"
+                                  ? handleShowDateTime(
+                                      infoOrden.dateCreation.fecha,
+                                      infoOrden.dateCreation.hora
+                                    ).SInfoD
+                                  : handleShowDateTime(
+                                      infoOrden.dateRecepcion.fecha,
+                                      infoOrden.dateRecepcion.hora
+                                    ).SInfoD}
                               </span>
                               <span>
-                                {
-                                  handleShowDateTime(
-                                    infoOrden.dateRecepcion.fecha,
-                                    infoOrden.dateRecepcion.hora
-                                  ).FInfoD
-                                }
+                                {infoOrden.estado === "preliminar"
+                                  ? handleShowDateTime(
+                                      infoOrden.dateCreation.fecha,
+                                      infoOrden.dateCreation.hora
+                                    ).FInfoD
+                                  : handleShowDateTime(
+                                      infoOrden.dateRecepcion.fecha,
+                                      infoOrden.dateRecepcion.hora
+                                    ).FInfoD}
                               </span>
                             </>
                           )}
@@ -274,33 +295,49 @@ const Ticket = React.forwardRef((props, ref) => {
                       </td>
                     </tr>
                     <tr>
-                      <td>Entrega :</td>
+                      <td>
+                        {infoOrden.estado === "preliminar"
+                          ? "Recojo"
+                          : "Entrega"}
+                        :
+                      </td>
                       <td>
                         <div className="date-time">
                           {sizePaper80 ? (
                             <span>
-                              {handleShowDateTime(
-                                infoOrden.datePrevista.fecha,
-                                infoOrden.datePrevista.hora
-                              )}
+                              {infoOrden.estado === "preliminar"
+                                ? handleShowDateTime(
+                                    infoOrden.dateRecojo.fecha,
+                                    infoOrden.dateRecojo.hora
+                                  )
+                                : handleShowDateTime(
+                                    infoOrden.datePrevista.fecha,
+                                    infoOrden.datePrevista.hora
+                                  )}
                             </span>
                           ) : (
                             <>
                               <span>
-                                {
-                                  handleShowDateTime(
-                                    infoOrden.datePrevista.fecha,
-                                    infoOrden.datePrevista.hora
-                                  ).SInfoD
-                                }
+                                {infoOrden.estado === "preliminar"
+                                  ? handleShowDateTime(
+                                      infoOrden.dateRecojo.fecha,
+                                      infoOrden.dateRecojo.hora
+                                    ).SInfoD
+                                  : handleShowDateTime(
+                                      infoOrden.datePrevista.fecha,
+                                      infoOrden.datePrevista.hora
+                                    ).SInfoD}
                               </span>
                               <span>
-                                {
-                                  handleShowDateTime(
-                                    infoOrden.datePrevista.fecha,
-                                    infoOrden.datePrevista.hora
-                                  ).FInfoD
-                                }
+                                {infoOrden.estado === "preliminar"
+                                  ? handleShowDateTime(
+                                      infoOrden.dateRecojo.fecha,
+                                      infoOrden.dateRecojo.hora
+                                    ).FInfoD
+                                  : handleShowDateTime(
+                                      infoOrden.datePrevista.fecha,
+                                      infoOrden.datePrevista.hora
+                                    ).FInfoD}
                               </span>
                             </>
                           )}
@@ -344,7 +381,7 @@ const Ticket = React.forwardRef((props, ref) => {
                     <tr>
                       <th></th>
                       <th>ITEM</th>
-                      <th>CANT</th>
+                      <th>CANTIDAD</th>
                       {!tipoTicket ? (
                         <>
                           <th>TOTAL</th>
@@ -357,8 +394,12 @@ const Ticket = React.forwardRef((props, ref) => {
                       (p) => p.identificador !== getInfoDelivery()?._id
                     ).map((p, index) => (
                       <React.Fragment key={`${infoOrden._id}-${index}`}>
-                        <tr>
-                          <td></td>
+                        <tr
+                          className={`${
+                            showDescripcion && p.descripcion ? "no-border" : ""
+                          }`}
+                        >
+                          <td>• </td>
                           <td>{p.item}</td>
                           <td>{formatThousandsSeparator(p.cantidad)}</td>
                           {!tipoTicket ? (
@@ -498,6 +539,9 @@ const Ticket = React.forwardRef((props, ref) => {
                               </li>
                             </ul>
                           </div>
+                          <div className="img-pet">
+                            <img src={AhorroPet} alt="" />
+                          </div>
                         </div>
                       </div>
                     ) : infoOrden?.descuento.modoDescuento === "Puntos" ? (
@@ -540,12 +584,15 @@ const Ticket = React.forwardRef((props, ref) => {
                               {infoOrden?.descuento.info.map((dsc, index) => (
                                 <li key={index}>
                                   <span>
-                                    {dsc.item}&nbsp; ({dsc.descuentoPorcentaje}%
-                                    desct.)
+                                    {dsc.item}&nbsp; {simboloMoneda}
+                                    {dsc.descuentoPorcentaje}&nbsp; desct.
                                   </span>
                                 </li>
                               ))}
                             </ul>
+                          </div>
+                          <div className="img-pet">
+                            <img src={AhorroPet} alt="" />
                           </div>
                         </div>
                       </div>
@@ -566,6 +613,7 @@ const Ticket = React.forwardRef((props, ref) => {
                     {sPago?.estado.toUpperCase()}
                   </h3>
                   {showPuntosOnTicket &&
+                  infoPuntosCli &&
                   infoOrden?.descuento.modoDescuento !== "Puntos" &&
                   infoPuntosCli?.scoreTotal !== 0 ? (
                     <h2 className="points-earned">
@@ -589,14 +637,7 @@ const Ticket = React.forwardRef((props, ref) => {
                         <div className="info-promo">
                           <div>
                             <h1>PROMOCION:</h1>
-                            <h2
-                              style={{
-                                fontSize: "0.8em",
-                                textAlign: "justify",
-                              }}
-                            >
-                              {promo.descripcion}
-                            </h2>
+                            <h2>{promo.descripcion}</h2>
                             <h2 className="cod-i">
                               codigo: {promo.codigoCupon}
                             </h2>

@@ -135,6 +135,7 @@ li {
   position: relative;
   /* justify-content: center; */
   width: 100%;
+  min-width: 275px;
 }
 
 .mantine-Modal-header h2 {
