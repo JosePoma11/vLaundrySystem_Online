@@ -135,8 +135,8 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
       hourPrevista: defaultHoraPrevista,
       Items: [],
       descuento: {
-        estado: false,
-        modoDescuento: "Ninguno", // Puntos | Promocion | Manual | Ninguno
+        estado: true,
+        modoDescuento: "Manual", // Puntos | Promocion | Manual | Ninguno
         info: null,
         monto: 0,
       },
@@ -662,7 +662,7 @@ const OrdenServicio = ({ mode, onAction, infoDefault, titleMode }) => {
                         cantidad: true,
                         item: true,
                         descripcion: false,
-                        monto: true,
+                        monto: false,
                         total: true,
                         descuentoManual: false,
                         action: true,

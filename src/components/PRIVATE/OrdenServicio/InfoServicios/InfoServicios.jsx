@@ -62,7 +62,7 @@ const InfoServicios = ({
         cantidad: false,
         item: isOtros ? false : true,
         descripcion: false,
-        monto: isOtros ? false : true,
+        monto: false,
         descuentoManual: isOtros ? true : false,
         total: true,
         action: false,
@@ -468,7 +468,7 @@ const InfoServicios = ({
                             );
                           }}
                           precision={2}
-                          min={0}
+                          min={+values.Items[index].monto}
                           step={1}
                           hideControls
                           autoComplete="off"
