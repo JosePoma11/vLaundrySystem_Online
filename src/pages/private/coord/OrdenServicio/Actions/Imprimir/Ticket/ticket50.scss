@@ -24,7 +24,6 @@ $capitalizacion: lowercase;
       text-align: center;
       .name-bussiness {
         border-bottom: 0.2mm solid #000;
-        margin-bottom: 5px;
         .img-logo {
           width: 100%;
           height: max-content;
@@ -450,6 +449,7 @@ $capitalizacion: lowercase;
       }
     }
     .monto-final {
+      line-height: 1;
       h2 {
         font-size: 4.5mm;
         border-top: 0.2mm solid #000;
@@ -457,7 +457,7 @@ $capitalizacion: lowercase;
         color: #000;
         text-transform: uppercase;
         margin: 0;
-        padding-top: 3px;
+        padding-top: 5px;
       }
       .points-earned {
         font-size: $sizeBase;
@@ -511,6 +511,9 @@ $capitalizacion: lowercase;
       padding: 5px;
       border-bottom: 0.2mm dashed #000;
       text-align: center;
+      span {
+        font-size: 14px;
+      }
     }
     .vigencia {
       float: right;
@@ -525,23 +528,28 @@ $capitalizacion: lowercase;
       gap: 5px;
       align-items: center;
       // grid-template-columns: calc($widthG_mm - 90px) 85px;
-      grid-template-columns: calc(100% - 120px) 120px;
+      grid-template-columns: calc(100% - 90px) 90px;
       border-bottom: 0.2mm dashed #000;
       padding-bottom: 10px;
+      line-height: 1;
 
-      h1 {
-        font-size: 20px;
-      }
-      .cod-i {
-        border: 1px solid silver;
-        padding: 0 5%;
-        text-align: center;
-      }
+      .cod-body {
+        display: grid;
+        gap: 5px;
+        h1 {
+          font-size: 20px;
+        }
+        .cod-i {
+          border: 1px solid silver;
+          padding: 4px 10px;
+          text-align: center;
+        }
 
-      h2 {
-        margin: 0;
-        color: #000;
-        font-size: $sH2;
+        h2 {
+          margin: 0;
+          color: #000;
+          font-size: $sH2;
+        }
       }
 
       img {

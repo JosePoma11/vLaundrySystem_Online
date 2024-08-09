@@ -345,7 +345,7 @@ const Ticket = React.forwardRef((props, ref) => {
                     <tr>
                       <th></th>
                       <th>ITEM</th>
-                      <th>CANTIDAD</th>
+                      <th>{sizePaper80 ? "CANTIDAD" : "CANT"}</th>
                       {!tipoTicket ? (
                         <>
                           <th>TOTAL</th>
@@ -363,7 +363,7 @@ const Ticket = React.forwardRef((props, ref) => {
                             showDescripcion && p.descripcion ? "no-border" : ""
                           }`}
                         >
-                          <td>• </td>
+                          <td>{sizePaper80 ? "• " : ""}</td>
                           <td>{p.item}</td>
                           <td>{formatThousandsSeparator(p.cantidad)}</td>
                           {!tipoTicket ? (
@@ -503,9 +503,11 @@ const Ticket = React.forwardRef((props, ref) => {
                               </li>
                             </ul>
                           </div>
-                          <div className="img-pet">
-                            <img src={AhorroPet} alt="" />
-                          </div>
+                          {sizePaper80 ? (
+                            <div className="img-pet">
+                              <img src={AhorroPet} alt="" />
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     ) : infoOrden?.descuento.modoDescuento === "Puntos" ? (
@@ -555,9 +557,11 @@ const Ticket = React.forwardRef((props, ref) => {
                               ))}
                             </ul>
                           </div>
-                          <div className="img-pet">
-                            <img src={AhorroPet} alt="" />
-                          </div>
+                          {sizePaper80 ? (
+                            <div className="img-pet">
+                              <img src={AhorroPet} alt="" />
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     )}
@@ -599,9 +603,11 @@ const Ticket = React.forwardRef((props, ref) => {
                     {listPromos?.map((promo, index) => (
                       <div className="item-promo" key={index}>
                         <div className="info-promo">
-                          <div>
+                          <div className="cod-body">
                             <h1>PROMOCION:</h1>
-                            <h2>{promo.descripcion}</h2>
+                            <h2 className="cod-descripcion">
+                              {promo.descripcion}
+                            </h2>
                             <h2 className="cod-i">
                               codigo: {promo.codigoCupon}
                             </h2>
